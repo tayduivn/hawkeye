@@ -1,0 +1,68 @@
+<div *ngIf="_data.length && _data[0].box_type == 'pic'">
+    <ul>
+        <li *ngFor="let item of _data; let i = index">
+            <h5 class="title">
+                <span>{{ i + 1 + ', ' }}日期：</span>{{ item.created_at | date: 'yyyy-MM-dd' }}
+            </h5>
+            <div class="content">
+                <img *ngFor="let sItem of item.data" [src]="imgOrigin + sItem" imgGallery />
+            </div>
+        </li>
+    </ul>
+</div>
+
+<div *ngIf="_data.length && _data[0].box_type == 'video'">
+    <ul>
+        <li *ngFor="let item of _data; let i = index">
+            <h5 class="title">
+                <span>{{ i + 1 + ', ' }}日期：</span>{{ item.created_at | date: 'yyyy-MM-dd' }}
+            </h5>
+            <div class="content">
+                <video controls *ngFor="let sItem of item.data" [src]="imgOrigin + sItem"></video>
+            </div>
+        </li>
+    </ul>
+</div>
+
+<div *ngIf="_data.length && _data[0].box_type == 'desc'">
+    <ul>
+        <li *ngFor="let item of _data; let i = index">
+            <h5 class="title">
+                <span>{{ i + 1 + ', ' }}日期：</span>{{ item.created_at | date: 'yyyy-MM-dd' }}
+            </h5>
+            <div class="content">
+                <div *ngFor="let sItem of item.data">
+                    <p [ngClass]="[item.level ? item.level : '']">{{ sItem.text ? sItem.text : '' }}</p>
+                </div>
+            </div>
+        </li>
+    </ul>
+</div>
+
+<div *ngIf="_data.length && _data[0].box_type == 'string'">
+    <ul>
+        <li *ngFor="let item of _data; let i = index">
+            <h5 class="title">
+                <span>{{ i + 1 + ', ' }}日期：</span>{{ item.created_at | date: 'yyyy-MM-dd' }}
+            </h5>
+            <div class="content">
+                {{ item.data | compareText }}
+            </div>
+        </li>
+    </ul>
+</div>
+
+<div *ngIf="_data.length && _data[0].box_type == 'bool'">
+    <ul>
+        <li *ngFor="let item of _data; let i = index">
+            <h5 class="title">
+                <span>{{ i + 1 + ', ' }}日期：</span>{{ item.created_at | date: 'yyyy-MM-dd' }}
+            </h5>
+            <div class="content">
+                {{ item.data ? '是' : '否' }}
+            </div>
+        </li>
+    </ul>
+</div>
+
+<nz-empty *ngIf="!_data" class="mt-100"></nz-empty>

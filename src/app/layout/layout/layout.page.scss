@@ -1,0 +1,39 @@
+.title-box {
+    float: right;
+    margin-top: 25px;
+    > div {
+        float: right;
+    }
+}
+.color {
+    position: fixed !important;
+    width: 200px;
+    height: 200px;
+    top: 57px;
+    right: 0;
+    background: #f00;
+    z-index: 9999;
+}
+.tab-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    ion-icon {
+        margin-left: 10px;
+        color: #8c8c8c;
+    }
+}
+ion-icon.active {
+    color: #262626 !important;
+}
+#slogan {
+    margin-left: 10px;
+    display: block !important;
+    width: auto !important;
+    float: left;
+}
+ion-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

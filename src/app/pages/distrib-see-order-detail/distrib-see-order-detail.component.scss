@@ -1,0 +1,149 @@
+.clearfix:after {
+    content: '';
+    display: block;
+    clear: both;
+}
+
+.box {
+    padding: 55px 10px 0 10px;
+    width: 100%;
+    box-sizing: border-box;
+    height: 100%;
+}
+
+.pb-80 {
+    padding-bottom: 80px;
+}
+
+.box.has-mb {
+    > div {
+        margin-bottom: 80px !important;
+    }
+}
+
+.f-r {
+    float: right;
+}
+
+.close-box {
+    background: #fff;
+    z-index: 200002;
+    box-shadow: 2px 2px 10px #555;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    height: 55px;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    padding: 0 10px;
+    left: 0;
+}
+
+.no-data {
+    text-align: center;
+    margin-top: 50px;
+}
+
+.table {
+    width: auto;
+    min-width: 100%;
+    color: #666;
+    text-align: center;
+    thead {
+        padding: 10px 0;
+        border-top: 1px solid #666;
+        border-bottom: 1px solid #666;
+    }
+    td {
+        text-align: center;
+        vertical-align: middle !important;
+        input {
+            width: 100px;
+            text-align: center;
+            height: 50px;
+        }
+    }
+    td.remark {
+        text-align: left;
+        ion-textarea {
+            border-radius: 5px;
+            border: 1px double #ccc;
+            width: 120px;
+            height: 60px;
+        }
+    }
+    .uploadfile {
+        .pos-r {
+            overflow: hidden;
+            input[type='file'] {
+                opacity: 0;
+                font-size: 100px;
+                top: 0;
+                left: 0;
+            }
+        }
+        .img-responsive {
+            height: 50px !important;
+        }
+    }
+}
+.text-c {
+    text-align: center;
+}
+
+.bot-box {
+    padding: 0 10px;
+    height: 80px;
+    background: #fff;
+    z-index: 200002;
+    box-shadow: 2px 2px 10px #555;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    .choice-date {
+        background: #fff;
+        color: #555;
+        border-radius: 3px;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        ion-datetime {
+            --padding-end: 20px;
+            border-radius: 5px;
+        }
+    }
+}
+
+.thumbnail {
+    width: 50px;
+    height: 50px;
+}
+
+h6 {
+    margin-bottom: 20px;
+    color: #555;
+}
+
+.select-text-c {
+    text-align: center;
+
+    text-align-last: center;
+}
+.wd-50 {
+    width: 50px;
+    height: 50px !important;
+}
+.wd-5 {
+    height: 50px !important;
+    width: 5px;
+}
+.hg-0 {
+    height: 0px;
+}
+
+.wd-he-150 {
+    width: 100px;
+    display: inline;
+    height: 50px;
+}

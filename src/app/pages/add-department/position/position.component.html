@@ -1,0 +1,58 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="secondary">
+            <ion-button (click)="baseData.utilFn.goBack()">
+                <i class="iconfont iconfanhui"></i>
+                <ion-label class="global-back-text">返回</ion-label>
+            </ion-button>
+        </ion-buttons>
+
+        <ion-buttons slot="start">
+            <ion-menu-button></ion-menu-button>
+        </ion-buttons>
+
+        <ion-title> {{ currentDepartment.name }}岗位 </ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content padding class="detail-content">
+    <div class="btn-group mb-15">
+        <ion-button
+            size="small"
+            [routerLink]="['/add-department', 'position', routeParams.did, 'dep', 'added']"
+            routerLinkActive="router-link-active"
+        >
+            添加岗位
+        </ion-button>
+    </div>
+
+    <div class="slider_box">
+        <table class="table table-striped table-hover table-condensed" *ngIf="positionList && positionList.length != 0">
+            <thead>
+                <tr>
+                    <td>id</td>
+                    <td>岗位</td>
+                    <td>岗位描述</td>
+                    <td>操作</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of positionList">
+                    <td>{{ item.id }}</td>
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.description }}</td>
+                    <td>
+                        <button nz-button nzSize="small" class="f-r" (click)="userService.editPermission(item, 'position', 'post', 'modify')">编辑</button>
+                        <button nz-button nzSize="small" [routerLink]="['/user-permission-detail', item.id, 'role']">分配权限</button>
+
+                       
+                        <ion-button size="small" (click)="toDetail(item)">用户列表</ion-button>
+                        <ion-button size="small" color="danger" (click)="delPermission(item)">删除</ion-button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <app-no-data-show *ngIf="positionList.length == 0"></app-no-data-show>
+    </div>
+</ion-content>

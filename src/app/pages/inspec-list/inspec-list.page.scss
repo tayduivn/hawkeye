@@ -1,0 +1,33 @@
+.search-box {
+    width: 1070px;
+}
+.flex-end {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    > div {
+        display: flex;
+        margin-left: 20px;
+        align-items: center;
+        justify-content: center;
+        ion-label {
+            font-weight: bold;
+            color: #2f2f2f;
+        }
+        ion-datetime,
+        ion-select {
+            color: #1b1b1b;
+            margin-top: 4px;
+            position: unset !important;
+        }
+    }
+}
+
+.choice-box::after {
+    content: '';
+    display: block;
+    clear: both;
+}
+
+@media screen and (min-width: 1080px) {
+}

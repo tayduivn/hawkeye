@@ -1,0 +1,85 @@
+<ion-header>
+    <ion-toolbar>
+        
+<!-- 
+        <ion-buttons slot="start">
+            <ion-menu-button></ion-menu-button>
+        </ion-buttons> -->
+
+        <ion-title>
+            修改密码
+        </ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+    <!-- [formGroup]="registerForm" -->
+    <ion-card [formGroup]="registerForm" novalidate>
+        <ion-list vertical-center>
+            <ion-item>
+                <ion-label position="floating">请输入旧密码</ion-label>
+                <!-- formControlName='modifyPwdObj.oldpassword'  -->
+                <ion-input
+                    required
+                    type="password"
+                    [(ngModel)]="modifyPwdObj.oldpassword"
+                    clearInput="true"
+                    [formControl]="verifi.oldpassword"
+                    #oldpwd
+                >
+                </ion-input>
+            </ion-item>
+            <span
+                *ngIf="verifi.oldpassword.hasError('required') && verifi.oldpassword.touched"
+                class="showerr alert-danger"
+                >旧密码是必选项</span
+            >
+
+            <ion-item>
+                <ion-label position="floating">请输入新密码</ion-label>
+                <!-- formControlName='modifyPwdObj.password'  -->
+                <ion-input
+                    required
+                    type="password"
+                    [(ngModel)]="modifyPwdObj.password"
+                    [formControl]="verifi.password"
+                    clearInput="true"
+                >
+                </ion-input>
+            </ion-item>
+            <span *ngIf="verifi.password.hasError('required') && verifi.password.touched" class="showerr alert-danger"
+                >请输入新密码</span
+            >
+            <!-- <span *ngIf="verifi.password.hasError('minLength') && verifi.password.& " class="showerr alert-danger">新密码的长度必须大于6位</span> -->
+
+            <ion-item>
+                <ion-label position="floating">请确认密码</ion-label>
+                <!-- formControlName='modifyPwdObj.password'  -->
+                <ion-input
+                    type="password"
+                    [(ngModel)]="modifyPwdObj.password_confirmation"
+                    formControlName="password_confirmation"
+                    clearInput="true"
+                >
+                </ion-input>
+            </ion-item>
+            <span
+                *ngIf="verifi.password_confirmation.hasError('required') && verifi.password_confirmation.touched"
+                class="showerr alert-danger"
+                >请确认密码</span
+            >
+        </ion-list>
+
+        <div class="mt-20 mb-20">
+            <ion-button
+                events="ionBur"
+                type="submit"
+                [disabled]="!registerForm.valid"
+                (click)="modifyPwd()"
+                expand="block"
+            >
+                修改
+            </ion-button>
+        </div>
+    </ion-card>
+</ion-content>

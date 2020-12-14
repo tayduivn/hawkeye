@@ -1,0 +1,17 @@
+.dis-flex {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 55px;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.5);
+    flex-direction: column;
+    color: #b7ebf0;
+    img {
+        width: 60px;
+        height: 60px;
+    }
+}

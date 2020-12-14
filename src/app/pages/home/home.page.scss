@@ -1,0 +1,26 @@
+.welcome-card ion-img {
+    // max-height: 80vh;
+    overflow: hidden;
+}
+
+#slogan {
+    margin-left: 10px;
+    display: block !important;
+    width: auto !important;
+    float: left;
+}
+ion-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.title {
+    float: right;
+    margin-top: 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    > span:first-child {
+        font-size: 0.6rem;
+    }
+}

@@ -1,0 +1,49 @@
+<div>
+    <p><span>合同号：</span>{{ $any(_contract).contract_no }}</p>
+
+
+    <nz-table #table  [nzData]="$any(_contract).sku_list">
+        <thead>
+            <th>缩略图</th>
+            <th>SKU</th>
+            <th>中文名</th>
+            <th>箱率</th>
+            <th>仓库</th>
+            <th>合同数量</th>
+            <th>剩余数量</th>
+            <th>返单率</th>
+            <!-- <th>合同数量</th> -->
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of table.data">
+                <td>
+                    <img [src]="baseData.fileUrl + item.pic" alt="" imgGallery />
+                </td>
+                <td>
+                    {{ item.sku }}
+                </td>
+                <td>
+                    {{ item.name }}
+                </td>
+                <td>
+                    {{ item.rate_container }}
+                </td>
+                <td>
+                    {{ item.warehouse }}
+                </td>
+                <td>
+                    {{ item.Count }}
+                </td>
+                <td>
+                    {{ item.inspection_left_num }}
+                </td>
+                <td>
+                    {{ item.return_rate }}
+                </td>
+                <!-- <td>
+                    {{ item.inspectioned_num }}
+                </td> -->
+            </tr>
+        </tbody>
+    </nz-table>
+</div>

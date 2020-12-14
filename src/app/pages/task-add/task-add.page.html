@@ -1,0 +1,161 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="secondary">
+            <ion-button (click)="baseData.utilFn.goBack()">
+                <i class="iconfont iconfanhui"></i>
+                <ion-label class="global-back-text">返回</ion-label>
+            </ion-button>
+        </ion-buttons>
+
+        <ion-buttons slot="start">
+            <ion-menu-button></ion-menu-button>
+        </ion-buttons>
+
+        <ion-title>
+            添加任务
+        </ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content padding class="detail-content">
+    <ion-list class="form-horizontal">
+        <div class="form-group paddind-lr-10">
+            <label class="col-sm-2 control-label">选择验货员</label>
+            <ion-select
+                size="small"
+                class="user-list"
+                interface="popover"
+                value="metaData.user_id"
+                [(ngModel)]="metaData.user_id"
+                [selectedText]="defaultUser.name"
+                (ionChange)="choiceUser()"
+                okText="确定"
+                [compareWith]="locationCompare"
+                cancelText="取消"
+            >
+                <ion-select-option *ngFor="let item of userList" value="{{item.id}}">
+                    {{item.name}}
+                </ion-select-option>
+            </ion-select>
+        </div>
+
+        <div *ngFor="let factory of metaData.data;let idx=index">
+            <div class="form-group paddind-lr-10">
+                <label class="col-sm-2 control-label">输入工厂</label>
+                <div class="col-sm-10">
+                    <input
+                        [(ngModel)]="factory.factory_name"
+                        type="text"
+                        class="form-control"
+                        required
+                        name="name"
+                        placeholder="请输入名称"
+                    />
+                    <!-- <div [hidden]='name.pristine || name.valid' class="showerr alert-danger">请输入名称</div> -->
+                </div>
+            </div>
+
+            <div class="contract-item" *ngFor="let contract of factory.contract_no;let cIdx=index">
+                <h4>合同-{{cIdx+1}}</h4>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">输入合同号</label>
+                    <div class="col-sm-10">
+                        <input
+                            type="text"
+                            [(ngModel)]="contract.no"
+                            class="form-control"
+                            required
+                            name="name"
+                            placeholder="请输入合同号"
+                        />
+                        <!-- <div [hidden]='name.pristine || name.valid' class="showerr alert-danger">请输入名称</div> -->
+                    </div>
+                </div>
+
+                <div class="form-group data-time">
+                    <label class="col-sm-2 control-label">申请验货时间</label>
+                    <div class="col-sm-10">
+                        <ion-datetime
+                            display-format="YYYY-MMM-DD"
+                            doneText="完成"
+                            max="2022"
+                            [(ngModel)]="contract.inspection_date"
+                            value="{{currentTime}}"
+                            min="2019"
+                            cancelText="取消"
+                            monthShortNames="01, 02,03,04, 05,06,07,08,09,10,11,12"
+                        >
+                        </ion-datetime>
+                        
+                    </div>
+                </div>
+
+                <div class="form-group sku-box">
+                    <div class="col-sm-2">
+                        <label for="">添加sku</label>
+                    </div>
+                    <div class="col-sm-10">
+                        <ul>
+                            <li *ngFor="let sku of contract.sku;let sIdx=index">
+                                <h5>SKU-{{sIdx+1}}</h5>
+                                <div class="">
+                                    <input
+                                        type="text"
+                                        [(ngModel)]="sku.name"
+                                        class="form-control"
+                                        required
+                                        placeholder="请输入sku"
+                                    />
+                                </div>
+
+                                <div class="">
+                                    <input
+                                        type="number"
+                                        [(ngModel)]="sku.num"
+                                        class="form-control"
+                                        required
+                                        placeholder="请输入sku数量"
+                                    />
+                                </div>
+                                <div class="btn-box" *ngIf="sIdx == contract.sku.length-1">
+                                    <ion-button size="small" (click)="addSku(idx,cIdx,sIdx)" color="medium">
+                                        <ion-icon name="add"></ion-icon>
+                                        添加sku
+                                    </ion-button>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <ion-button
+                    *ngIf="cIdx == metaData.data[idx].contract_no.length-1"
+                    size="small"
+                    [expand]='"block"'
+                    (click)="addContract(idx,cIdx)"
+                    class="add-contract"
+                >
+                    <ion-icon name="add"></ion-icon>
+                    添加合同
+                </ion-button>
+            </div>
+        </div>
+    </ion-list>
+
+    <div class="form-group margin-10">
+        <div class="col-sm-2"></div>
+        <div class="col-sm-10">
+            <ion-button
+                mode="md"
+                [disabled]="!metaData.user_id || !metaData.data[0].factory_name"
+                class="mr-15"
+                (click)="uploadTask()"
+            >
+                提交
+            </ion-button>
+            <!-- [disabled]="!display.valid || !name.valid || !route.valid" -->
+            <ion-button mode="md" color="light" (click)="goBack()">返回</ion-button>
+        </div>
+    </div>
+</ion-content>

@@ -1,0 +1,15 @@
+::ng-deep .ant-comment-inner{
+    padding: 0 !important;
+}
+
+:host ::ng-deep img{
+    border: 1px solid #ccc !important;
+}
+
+#screen{
+    border-bottom: 1px solid #d4d4d4;
+    border-right:1px solid #d4d4d4;
+    border-left:1px solid #d4d4d4;
+    padding: 15px;
+    box-sizing: border-box;
+}

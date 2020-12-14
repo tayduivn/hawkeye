@@ -1,0 +1,287 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="secondary">
+            <ion-button (click)="baseData.utilFn.goBack()">
+                <i class="iconfont iconfanhui"></i>
+                <ion-label class="global-back-text">返回</ion-label>
+            </ion-button>
+        </ion-buttons>
+        <ion-buttons slot="start">
+            <ion-menu-button></ion-menu-button>
+        </ion-buttons>
+        <ion-title>
+            审核
+        </ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content class="padding" padding>
+    <div class="top"></div>
+    <!-- <div class="left">
+        <h6 nz-typography>讨论</h6>
+        <div #screen *ngIf="advises.length">
+            <div class="reply-content">
+                <app-reply
+                    (onDataUrl)="dataUrl($event)"
+                    [data]="advises[0]"
+                    [apo]="apply_inspection_no"
+                    (onSubmit)="getPid($event)"
+                    (onDelTreeNode)="deleteReviewAdvise($event)"
+                    (onImgOrVideoComplete)="getReview($event)"
+                    #reply
+                ></app-reply>
+            </div>
+        </div>
+
+        <div class="comment-index">
+            <nz-comment-content *ngIf="!advises.length">
+                <nz-form-item>
+                    <textarea [(ngModel)]="inputValue" nz-input rows="4"></textarea>
+                </nz-form-item>
+                <nz-form-item>
+                    <button nz-button nzType="primary" nzSize="small" [disabled]="!inputValue" (click)="handleSubmit()">
+                        添加回复
+                    </button>
+                </nz-form-item>
+            </nz-comment-content>
+        </div>
+    </div> -->
+
+    <div class="right" #content>
+        <h6 nz-typography>总结</h6>
+
+        <nz-collapse [nzAccordion]="true">
+            <nz-collapse-panel
+                *ngFor="let item of appInfos; let i = index"
+                [nzHeader]="'SKU:' + item.sku + '   合同号:' + $any(item).contract_no"
+                [(nzActive)]="item.active"
+                (nzActiveChange)="setCommitCtrlSkuAndApply(true, item);commitCtrl.id = 0"
+            >
+                <div class="top">
+                    <label *ngIf="isReviewer">请选择审核状态:</label>
+                    <nz-select
+                        *ngIf="isReviewer"
+                        [(ngModel)]="item.status"
+                        nzSize="middle"
+                        class="mb-5 w150"
+                        nzAllowClear
+                        nzPlaceHolder="Choose"
+                        (ngModelChange)="statusChange($event, item)"
+                    >
+                        <nz-option
+                            [nzValue]="item.key"
+                            [nzLabel]="item.value"
+                            *ngFor="let item of reviewStatus"
+                        ></nz-option>
+                    </nz-select>
+                    <br />
+                    <!-- <label>建议审核状态:</label> -->
+                    <!-- <span *ngIf="isReviewer">{{ reviewStatus[item.recommend_status].value }}</span> -->
+                    <nz-select
+                        [(ngModel)]="item.recommend_status"
+                        *ngIf="!isReviewer"
+                        nzSize="middle"
+                        nzAllowClear
+                        nzPlaceHolder="Choose"
+                        (ngModelChange)="adviceStatusChange($event, item)"
+                    >
+                        <nz-option
+                            [nzValue]="item.key"
+                            [nzLabel]="item.value"
+                            *ngFor="let item of reviewStatus"
+                        ></nz-option>
+                    </nz-select>
+                </div>
+
+                <nz-comment-content>
+                    <div class="comment-index">
+                        <nz-comment-content *ngIf="!$any(item).data.length">
+                            <nz-form-item>
+                                <button
+                                    nz-button
+                                    nzType="primary"
+                                    nzSize="small"
+                                    (click)="
+                                        currentCommitIndex = i;
+                                        commitCtrl.Index = 'home' + i;
+                                        setCommitCtrlSkuAndApply(true, item);
+                                        commitCtrl.id = 0;
+                                    "
+                                >
+                                    添加回复
+                                </button>
+                            </nz-form-item>
+                            <nz-form-item>
+                                <app-editor
+                                    *ngIf="
+                                        i === currentCommitIndex && $any(commitCtrl).index === 'home' + i && item.active
+                                    "
+                                    (onData)="commentSubmit($event, item, i)"
+                                ></app-editor>
+                            </nz-form-item>
+                        </nz-comment-content>
+                    </div>
+                    <div
+                        *ngFor="let tItem of $any(item).data; let index = index"
+                        [class]="[index == 0 && 'commit-reply']"
+                    >
+                        <app-commit-reply
+                            (onComplete)="commitComplete($event, item)"
+                            (onReply)="setCommitCtrlSkuAndApply($event, item)"
+                            [data]="tItem"
+                            [index]="index"
+                        ></app-commit-reply>
+                    </div>
+                    <!-- <nz-tabset [nzType]="'line'" nzSize="small">
+                            <nz-tab [nzTitle]="'文字'">
+                                <nz-form-item>
+                                    <ul class="list-desc">
+                                        <li *ngFor="let sItem of $any(item).review_summary_desc; let j = index">
+                                            <input
+                                                class="color-pickers"
+                                                readonly
+                                                [(colorPicker)]="_descriptionAry[i][j] && _descriptionAry[i][j].color"
+                                                [style.background]="_descriptionAry[i][j] && _descriptionAry[i][j].color"
+                                                style="width: 26px;height: 18px;display: block;"
+                                            />
+        
+                                            <textarea
+                                                class="text textarea"
+                                                type="text"
+                                                [placeholder]="
+                                                    item.status == 4 ? '请填写返工问题详情' : '请填写展示在App端的总结'
+                                                "
+                                                [style.color]="_descriptionAry[i][j] && _descriptionAry[i][j].color"
+                                                [(ngModel)]="_descriptionAry[i][j] && _descriptionAry[i][j].text"
+                                            >
+                                            </textarea>
+        
+                                            <button
+                                                nz-popconfirm
+                                                nzPopconfirmTitle="确定要删除吗?"
+                                                (nzOnConfirm)="delete(i, j)"
+                                                class="ml-10"
+                                                nz-button
+                                                nzType="danger"
+                                                nzSize="small"
+                                                *ngIf="j !== item.review_summary_desc.length - 1"
+                                            >
+                                                删除
+                                            </button>
+        
+                                            <button
+                                                class="ml-10"
+                                                nz-button
+                                                nzType="link"
+                                                nzSize="small"
+                                                *ngIf="j === item.review_summary_desc.length - 1"
+                                                (click)="$any(item).review_summary_desc.push({ text: '', color: 'rgb(0,0,0)' })"
+                                            >
+                                                添加
+                                            </button>
+                                        </li>
+                                    </ul>
+        
+                                    <button
+                                        nz-button
+                                        nzSize="small"
+                                        class="f-r mt-10"
+                                        nzType="primary"
+                                        (click)="submitSummary(item)"
+                                    >
+                                        提交
+                                    </button>
+                                </nz-form-item>
+                            </nz-tab>
+                            <nz-tab [nzTitle]="'图片'">
+                                <nz-upload
+                                    [nzShowButton]="fileList.length < 8"
+                                    [nzPreview]="handlePreview"
+                                    [nzAccept]="'image/png,image/jpeg,image/gif,image/bmp'"
+                                    [nzRemove]="shouldRemoveImg"
+                                    [nzFileType]="'image/png,image/jpeg,image/gif,image/bmp'"
+                                    [nzCustomRequest]="customRequest"
+                                    [nzMultiple]="true"
+                                    (nzChange)="handleChange($event)"
+                                >
+                                    <div class="ant-upload-text" (click)="setSku(item)">点击上传</div>
+                                </nz-upload>
+                                <ul class="thumbnail-custom" imgGallery>
+                                    <li *ngFor="let sItem of item.pic; let i = index" class="pos-r">
+                                        <img [src]="env.origin + '/' + sItem" alt="" />
+                                        <div
+                                            class="pos-a del"
+                                            nz-popconfirm
+                                            nzPopconfirmTitle="确定要删除吗?"
+                                            (nzOnConfirm)="remove(item, i, 'pic')"
+                                            nzPopconfirmPlacement="top"
+                                        >
+                                            X
+                                        </div>
+                                    </li>
+                                </ul>
+                            </nz-tab>
+                            <nz-tab [nzTitle]="'视频'">
+                                <nz-upload
+                                    [nzAccept]="'video/mp4,video/wma'"
+                                    [nzRemove]="shouldRemoveImg"
+                                    [nzCustomRequest]="customRequestVideo"
+                                    (nzChange)="handleChange($event)"
+                                    [nzMultiple]="true"
+                                >
+                                    <div class="ant-upload-text" (click)="setSku(item)">
+                                        点击上传
+                                    </div>
+                                </nz-upload>
+        
+                                <ul class="thumbnail-custom">
+                                    <li *ngFor="let sItem of item.video; let i = index" class="pos-r">
+                                        <video
+                                            (click)="seeBigVdo(sItem); modalVideos = item.video; currentIndex = i"
+                                            style="width: 100%; height: 50px;"
+                                            [src]="env.origin + '/' + sItem"
+                                        ></video>
+                                        <div
+                                            class="pos-a del"
+                                            nz-popconfirm
+                                            nzPopconfirmTitle="确定要删除吗?"
+                                            (nzOnConfirm)="remove(item, i, 'video')"
+                                            nzPopconfirmPlacement="top"
+                                        >
+                                            X
+                                        </div>
+                                    </li>
+                                </ul>
+                            </nz-tab>
+                        </nz-tabset> -->
+                </nz-comment-content>
+
+                <div class="clear"></div>
+            </nz-collapse-panel>
+        </nz-collapse>
+    </div>
+    <img #canvas />
+</ion-content>
+
+<nz-modal
+    [(nzVisible)]="modalShow"
+    nzWidth="800px"
+    nzHeight="500px"
+    nzTitle="查看视频"
+    nzClosable="false"
+    [nzFooter]="modalFooter"
+    (nzOnOk)="modalShow = false"
+>
+    <div class="modal-main">
+        <ul *ngIf="modalVideos.length">
+            <li
+                *ngFor="let item of modalVideos; let i = index"
+                [ngClass]="(currentVideo ? currentVideo : modalVideos[currentIndex]) == item ? 'current' : ''"
+                (click)="currentIndex = i; play()"
+            >
+                <video [src]="env.origin + '/' + item"></video>
+            </li>
+        </ul>
+        <video *ngIf="modalVideos.length" [src]="env.origin + '/' + modalVideos[currentIndex]" controls #player></video>
+    </div>
+</nz-modal>

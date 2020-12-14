@@ -1,0 +1,61 @@
+<div class="clearfix close-box">
+    <ion-button style="float: right;" (click)="cancel()" size="small" color="danger" class="f-r">关闭</ion-button>
+</div>
+<div class="box">
+    <div class="swiper-container" [swiper]="swiperConfig" *ngIf="group && group.length != 0">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide">
+                <table class="table table-striped table-condensed table-hover table-condensed table-text-no-break">
+                    <thead>
+                        <tr>
+                            <td>申请人</td>
+                            <td>跟单人</td>
+                            <td>采购人</td>
+
+                            <td>合同号</td>
+                            <td class="chip-text" Chipboard>工厂名</td>
+
+                            <td>工厂地址</td>
+                            <td>合同SKU数</td>
+                            <td>验货SKU数</td>
+                            <td>新品SKU数量</td>
+                            <td>申请时间</td>
+                            <td>申请验货时间</td>
+
+                            <td>操作</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of group; let i = index">
+                            <td>{{ item.apply_name }}</td>
+                            <td>{{ item.buyer_user }}</td>
+                            <td>{{ item.schedule_name ? item.schedule_name.user.name : '' }}</td>
+
+                            <td class="chip-text" Chipboard>{{ item.contract_no }}</td>
+                            <td class="chip-text" Chipboard>{{ item.factory_name }}</td>
+
+                            <td>{{ item.ProviceName + item.CityName }}</td>
+                            <td class="chip-text" Chipboard>{{ item.total_quantity }}</td>
+                            <td class="chip-text" Chipboard>{{ item.quantity }}</td>
+                            <td class="chip-text" Chipboard>{{ item.new_quantity }}</td>
+                            <td class="chip-text" Chipboard>{{ item.created_at | date: 'yyyy-MM-dd' }}</td>
+                            <td class="chip-text" Chipboard>{{ item.inspection_date | date: 'yyyy-MM-dd' }}</td>
+
+                            <td>
+                                <ion-button
+                                    *ngIf="type == ''"
+                                    size="small"
+                                    (click)="revokeTask(item, 'contract')"
+                                    color="danger"
+                                    >撤销验货</ion-button
+                                >
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="swiper-scrollbar"></div>
+    </div>
+    <app-no-data-show *ngIf="group && group.length == 0"></app-no-data-show>
+</div>

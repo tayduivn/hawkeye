@@ -1,0 +1,15 @@
+ion-list {
+    width: 47%;
+    ion-label,
+    ion-text {
+        font-size: 14px;
+    }
+}
+
+ion-list:first-child {
+    margin-right: 5%;
+}
+
+.root {
+    width: 100%;
+}

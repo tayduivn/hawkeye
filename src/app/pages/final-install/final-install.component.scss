@@ -1,0 +1,195 @@
+table {
+    border-collapse: collapse;
+    text-align: center;
+    padding: 0;
+}
+table thead th {
+    border: 1px solid #cecece;
+}
+table thead td {
+    border: 1px solid #cecece;
+}
+
+table tbody td {
+    border-bottom: 1px solid #cecece;
+}
+.table2 tr td:nth-child(1) {
+    border-left: 0;
+}
+.table2 tr td:nth-last-child(1) {
+    border-right: 0;
+}
+.table2 tr:nth-child(1) td {
+    border-top: 0;
+}
+.table2 tr:nth-last-child(1) td {
+    border-bottom: 0;
+}
+
+.table3 tr td:nth-child(1) {
+    border-left: 0;
+}
+.table3 tr td:nth-last-child(1) {
+    border-right: 0;
+}
+.table3 tr:nth-child(1) td {
+    border-top: 0;
+}
+.table3 tr:nth-last-child(1) td {
+    border-bottom: 0;
+}
+
+.three-table tr td:nth-child(1) {
+    border-left: 0;
+}
+.three-table tr td:nth-last-child(1) {
+    border-right: 0;
+}
+.three-table tr:nth-child(1) td {
+    border-top: 0;
+}
+.three-table tr:nth-last-child(1) td {
+    border-bottom: 0;
+}
+
+td {
+    // border: 1px solid
+}
+
+.w20 {
+    width: 20px !important;
+    overflow: hidden;
+}
+
+.w50 {
+    width: 50px !important;
+    overflow: hidden;
+}
+
+.w30 {
+    width: 30px !important;
+    overflow: hidden;
+}
+
+.w60 {
+    width: 60px !important;
+    overflow: hidden;
+}
+
+.w40 {
+    width: 40px !important;
+    overflow: hidden;
+}
+
+.w70 {
+    width: 70px !important;
+    overflow: hidden;
+}
+
+.w80 {
+    width: 80px !important;
+    overflow: hidden;
+}
+
+.w180 {
+    width: 180px !important;
+    overflow: hidden;
+}
+
+.w90 {
+    width: 90px !important;
+    overflow: hidden;
+}
+
+.w100 {
+    width: 100px !important;
+    overflow: hidden;
+}
+
+.w120 {
+    width: 120px !important;
+    overflow: hidden;
+}
+
+.w110 {
+    width: 110px !important;
+    overflow: hidden;
+}
+
+.w220 {
+    width: 220px !important;
+    overflow: hidden;
+}
+.w230 {
+    width: 230px !important;
+    overflow: hidden;
+}
+
+.w150 {
+    width: 150px !important;
+    overflow: hidden;
+}
+
+.w200 {
+    width: 200px !important;
+    overflow: hidden;
+}
+
+.w300 {
+    width: 300px !important;
+    overflow: hidden;
+}
+
+td {
+    padding: 0 !important;
+}
+
+#table1 {
+    min-width: 1000px;
+    width: 2430px;
+}
+
+.table2 {
+    tr {
+        background: transparent !important;
+    }
+}
+
+.search-head {
+    width: 240px;
+}
+
+.w20{
+    width: 20px !important;
+}
+
+td {
+    border: 1px solid #cecece;
+    height: 36px;
+}
+.swiper-container {
+    .swiper-slide {
+        width: 2430px;
+        min-width: 1000px;
+    }
+}
+
+nz-select,
+.min-170 {
+    min-width: 170px !important;
+}
+
+.max-80{
+    max-width: 80px;
+}
+
+.mt-4{
+    margin-top: 4px !important;
+}
+
+.panel{
+    background-color: white;
+    padding: 10px;
+    margin-bottom: 10px;
+    box-shadow: -6px 6px 5px 0px #e6e6e6;
+}

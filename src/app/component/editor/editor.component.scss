@@ -1,0 +1,22 @@
+::ng-deep .w-e-toolbar .w-e-menu{
+    width: 25px !important;
+}
+
+.root{
+    margin-top: 5px;
+    width: 100%;
+    >div{
+        width: 100%;
+    }
+}
+
+.f-r{
+    float: right;
+}
+
+.enter{
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    z-index: 99999;
+}

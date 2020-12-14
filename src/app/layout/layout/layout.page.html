@@ -1,0 +1,45 @@
+<ion-header>
+    <ion-toolbar [color]="'light'" class="pos-r">
+        <ion-buttons slot="start">
+            <ion-menu-button></ion-menu-button>
+        </ion-buttons>
+        <img src="../../assets/img/slogan.png" id="slogan" />
+        <ion-title class="title-box">
+            <div class="mr-40 color">
+                <ion-icon name="color-palette"></ion-icon>
+            </div>
+            <div>
+                <span>现在是：</span>
+                <span>{{ date | async | date: "yyyy年MM月dd日" }}</span>
+            </div>
+            <div class="title mr-40">
+                <span class="text-r">欢迎您：{{ baseData.userInfo.name }}</span>
+            </div>
+        </ion-title>
+    </ion-toolbar>
+</ion-header>
+<nz-tabset [nzType]="'card'" [(nzSelectedIndex)]="selectedIndex" style="height: 43px; background: #fff;">
+    <!-- 这里只使用tab页签, 而不显示任何内容, 每个页签相关视图在 router-outlet.main-content 中展示 -->
+    <nz-tab *ngFor="let tab of tabs; let i = index" [nzTitle]="titleTemplate" (nzSelect)="tabSelect(tab, i)">
+        <ng-template #titleTemplate>
+            <div class="tab-content">
+                {{ tab.name }}
+                <ion-icon name="refresh" mode="ios" (click)="redo(tab)"></ion-icon>
+                <!-- [ngClass]="[redo]" (mouseleave)='redo = ""' (mouseenter)='redo = "active"'-->
+                <i nz-icon nzType="close" class="ant-tabs-close-x" (click)="closeTab(tab)"></i>
+            </div>
+        </ng-template>
+    </nz-tab>
+</nz-tabset>
+
+<!-- 数据对比审核模块来消息显示框 -->
+<ng-template #tmp>
+    <div>{{ examine.msg }}</div>
+
+    <button nz-button nzSize="small">我知道了</button>
+    <button nz-button nzSize="small" [routerLink]="">去看看</button>
+</ng-template>
+
+<div class="flex-1 overflow-auto content-box" style="height: calc(100% - 98px); width: 100%;">
+    <router-outlet class="main-content" #song></router-outlet>
+</div>

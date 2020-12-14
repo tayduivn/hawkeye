@@ -1,0 +1,31 @@
+<div class="col-sm-1 col-xs-2 file-box">
+    <ion-button size="small">拍照</ion-button>
+    <input
+        accept="image/*"
+        type="file"
+        class="img-up-load"
+        ng2FileSelect
+        [uploader]="uploader"
+        (change)="selectedFileOnChanged()"
+        multiple
+    />
+</div>
+
+<div class="col-sm-1 col-xs-2">
+    <ion-button [disabled]="uploader.progress == 100 || uploader.queue.length == 0" size="small" (click)="upload()"
+        >上传</ion-button
+    >
+</div>
+
+<ul class="col-sm-12 img-box" imgGallery>
+    <li *ngFor="let item of uploader.queue">
+        <!-- <ion-icon name='close' color='#f00' (click)="clearImg(img)"></ion-icon> -->
+        <img src="" imgPreview [image]="item.some" class="img-responsive" alt="预览图" />
+    </li>
+</ul>
+
+<app-progress [total]="100" [current]="uploader.progress"></app-progress>
+
+<div class="form-group inspection-item-img">
+    <div class="col-sm-2"></div>
+</div>

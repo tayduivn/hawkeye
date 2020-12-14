@@ -1,0 +1,33 @@
+<div #screen id="screen">
+    <ng-template #commentTemplateRef let-comment="comment">
+        <!-- {{comment.user.name}} -->
+        <nz-comment
+            (click)="onReply.emit(true)"
+            [nzAuthor]="(comment.user && comment.user.name) || '未知'"
+            [nzDatetime]="(comment.created_at | date: 'yyyy-MM-dd HH:mm:ss') || '几天前'"
+        >
+
+            <nz-avatar nz-comment-avatar nzIcon="user" [nzSrc]="'https://oa.xdrlgroup.com/'"></nz-avatar>
+
+            <nz-comment-action>
+                <span (click)="reply(comment); onReply.emit(true)">回复</span>
+                <app-editor
+                    *ngIf="currentComment.id === comment.id && commitCtrl.Index === index && !pushComplete"
+                    (onData)="editorDataComplete($event, comment.id)"
+                ></app-editor>
+            </nz-comment-action>
+
+            <ng-container>
+                <ng-template ngFor let-child [ngForOf]="comment.son">
+                    <ng-template [ngTemplateOutlet]="commentTemplateRef" [ngTemplateOutletContext]="{ comment: child }">
+                    </ng-template>
+                </ng-template>
+            </ng-container>
+
+            <nz-comment-content>
+                <div [innerHtml]="comment.contents" imgGallery></div>
+            </nz-comment-content>
+        </nz-comment>
+    </ng-template>
+    <ng-template [ngTemplateOutlet]="commentTemplateRef" [ngTemplateOutletContext]="{ comment: _data }"> </ng-template>
+</div>

@@ -1,0 +1,40 @@
+.reply-input {
+    width: 70%;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    border: 1px solid;
+    padding: 10px;
+    textarea {
+        height: 60px;
+        flex-grow: 1;
+    }
+}
+
+:host ::ng-deep .ant-comment-inner {
+    // padding: 0 !important;
+}
+
+:host ::ng-deep .ant-form-item {
+    // margin-bottom: 10px !important;
+}
+
+#screen {
+    padding: 10px;
+}
+
+.comment-img {
+    img {
+        display: block;
+        width: 50px;
+        height: 50px;
+    }
+}
+
+.comment-video {
+    video {
+        display: block;
+        width: 300px;
+        height: 210px;
+    }
+}

@@ -1,0 +1,170 @@
+<div class="tab-view-page over-h">
+    <div class="btn-group mb-15">
+        <button
+            nzSize="small"
+            class="mr-5"
+            nz-button
+            nzType="primary"
+            (click)="doveIsVisible=!doveIsVisible; editType = 'add';canClick = false;parentId = null"
+        >
+            添加部门
+        </button>
+        <!-- <button nzSize="small" class="mr-5" nz-button nzType="dashed">添加岗位</button> -->
+    </div>
+
+    <nz-table #basicTable [nzData]="departmentList">
+        <thead>
+            <tr>
+                <th>id</th>
+                <th>部门/岗位</th>
+                <th>部门描述</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            <ng-container *ngFor="let data of basicTable.data;let j = index">
+                <ng-container *ngFor="let item of mapOfExpandedData[data.key];let i = index">
+                    <tr *ngIf="(item.parent && item.parent.expand) || !item.parent">
+                        <td
+                            [nzIndentSize]="item.level! * 20"
+                            [nzShowExpand]="!!item.children"
+                            [(nzExpand)]="item.expand"
+                            (nzExpandChange)="collapse(mapOfExpandedData[data.key], item, $event)"
+                        >
+                            {{item.id}}
+                        </td>
+                        <td>{{ item.name }}</td>
+                        <td>{{ item.description }}</td>
+                        <td>
+                            <button
+                                *ngIf="item.type == 0"
+                                nzSize="small"
+                                class="mr-5"
+                                nz-button
+                                nzType="primary"
+                                (click)="postIsVisible=!postIsVisible; editType = 'add';canClick = false;parentId = item.id"
+                            >
+                                添加岗位
+                            </button>
+                            <button
+                                nzSize="small"
+                                *ngIf="item.type == 1"
+                                (click)="currentUserGroup = item; drawerVisible = !drawerVisible; getPermissionByRoleId(item)"
+                                class="mr-5"
+                                nz-button
+                                nzType="dashed"
+                            >
+                                分配权限
+                            </button>
+                            <button nzSize="small" class="mr-5" nz-button nzType="dashed" (click)="editContent(item)">
+                                编辑
+                            </button>
+                            <button
+                                nzSize="small"
+                                nz-button
+                                nzType="danger"
+                                nz-popconfirm
+                                nzPopconfirmTitle="确定要删除吗?"
+                                nzPopconfirmPlacement="bottom"
+                                (nzOnConfirm)="delPermission(item)"
+                            >
+                                删除
+                            </button>
+                        </td>
+                    </tr>
+                </ng-container>
+            </ng-container>
+        </tbody>
+    </nz-table>
+</div>
+
+<nz-drawer
+    [nzBodyStyle]="{ height: 'calc(100% - 55px)', overflow: 'auto', 'padding-bottom': '53px' }"
+    [nzWidth]="720"
+    [nzVisible]="drawerVisible"
+    [nzTitle]="'给 ' + currentDepartment.name + ' 分配权限'"
+    (nzOnClose)="drawerVisible = !drawerVisible"
+>
+    <div class="w100">
+        <button nzSize="small" class="f-r" nz-button nzType="primary" (click)="submitPermission()">
+            提交
+        </button>
+    </div>
+    <app-permission-tree
+        [nzCheckable]="true"
+        [permission]="permissions"
+        [permissionListFiled]="fieldPermission"
+        (onChange)="permissionChange($event)"
+    >
+    </app-permission-tree>
+</nz-drawer>
+
+<nz-modal
+    [(nzVisible)]="doveIsVisible"
+    [nzTitle]="editType=='edit' ? '编辑' : '添加'"
+    nzOkText="确定"
+    nzCancelText="取消"
+    [nzOkDisabled]="canClick"
+    (nzOnOk)="addHandleOk('dove')"
+    (nzOnCancel)="doveIsVisible = !doveIsVisible"
+>
+    <div>
+        <nz-form-item>
+            <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="email">部门</nz-form-label>
+            <nz-form-control [nzSm]="18" [nzXs]="24">
+                <input
+                    class="w100"
+                    nz-input
+                    placeholder="请填写部门
+                    "
+                    [(ngModel)]="currentDepartment.name"
+                />
+            </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+            <nz-form-label [nzLg]="6" [nzSm]="4" [nzXs]="0" nzFor="text">备注</nz-form-label>
+            <nz-form-control [nzLg]="18" [nzSm]="20" [nzXs]="24">
+                <textarea
+                    rows="4"
+                    cols="40"
+                    nz-input
+                    placeholder="请填写备注"
+                    [(ngModel)]="currentDepartment.description"
+                ></textarea>
+            </nz-form-control>
+        </nz-form-item>
+    </div>
+</nz-modal>
+
+<nz-modal
+    [(nzVisible)]="postIsVisible"
+    [nzTitle]="(addPostType && editType=='edit' && currentDepartment.id) ? '编辑' : '添加'"
+    nzOkText="确定"
+    nzCancelText="取消"
+    [nzOkDisabled]="canClick"
+    (nzOnOk)="addHandleOk('posts')"
+    (nzOnCancel)="postIsVisible = !postIsVisible"
+>
+    <div>
+        <nz-form-item>
+            <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="email"> 岗位 </nz-form-label>
+            <nz-form-control [nzSm]="18" [nzXs]="24">
+                <input class="w100" nz-input placeholder="请填写岗位" [(ngModel)]="currentPost.name" />
+            </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+            <nz-form-label [nzLg]="6" [nzSm]="4" [nzXs]="0" nzFor="text">备注</nz-form-label>
+            <nz-form-control [nzLg]="18" [nzSm]="20" [nzXs]="24">
+                <textarea
+                    rows="4"
+                    cols="40"
+                    nz-input
+                    placeholder="请填写备注"
+                    [(ngModel)]="currentPost.description"
+                ></textarea>
+            </nz-form-control>
+        </nz-form-item>
+    </div>
+</nz-modal>

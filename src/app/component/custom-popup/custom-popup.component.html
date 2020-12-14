@@ -1,0 +1,422 @@
+<ion-content class="pos-r">
+    <div class="clearfix close-box">
+        <div class="f-l">
+            <h3 class="text-c color-666 mr-20" *ngIf="showType == 'list'">SKU列表</h3>
+            <h6 class="text-c color-666 mr-20" *ngIf="showType == 'list'">
+                {{ _contract.factory_address }}
+            </h6>
+            <p class="text-c color-666 mr-20" *ngIf="showType == 'input'">合同号：{{ _contract._contract_no }}</p>
+            <p class="text-c color-666 mr-20" *ngIf="showType == 'input'">工厂名称：{{ _contract.manufacturer }}</p>
+            <p class="text-c color-666 mr-20" *ngIf="showType == 'input'">
+                工厂地址：{{ _contract.manufacturer_address }}
+            </p>
+        </div>
+
+        <button
+            nz-button
+            style="float: right; margin-top: 15px;"
+            (click)="enter('cancel')"
+            nzSize="small"
+            nzType="primary"
+            class="f-r nz-danger"
+            nzDanger
+        >
+            关闭
+        </button>
+    </div>
+    <div class="container pd-0">
+        <div class="info"></div>
+        <div class="box pos-r" [ngClass]="showType == 'input' ? 'has-mb' : ''" (scroll)="onscroll($event)">
+            <nz-table
+                #virtualTable
+                [nzShowPagination]="false"
+                [nzFrontPagination]="false"
+                nzVirtualScroll
+                [nzScroll]="{
+                    x: showType == 'input' ? '2260px' : showBtnGroup ? '1800px' : '1600px',
+                    y: '500px'
+                }"
+                [nzData]="data.data.content"
+                [nzSize]="'small'"
+            >
+                <thead>
+                    <tr>
+                        <th [nzAlign]="'center'" nzWidth="50px" nzLeft="0px">序号</th>
+                        <th [nzAlign]="'center'" nzWidth="60px" nzLeft="50px">
+                            缩略图
+                        </th>
+                        <th [nzAlign]="'center'" nzWidth="90px" nzLeft="110px">
+                            SKU
+                        </th>
+                        <th [nzAlign]="'center'" nzWidth="150px" nzLeft="200px">
+                            中文名称
+                        </th>
+                        <th [nzAlign]="'center'" nzWidth="80px" *ngIf="showType == 'input'">
+                            合同数量
+                        </th>
+                        <th [nzAlign]="'center'" nzWidth="80px" *ngIf="showType == 'input'">
+                            剩余数量
+                        </th>
+                        <th [nzAlign]="'center'" [nzWidth]="showType == 'list' ? '50px' : '100px'">
+                            验货数量
+                            <span class="important">*</span>
+                        </th>
+                        <th [nzAlign]="'center'" [nzWidth]="showType == 'list' ? '50px' : '100px'">
+                            抽检数量
+                            <span class="important">*</span>
+                        </th>
+                        <th [nzAlign]="'center'" [nzWidth]="showType == 'list' ? '50px' : '100px'">
+                            {{ showType == 'list' ? '仓库' : '仓储地' }}
+                            <span class="important">*</span>
+                        </th>
+                        <th [nzAlign]="'center'" nzWidth="180px" *ngIf="showType == 'list'">
+                            备注
+                        </th>
+                        <th [nzAlign]="'center'" nzWidth="100px" *ngIf="showType == 'input'">
+                            分组
+                            <span class="important">*</span>
+                        </th>
+                        <th [nzAlign]="'center'" nzWidth="250px" *ngIf="showType == 'input'">
+                            验货产品状态
+                            <span class="important">*</span>
+                        </th>
+                        <th [nzAlign]="'center'" [nzWidth]="showType == 'list' ? '80px' : '100px'">logo情况</th>
+                        <th [nzAlign]="'center'" [nzWidth]="showType == 'list' ? '90px' : '120px'">
+                            是否需要摔箱
+                            <span class="important">*</span>
+                        </th>
+                        <th [nzAlign]="'center'" [nzWidth]="showType == 'list' ? '80px' : '120px'">有无打包带</th>
+                        <th [nzAlign]="'center'" [nzWidth]="showType == 'list' ? '100px' : '130px'">
+                            是否需要当场寄样
+                            <span class="important">*</span>
+                        </th>
+                        <th [nzAlign]="'center'" [nzWidth]="showType == 'list' ? '100px' : '150px'">
+                            是否需要带回说明书
+                            <span class="important">*</span>
+                        </th>
+                        <th [nzAlign]="'center'" [nzWidth]="showType == 'list' ? '70px' : '100px'">
+                            新品/返单
+
+                            <span class="important" *ngIf="showType == 'input'">*</span>
+                        </th>
+                        <th [nzAlign]="'center'" nzWidth="50px" *ngIf="showType == 'list'">
+                            箱率
+                        </th>
+                        <th [nzAlign]="'center'" nzWidth="50px" *ngIf="showType == 'list'">
+                            箱数
+                        </th>
+                        <th [nzAlign]="'center'" nzWidth="100px">货物照片</th>
+                        <th [nzAlign]="'center'" nzWidth="280px" *ngIf="showType == 'input'">
+                            备注
+                        </th>
+                        <th [nzAlign]="'center'" nzWidth="200px" *ngIf="showType == 'list'">
+                            完成情况
+                        </th>
+                        <th [nzAlign]="'center'" nzWidth="200px" *ngIf="showBtnGroup">
+                            操作
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <ng-template nz-virtual-scroll let-data let-index="index">
+                        <tr>
+                            <td [nzAlign]="'center'" nzLeft="0px">
+                                {{ data.index + 1 }}
+                            </td>
+                            <td [nzAlign]="'center'" nzLeft="50px">
+                                <img class="thumbnail" [src]="baseData.fileUrl + data.pic" alt="" imgGallery />
+                            </td>
+                            <td [nzAlign]="'center'" nzLeft="110px">
+                                {{ data.sku }}
+                            </td>
+                            <td [nzAlign]="'center'" nzLeft="200px">
+                                {{ data.sku_chinese_name ? data.sku_chinese_name : data.name }}
+                            </td>
+                            <td [nzAlign]="'center'" *ngIf="showType == 'input'">
+                                {{ data.detail_counts }}
+                            </td>
+                            <td [nzAlign]="'center'" *ngIf="showType == 'input'">
+                                {{ data.inspection_left_num ? data.inspection_left_num : 0 }}
+                            </td>
+                            <td [nzAlign]="'center'">
+                                <span *ngIf="showType == 'list'">{{ data.quantity }}</span>
+                                <input
+                                    nz-input
+                                    *ngIf="showType == 'input'"
+                                    (blur)="inspectIptVer(data, 'num')"
+                                    [(ngModel)]="data.num"
+                                    type="number"
+                                    (change)="regValid($event)"
+                                    placeholder="输入数量"
+                                />
+                            </td>
+                            <td>
+                                <span
+                                    *ngIf="showType == 'list'"
+                                    class="chip-text"
+                                    Chipboard
+                                    (chipboardDestroy)="setChipboardDestroy($event)"
+                                    >{{ data.must_quantity ? data.must_quantity : '暂无' }}</span
+                                >
+                                <p *ngIf="showType == 'input' && !chipboardDestroy" class="wd-he-150">
+                                    请输入数量
+                                </p>
+                                <input
+                                    nz-input
+                                    *ngIf="showType == 'input' && chipboardDestroy"
+                                    (blur)="inspectIptVer(data, 'must_quantity')"
+                                    [(ngModel)]="data.must_quantity"
+                                    type="number"
+                                    (change)="regValid($event)"
+                                    placeholder="请输入数量"
+                                />
+                            </td>
+                            <td [nzAlign]="'center'">
+                                <!-- <nz-select
+                                    [(ngModel)]="data.warehouse"
+                                    nzPlaceHolder="请选择"
+                                    *ngIf="showType == 'input'"
+                                >
+                                    <nz-option nzValue="USA" nzLabel="美国" checked></nz-option>
+                                    <nz-option nzValue="AUE" nzLabel="澳洲"></nz-option>
+                                </nz-select> -->
+                                <span>{{ data.warehouse }}</span>
+                            </td>
+                            <td *ngIf="showType == 'list'">
+                                <ng-container>
+                                    <div
+                                        [title]="sItem"
+                                        class="text-c desc-show"
+                                        class="chip-text"
+                                        Chipboard
+                                        *ngFor="let sItem of data.description; let i = index"
+                                        (chipboardDestroy)="setChipboardDestroy($event)"
+                                    >
+                                        {{ i + 1 + '.' + (sItem ? sItem : '无') }}
+                                    </div>
+                                </ng-container>
+                            </td>
+                            <td [nzAlign]="'center'" *ngIf="showType == 'input'">
+                                <nz-select [(ngModel)]="data.group" nzPlaceHolder="请选择">
+                                    <nz-option nzValue="" nzLabel="请选择"></nz-option>
+                                    <nz-option nzValue="A" nzLabel="A"></nz-option>
+                                    <nz-option nzValue="B" nzLabel="B"></nz-option>
+                                    <nz-option nzValue="C" nzLabel="C"></nz-option>
+                                    <nz-option nzValue="D" nzLabel="D"></nz-option>
+                                    <nz-option nzValue="E" nzLabel="E"></nz-option>
+                                </nz-select>
+                            </td>
+                            <td [nzAlign]="'center'" *ngIf="showType == 'input'">
+                                <nz-select style="width: 240px;" [(ngModel)]="data.numIsCom" nzPlaceHolder="请选择">
+                                    <nz-option nzValue="" nzLabel="请选择"></nz-option>
+                                    <nz-option nzValue="1" nzLabel="产品生产未完成，包装未完成"></nz-option>
+                                    <nz-option nzValue="2" nzLabel="产品生产完成，包装完成30%以下"></nz-option>
+                                    <nz-option nzValue="3" nzLabel="产品生产完成，包装完成30%-80%"></nz-option>
+                                    <nz-option nzValue="4" nzLabel="产品生产完成，包装完成80%以上"></nz-option>
+                                </nz-select>
+                            </td>
+                            <td [nzAlign]="'center'">
+                                <nz-select
+                                    *ngIf="showType == 'input'"
+                                    [(ngModel)]="data.logo_desc"
+                                    class="w100"
+                                    nzAllowClear
+                                    nzPlaceHolder="选择logo"
+                                >
+                                    <nz-option nzValue="JAXPETY" nzLabel="JAXPETY"></nz-option>
+                                    <nz-option nzValue="TOBBI" nzLabel="TOBBI"></nz-option>
+                                    <nz-option nzValue="SANDINRAYLI" nzLabel="SANDINRAYLI"></nz-option>
+                                    <nz-option nzValue="JAXSUNNY" nzLabel="JAXSUNNY"></nz-option>
+                                    <nz-option nzValue="COZIWOW" nzLabel="COZIWOW"></nz-option>
+                                    <nz-option nzValue="授权车" nzLabel="授权车"></nz-option>
+                                </nz-select>
+                                <p *ngIf="showType == 'list'">
+                                    {{ data.logo_desc ? data.logo_desc : '暂无' }}
+                                </p>
+                            </td>
+                            <td [nzAlign]="'center'">
+                                <nz-select
+                                    class="select-text-c"
+                                    [(ngModel)]="data.is_need_drop_test"
+                                    *ngIf="showType == 'input'"
+                                    nzPlaceHolder="请选择"
+                                >
+                                    <nz-option nzValue="" nzLabel="请选择">请选择</nz-option>
+                                    <nz-option nzValue="0" nzLabel="否">否</nz-option>
+                                    <nz-option nzValue="1" nzLabel="是">是</nz-option>
+                                </nz-select>
+                                <p *ngIf="showType == 'list'">
+                                    {{ data.is_need_drop_test == 1 ? '是' : '否' }}
+                                </p>
+                            </td>
+                            <td [nzAlign]="'center'">
+                                <nz-select
+                                    class="select-text-c"
+                                    [(ngModel)]="data.has_strap"
+                                    *ngIf="showType == 'input'"
+                                    nzPlaceHolder="请选择"
+                                >
+                                    <nz-option nzValue="" nzLabel="请选择">请选择</nz-option>
+                                    <nz-option nzValue="0" nzLabel="否">否</nz-option>
+                                    <nz-option nzValue="1" nzLabel="是">是</nz-option>
+                                </nz-select>
+                                <p *ngIf="showType == 'list'">
+                                    {{ data.has_strap == 1 ? '是' : '否' }}
+                                </p>
+                            </td>
+                            <td [nzAlign]="'center'">
+                                <nz-select
+                                    class="select-text-c"
+                                    [(ngModel)]="data.is_need_sample"
+                                    *ngIf="showType == 'input'"
+                                    nzPlaceHolder="请选择"
+                                >
+                                    <nz-option nzValue="" nzLabel="请选择">请选择</nz-option>
+                                    <nz-option nzValue="0" nzLabel="否">否</nz-option>
+                                    <nz-option nzValue="1" nzLabel="是">是</nz-option>
+                                </nz-select>
+                                <p *ngIf="showType == 'list'">
+                                    {{ data.is_need_sample == 1 ? '是' : '否' }}
+                                </p>
+                            </td>
+                            <td [nzAlign]="'center'">
+                                <nz-select
+                                    class="select-text-c"
+                                    [(ngModel)]="data.need_bring_back_instructor"
+                                    *ngIf="showType == 'input'"
+                                    nzPlaceHolder="请选择"
+                                >
+                                    <nz-option nzValue="" nzLabel="请选择">请选择</nz-option>
+                                    <nz-option nzValue="0" nzLabel="否">否</nz-option>
+                                    <nz-option nzValue="1" nzLabel="是">是</nz-option>
+                                </nz-select>
+                                <p *ngIf="showType == 'list'">
+                                    {{ data.need_bring_back_instructor == 1 ? '是' : '否' }}
+                                </p>
+                            </td>
+                            <td [nzAlign]="'center'">
+                                <nz-select
+                                    class="select-text-c"
+                                    *ngIf="showType == 'input'"
+                                    [(ngModel)]="data.news_or_return_product"
+                                    nzPlaceHolder="请选择"
+                                >
+                                    <nz-option nzValue="" nzLabel="请选择">请选择</nz-option>
+                                    <nz-option nzValue="news" nzLabel="新品">新品</nz-option>
+                                    <nz-option nzValue="return" nzLabel="返单">返单</nz-option>
+                                </nz-select>
+
+                                <p *ngIf="showType == 'list'">
+                                    {{ data.news_or_return_product == 'news' ? '新品' : '返单' }}
+                                </p>
+                            </td>
+                            <td [nzAlign]="'center'" *ngIf="showType == 'list'">
+                                {{ data.rate_container }}
+                            </td>
+                            <td [nzAlign]="'center'" *ngIf="showType == 'list'">
+                                {{ data.quantity }}
+                            </td>
+                            <td [nzAlign]="'center'" imgGallery class="clearfix uploadfile">
+                                <div class="pos-r" *ngIf="showType == 'input'">
+                                    <button nz-button nzType="primary" nzSize="small">
+                                        选择图片
+                                    </button>
+                                    <input
+                                        class="pos-a file-image"
+                                        multiple
+                                        type="file"
+                                        accept="image/*"
+                                        (change)="choice($event, data)"
+                                    />
+                                </div>
+                                <div *ngFor="let sItem of data.photo; let idx = index" class="f-l mt-10 load-img">
+                                    <img
+                                        [ngClass]="{ 'wd-50': idx == 0, 'wd-5': idx != 0 }"
+                                        [src]="showType == 'input' ? sItem : baseData.usFileUrl + sItem"
+                                        class="img-responsive"
+                                        alt="预览图"
+                                    />
+                                </div>
+                            </td>
+                            <td [nzAlign]="'center'" class="remark text-c" *ngIf="showType == 'input'">
+                                <nz-input-group>
+                                    <div class="desc-item mb-2" *ngFor="let sItem of data.description; let j = index">
+                                        <input
+                                            type="text"
+                                            nz-input
+                                            [placeholder]="'请输入备注' + (j + 1)"
+                                            [(ngModel)]="_descriptionAry[data.index][j]"
+                                            [disabled]="data.numIsCom == 1"
+                                        />
+                                        <button
+                                            *ngIf="j == data.description.length - 1"
+                                            class="ml-10"
+                                            nz-button
+                                            nzType="primary"
+                                            nzSize="small"
+                                            [disabled]="!_descriptionAry[data.index][j]"
+                                            (click)="data.description.push('')"
+                                        >
+                                            添加
+                                        </button>
+                                    </div>
+                                </nz-input-group>
+                            </td>
+                            <td [nzAlign]="'center'" *ngIf="showType == 'list'">
+                                {{ data.complete ? data.complete : '暂无' }}
+                            </td>
+                            <td [nzAlign]="'center'" nzWidth="200px" *ngIf="showBtnGroup">
+                                <button 
+                                    *ngIf="showBtnGroup && showBtnGroup['revoke'] === true"
+                                    nz-button 
+                                    nzType="danger" 
+                                    nzSize="small" 
+                                    nz-popconfirm
+                                    nzPopconfirmTitle="确定要撤销吗？"
+                                    nzPopconfirmPlacement="bottom"
+                                    (nzOnConfirm)="revoke(data,index)"
+                                    >
+                                    撤销
+                                </button>  
+                            </td>
+                        </tr>
+                    </ng-template>
+                </tbody>
+            </nz-table>
+        </div>
+    </div>
+    <div class="bot-box" *ngIf="showType == 'input'">
+        <div class="choice-date row pl-20">
+            <ion-label class="col-sm-1 control-label">选择验货时间:</ion-label>
+            <nz-date-picker
+                nzSize="small"
+                [nzFormat]="'yyyy/MM/dd'"
+                nzShowTime
+                [(ngModel)]="currentTime"
+                (ngModelChange)="timeChange = true"
+            ></nz-date-picker>
+
+            <ion-label class="col-sm-1 control-label ml-50">预计装柜时间:</ion-label>
+            <nz-date-picker
+                nzSize="small"
+                [disabled]="!use_estimated_loading_time"
+                [nzFormat]="'yyyy/MM/dd'"
+                nzShowTime
+                [(ngModel)]="estimated_loading_time"
+            ></nz-date-picker>
+            <span *ngIf="!estimated_loading_time">暂无安排选项</span>
+
+            <ion-label class="col-sm-1 control-label ml-50">是否是新工厂:</ion-label>
+            <select [(ngModel)]="is_new_factory">
+                <option value="">请选择</option>
+                <option value="1">是</option>
+                <option value="2">否</option>
+            </select>
+
+            <ion-label class="col-sm-1 control-label ml-50">启用装柜时间:</ion-label>
+            <ion-toggle (ionChange)="toggleStatus()" [(ngModel)]="use_estimated_loading_time"></ion-toggle>
+        </div>
+        <ion-button [expand]="'block'" size="small" (click)="enter('enter')">确定</ion-button>
+        <app-no-data-show *ngIf="!data.data.content.length"></app-no-data-show>
+    </div>
+</ion-content>

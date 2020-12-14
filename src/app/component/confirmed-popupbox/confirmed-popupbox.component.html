@@ -1,0 +1,80 @@
+<div class="root">
+    <ion-list class="f-l">
+        <ion-item>
+            <ion-label>申请人：</ion-label>
+            <ion-text>{{ contract.apply_name }}</ion-text>
+        </ion-item>
+
+        <ion-item>
+            <ion-label>跟单人：</ion-label>
+            <ion-text>{{ contract.buyer_user }}</ion-text>
+        </ion-item>
+
+        <ion-item>
+            <ion-label>采购人：</ion-label>
+            <ion-text>{{ contract.schedule_name && contract.schedule_name.user.name }}</ion-text>
+        </ion-item>
+
+        <ion-item>
+            <ion-label>合同号：</ion-label>
+            <ion-text>{{ contract.contract_no }}</ion-text>
+        </ion-item>
+
+        <ion-item>
+            <ion-label>流水号：</ion-label>
+            <ion-text>{{ contract.apply_inspection_no }}</ion-text>
+        </ion-item>
+
+        <ion-item>
+            <ion-label>工厂名称：</ion-label>
+            <ion-text>{{ contract.factory_name }}</ion-text>
+        </ion-item>
+
+        <ion-item>
+            <ion-label>工厂地址：</ion-label>
+            <ion-text>{{ contract.factory_address }}</ion-text>
+        </ion-item>
+
+        <ion-item>
+            <ion-label>合同SKU数：</ion-label>
+            <ion-text>{{ contract.total_quantity }}</ion-text>
+        </ion-item>
+
+        <ion-item>
+            <ion-label>验货SKU数：</ion-label>
+            <ion-text>{{ contract.quantity }}</ion-text>
+        </ion-item>
+
+        <ion-item>
+            <ion-label>新品SKU数：</ion-label>
+            <ion-text>{{ contract.new_quantity }}</ion-text>
+        </ion-item>
+    </ion-list>
+
+    <ion-list class="f-l">
+        <ion-item>
+            <ion-label>是否是新工厂：</ion-label>
+            <ion-text>{{ contract.is_new_factory && contract.is_new_factory == 1 ? '是' : '否' }}</ion-text>
+        </ion-item>
+
+        <ion-item>
+            <ion-label>申请时间：</ion-label>
+            <ion-text>{{ contract.created_at | date: 'yyyy-MM-dd' }}</ion-text>
+        </ion-item>
+
+        <ion-item>
+            <ion-label>最早可验货时间：</ion-label>
+            <ion-text>{{ contract.inspection_date | date: 'yyyy-MM-dd' }}</ion-text>
+        </ion-item>
+
+        <ion-item>
+            <ion-label>预计装柜时间：</ion-label>
+            <ion-text>{{ contract.estimated_loading_time | date: 'yyyy-MM-dd' }}</ion-text>
+        </ion-item>
+
+        <ion-item>
+            <ion-label>备注：</ion-label>
+            <ion-text>{{ contract.contract_desc }}</ion-text>
+        </ion-item>
+    </ion-list>
+</div>

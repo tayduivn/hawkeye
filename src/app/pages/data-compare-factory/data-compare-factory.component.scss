@@ -1,0 +1,25 @@
+.inner-img {
+    display: block;
+    width: 40px !important;
+    height: 40px;
+    margin-right: 3px;
+    float: left;
+}
+nz-descriptions {
+    width: 1000px;
+    // ::ng-deep td{
+    //   text-align: left;
+    // }
+}
+.desc-p {
+    text-align: left;
+    margin: 0 !important  ;
+}
+
+.text-l {
+    text-align: left !important;
+}
+
+.padding{
+    --padding-bottom: 100px;
+}

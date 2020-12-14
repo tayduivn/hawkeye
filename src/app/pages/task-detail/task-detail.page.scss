@@ -1,0 +1,36 @@
+.slider_box:after {
+    content: '';
+    display: block;
+    clear: both;
+}
+
+.slider_box > div {
+    // float: left;
+    width: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+    .h4 {
+        text-align: center;
+    }
+}
+
+.slider_box .table {
+    min-width: 300px;
+    color: #666;
+    td {
+        text-align: center;
+        vertical-align: middle;
+    }
+}
+
+.thumbnail {
+    display: inline-block;
+    margin-bottom: 0;
+    width: 50px;
+    height: auto;
+    max-height: 50px;
+}
+
+ion-select {
+    border: 1px solid #ccc;
+}

@@ -1,0 +1,195 @@
+<div class="tab-view-page">
+    <div class="panel">
+
+    
+    <button
+        nz-button
+        nzType="primary"
+        class="mb-15"
+        nzSize="small"
+        [disabled]="!rowIsSelected" 
+        (click)="doArraying()"
+        nzPopconfirmPlacement="right"
+    >
+        排柜
+    </button>
+ 
+    <button
+        nz-button
+        nzType="dashed"
+        class="mb-15 ml-15"
+        nzSize="small"
+        [disabled]="!rowIsSelected"
+        (click)="arraying.downExcel({ id_arr: selectedIds, type: 'waiting' })"
+        nzPopconfirmPlacement="right"
+    >
+        导出Excel
+    </button>
+</div>
+    <nz-table
+        #table
+        [nzData]="arrayingList"
+        [nzPageSize]="10"
+        [nzTotal]="paging.total"
+        nzBordered="true"
+        
+        nzTitle="待排柜列表"
+        nzSize="middle"
+        nzVirtualScroll
+      
+        [nzScroll]="{
+            x: '1995px',
+            y: '500px'
+        }"
+    >
+        <thead >
+            <tr >
+                <th
+                
+                    nzWidth="40px"
+                    nzLeft="0px"
+                    nzShowCheckbox
+                    [(nzChecked)]="isAllDisplayDataChecked"
+                    (nzCheckedChange)="checkAll($event)"
+                ></th>
+                <th nzWidth="100px" nzLeft="40px" nzAlign="center">流水号</th>
+                <th nzWidth="150px" nzLeft="140px" nzAlign="center">合同号</th>
+                <th nzWidth="100px" nzLeft="290px" nzAlign="center">sku</th>
+                <th nzWidth="105px" class="input-num" nzAlign="center">
+                    输入排柜数量
+                    <i class="important">*</i>
+                </th>
+
+                <th nzWidth="100px" nzAlign="center">最大排柜箱数</th>
+                <th nzWidth="200px" nzAlign="center">工厂名</th>
+                <th nzWidth="200px" nzAlign="center">工厂地址</th>
+                <th nzWidth="80px" nzAlign="center">工厂联系人</th>
+                <th nzWidth="100px" nzAlign="center">联系电话</th>
+
+                <th nzWidth="80px" nzAlign="center">跟单人</th>
+                <th nzWidth="80px" nzAlign="center">采购人</th>
+                <th nzWidth="100px" nzWidth="100px" nzAlign="center">条码</th>
+                <th nzWidth="50px" nzAlign="center">毛重</th>
+
+                <th nzWidth="100px" nzAlign="center">尺寸(长宽高)</th>
+                <th nzWidth="60px" nzAlign="center">净重</th>
+                <th nzWidth="50px" nzAlign="center">箱数</th>
+                <th nzWidth="50px" nzAlign="center">箱率</th>
+
+                <th nzWidth="60px" nzAlign="center">产品数</th>
+                <th nzWidth="60px" nzAlign="center">总净重</th>
+                <th nzWidth="60px" nzAlign="center">总毛重</th>
+                <th nzWidth="70px" nzAlign="center">产品体积</th>
+            </tr >
+        </thead >
+        <tbody>
+            <ng-template nz-virtual-scroll let-data let-index="index">
+                <tr>
+                    <td
+                        nzShowCheckbox
+                        [(nzChecked)]="mapOfCheckedId[data.id]"
+                        (nzCheckedChange)="refreshStatus(data.id)"
+                        nzWidth="40px"
+                        nzLeft="0px"
+                    ></td>
+                    <td nzWidth="100px" nzLeft="40px" nzAlign="center">{{ data.apply_inspection_no }}</td>
+                    <td nzWidth="150px" nzLeft="140px" nzAlign="center">{{ data.contract_no }}</td>
+                    <td nzWidth="100px" nzLeft="290px" nzAlign="center">{{ data.sku }}</td>
+                    <td nzWidth="105px" nzAlign="center">
+                        <input
+                            nz-input
+                            [(ngModel)]="data.arraying_container_num"
+                            class="text-c w--100"
+                            (blur)="onBlur($event, data)"
+                            [max]="data.able_container_num"
+                            min="0"
+                            (change)="regValid($event)"
+                            type="number"
+                            placeholder="请输入"
+                            nzSize="small"
+                        />
+                    </td>
+
+                    <td nzWidth="100px" nzAlign="center">{{ data.able_container_num }}</td>
+                    <td nzWidth="200px" nzAlign="center" [title]="data.manufacturer">{{ 
+                            data.manufacturer.length && 
+                            data.manufacturer.length>=12?
+                            data.manufacturer.substr(0,12)+'…':
+                            data.manufacturer
+                    }}</td>
+                    <td nzWidth="200px" nzAlign="center" [title]="data.manufacturer_address">
+                        {{ 
+                            data.manufacturer_address.length && 
+                            data.manufacturer_address.length>=12?
+                            data.manufacturer_address.substr(0,12)+'…':
+                            data.manufacturer_address
+                         }}
+                    </td>
+                    <td nzWidth="80px" nzAlign="center">
+                        {{ data.factory_contacts ? data.factory_contacts : '暂无' }}
+                    </td>
+                    <td nzWidth="100px" nzAlign="center">{{ data.mobil_phone ? data.mobil_phone : '暂无' }}</td>
+
+                    <td nzWidth="80px" nzAlign="center">
+                        {{ data.schedule_user_name ? data.schedule_user_name : '暂无' }}
+                    </td>
+                    <td nzWidth="80px" nzAlign="center">{{ data.purchaser_user_name }}</td>
+                    <td nzWidth="100px" nzAlign="center" [title]="data.bar_code">
+                        {{ 
+                            data.bar_code.length && 
+                            data.bar_code.length>=8?
+                            data.bar_code.substr(0,8)+'…':
+                            data.bar_code
+                         }}
+                    </td>
+                    <td nzWidth="50px" nzAlign="center">{{ data.gross_weight }}</td>
+
+                    <td nzWidth="100px" nzAlign="center">{{ data.size }}</td>
+                    <td nzWidth="60px" nzAlign="center">{{ data.net_weight }}</td>
+                    <td nzWidth="50px" nzAlign="center">{{ data.container_num }}</td>
+                    <td nzWidth="50px" nzAlign="center">{{ data.rate_container }}</td>
+
+                    <td nzWidth="60px" nzAlign="center">{{ data.product_num }}</td>
+                    <td nzWidth="60px" nzAlign="center">{{ data.net_weight_total }}</td>
+                    <td nzWidth="60px" nzAlign="center">{{ data.gross_weight_total }}</td>
+                    <td nzWidth="70px" nzAlign="center">{{ data.size_volume  | number:'1.0' }}</td>
+                </tr>
+            </ng-template>
+        </tbody>
+    </nz-table>
+</div>
+
+<nz-modal [(nzVisible)]="isVisible" nzTitle="数据汇总" (nzOnCancel)="isVisible = false" (nzOnOk)="handleOk()">
+    <ul class="total">
+        <li>
+            <span>总箱数: </span>
+            <span>
+                {{ '   ' + total.arraying_container_num_total }}
+            </span>
+        </li>
+        <li>
+            <span>总产品数:</span>
+            <span>
+                {{ '   ' + total.product_num_total }}
+            </span>
+        </li>
+        <li>
+            <span>总净重:</span>
+            <span>
+                {{ '   ' + total.net_weight_total }}
+            </span>
+        </li>
+        <li>
+            <span>总毛重:</span>
+            <span>
+                {{ '   ' + total.gross_weight_total }}
+            </span>
+        </li>
+        <li>
+            <span>总体积:</span>
+            <span>
+                {{ '   ' + total.size_volume_total }}
+            </span>
+        </li>
+    </ul>
+</nz-modal>

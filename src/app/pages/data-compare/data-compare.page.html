@@ -1,0 +1,460 @@
+<div class="tab-view-page over-h">
+    <div class="panel">
+        <div>
+            <span>根据时间导出Excel： </span>
+            <nz-range-picker [(ngModel)]="dateRange" 
+            [nzFormat]="'yyyy-MM-dd'"
+                            [nzRenderExtraFooter]="footer"
+                            (ngModelChange)="onChange($event)"
+                            (nzOnOk)="onChange($event)">
+            </nz-range-picker>
+        </div>
+
+        <ng-template #footer>
+            <div class="w-100">
+                <button nzSize="small" class="f-r mt-5 mb-5" nz-button (click)="onChange($event)">确定</button>
+            </div>
+        </ng-template>
+        <div>
+            <button
+                nz-button
+                nzType="dashed"
+                nzSize="middle"
+                class="mb-15 mt-10"
+                [disabled]="!selectedIds || !selectedIds.length"
+                (click)="dataCompare.downExcel({ id_arr: selectedIds })"
+                nzPopconfirmPlac    ement="right"
+            >
+                导出Excel
+            </button>
+        </div>
+        <div>
+            <nz-input-group [nzAddOnBefore]="addOnBeforeTemplate" >
+                <input type="text" class="search-head" nz-input placeholder="输入内容自动搜索" [formControl]="keywords" />
+            </nz-input-group>
+        </div>
+        
+    </div>
+
+    <div class="swiper-container" [swiper]="swiperConfig">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide">
+                <table
+                    id="table1"
+                    style="table-layout: fixed; "
+                    [ngStyle]="{'width': tableWidth + 'px'}"
+                    class="mb-0 table table-striped table-condensed table-hover table-condensed table-text-no-break"
+                >
+                    <thead>
+                        <tr>
+                            <td class="w50">
+                                <ion-checkbox [(ngModel)]="allChecked" (ionChange)="allCheck($event)"
+                                    >全选</ion-checkbox
+                                >
+                            </td>
+                            <td class="w110" *ngIf="userLimit.has('apply-inspection-no',243)">流水号</td>
+                            <td class="w120" *ngIf="userLimit.has('factory-name',243)">工厂</td>
+                            <td class="w180" *ngIf="userLimit.has('contract-no',243)">合同号</td>
+                            <td class="w150" *ngIf="userLimit.has('sku',243)">SKU</td>
+                            <td class="w200" *ngIf="userLimit.has('sku-chinese',243)">SKU中文名</td>
+                            <td class="w90" *ngIf="userLimit.has('inspection-status',243)">
+                                验货状态
+                                <app-funnel [list]="funnels" (onSelected)="funnelSelected($event)"></app-funnel>
+                            </td>
+                            <td class="w100" *ngIf="userLimit.has('inspector',243)">验货人</td>
+                            <td class="w120" *ngIf="userLimit.has('inspection-time',243)">
+                                <app-sort
+                                    [sortField]="'inspection_date'"
+                                    [sortName]="'验货时间'"
+                                    (outFn)="getListBySort($event)"
+                                ></app-sort>
+                            </td>
+
+                            <td class="w100">报告</td>
+                            <td class="w180">下载</td>
+                            <td class="w100">合同对比</td>
+                            <td class="w100">sku操作</td>
+                            <td class="w80">审核</td>
+                            <td class="w100">提交排柜</td>
+                        </tr>
+                    </thead>
+                </table>
+                <app-no-data-show *ngIf="!data || !data.length"></app-no-data-show>
+                <div class="custom-tbody" *ngIf="data && data.length != 0">
+                    <!-- width: 1630px; -->
+                    <table
+                        id="table1-copy"
+                        style="table-layout: fixed;"
+                        [ngStyle]="{'width': tableWidth + 'px'}"
+                        class="table table-striped table-condensed table-hover table-condensed table-text-no-break"
+                    >
+                        <tbody>
+                            <tr *ngFor="let item of data; let i = index">
+                                <td class="w50">
+                                    <ion-checkbox
+                                        (ionChange)="selectChange($event,item)"
+                                        [(ngModel)]="$any(item).checked"
+                                    ></ion-checkbox>
+                                </td>
+                                <td
+                                    class="w110 pos-r chip-text"
+                                    Chipboard
+                                    [title]="item.apply_inspection_no"
+                                    *ngIf="userLimit.has('apply-inspection-no',243)"
+                                >
+                                    {{ item.apply_inspection_no && (item.apply_inspection_no.length>=12?
+                                    item.apply_inspection_no.slice(0,11) + '...':item.apply_inspection_no) }}
+                                </td>
+                                <td class="w120 pos-r chip-text" Chipboard *ngIf="userLimit.has('factory-name',243)">
+                                    <div class="table-inner-ellipsis" [title]="item.factory_name">
+                                        {{ item.factory_name && ( item.factory_name.length > 8 ?
+                                        item.factory_name.slice(0,7) + '...' : item.factory_name ) }}
+                                    </div>
+                                </td>
+                                <!-- width: 620px; -->
+                                <td
+                                    [attr.colSpan]="fourColSpan"
+                                    style="table-layout: fixed;"
+                                    [ngStyle]="{'width': tableFourWidth + 'px'}"
+                                >
+                                    <table class="table2" [ngStyle]="{'width': tableFourWidth + 'px'}">
+                                        <tbody>
+                                            <tr *ngFor="let sItem of item.data">
+                                                <td
+                                                    class="w180 chip-text"
+                                                    Chipboard
+                                                    [title]="sItem.contract_no_arr"
+                                                    *ngIf="userLimit.has('contract-no',243)"
+                                                >
+                                                    {{ sItem.contract_no_arr && ( sItem.contract_no_arr.indexOf(',') ===
+                                                    -1 ? sItem.contract_no_arr :
+                                                    sItem.contract_no_arr.substr(0,sItem.contract_no_arr.indexOf(','))+'…'
+                                                    ) }}
+                                                </td>
+                                                <td class="w150 chip-text" Chipboard *ngIf="userLimit.has('sku',243)">
+                                                    {{sItem.sku && sItem.sku.length>=14?
+                                                    sItem.sku.slice(0,12)+'...':sItem.sku}}
+                                                </td>
+                                                <td
+                                                    class="w200 chip-text"
+                                                    Chipboard
+                                                    [title]="sItem.sku_chinese"
+                                                    *ngIf="userLimit.has('sku-chinese',243)"
+                                                >
+                                                    {{ sItem.sku_chinese && ( sItem.sku_chinese.length > 12 ?
+                                                    sItem.sku_chinese.slice(0,12) + '...' : sItem.sku_chinese ) }}
+                                                </td>
+
+                                                <td
+                                                    class="w90 pos-r chip-text"
+                                                    *ngIf="userLimit.has('inspection-status',243)"
+                                                >
+                                                    {{reviewStatus[sItem.is_passed] &&
+                                                    reviewStatus[sItem.is_passed].value}}
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+
+                                <td
+                                    class="w100 chip-text"
+                                    Chipboard
+                                    [title]="item.inspection_user.join(',')"
+                                    *ngIf="userLimit.has('inspector',243)"
+                                >
+                                    {{item.inspection_user.length>=2?
+                                    item.inspection_user.slice(0,2).join(',')+'…':item.inspection_user.join(',')}}
+                                </td>
+
+                                <td class="w120 chip-text" Chipboard *ngIf="userLimit.has('inspection-time',243)">
+                                    {{item.inspection_date | date:'yyyy-MM-dd'}}
+                                </td>
+
+                                <td class="w100">
+                                    <button
+                                        nz-button
+                                        nzType="primary"
+                                        nzSize="small"
+                                        (click)="reports(item)"
+                                        class="mr-5"
+                                        *ngIf="userLimit.has('generate-inspection-report',243)"
+                                    >
+                                        生成
+                                    </button>
+                                    <button
+                                        nz-button
+                                        nzType="dashed"
+                                        nzSize="small"
+                                        *ngIf="userLimit.has('show-inspection-report',243)"
+                                        (click)="preview(item)"
+                                    >
+                                        预览
+                                    </button>
+                                </td>
+
+                                <td class="w180">
+                                    <button
+                                        nz-button
+                                        nzSize="small"
+                                        nzType="primary"
+                                        (click)="downloadImage(item)"
+                                        class="mr-10"
+                                        *ngIf="userLimit.has('down-image',243)"
+                                    >
+                                        下载图片
+                                    </button>
+                                    <button
+                                        nz-button
+                                        nzType="dashed"
+                                        nzSize="small"
+                                        (click)="downloadVideo(item)"
+                                        class="mr-10"
+                                        *ngIf="userLimit.has('down-video',243)"
+                                    >
+                                        下载视频
+                                    </button>
+                                </td>
+
+                                <td class="w100">
+                                    <button
+                                        nz-button
+                                        nzType="primary"
+                                        nzSize="small"
+                                        [routerLink]='["/dashboard/data-compare-factory",item.apply_inspection_no]'
+                                        class="mr-10"
+                                        *ngIf="userLimit.has('contract-factory-compare',243)"
+                                    >
+                                        工厂/合同
+                                    </button>
+                                </td>
+
+                                <td style="table-layout: fixed; width: 100px;">
+                                    <table class="table2">
+                                        <tbody>
+                                            <tr *ngFor="let sItem of item.data">
+                                                <td>
+                                                    <button
+                                                        nz-button
+                                                        nzType="dashed"
+                                                        nzSize="small"
+                                                        class="mr-5"
+                                                        (click)="toDetail(item,sItem)"
+                                                        *ngIf="userLimit.has('sku-compare',243)"
+                                                    >
+                                                        对比
+                                                    </button>
+
+                                                    <button
+                                                        nz-button
+                                                        nzType="danger"
+                                                        nzSize="small"
+                                                        (click)="showModal(item,sItem) "
+                                                        *ngIf="userLimit.has('sku-reset',243)"
+                                                    >
+                                                        撤销
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+
+                                <td class="w80">
+                                    <button
+                                        nz-button
+                                        nzType="primary"
+                                        nzSize="small"
+                                        *ngIf="userLimit.has('review-button',243)"
+                                        [routerLink]='["/dashboard/data-compare-examine",item.apply_inspection_no]'
+                                    >
+                                        去审核
+                                    </button>
+                                </td>
+                                <td class="w100">
+                                    <button
+                                        nz-button
+                                        nzType="dashed"
+                                        nzSize="small"
+                                        class="mr-5"
+                                        (click)="submitCabinet(item)"
+                                        *ngIf="userLimit.has('sku-compare',243)"
+                                    >
+                                        提交排柜
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <app-pagination
+        class="f-r mt-6 mb-5"
+        [pagging]="{
+        pageNum: getListParams.page,
+        pageTotal: total.last_page
+        }"
+        (pagechange)="getListByPaging($event)"
+    ></app-pagination>
+</div>
+
+<ng-template #addOnBeforeTemplate>
+    <nz-select [nzSize]="'small'" [formControl]="searchVal" class="w100">
+        <nz-option nzLabel="请选择" nzValue=""></nz-option>
+        <nz-option nzLabel="SKU" nzValue="sku"></nz-option>
+        <nz-option nzLabel="工厂名" nzValue="factory_name"></nz-option>
+        <nz-option nzLabel="SKU中文名" nzValue="sku_name_search"></nz-option>
+        <nz-option nzLabel="合同号" nzValue="contract_no"></nz-option>
+    </nz-select>
+</ng-template>
+
+<nz-modal
+    [(nzVisible)]="maskIsVisible"
+    nzTitle="撤销SKU————选择合同号"
+    (nzOnCancel)="maskIsVisible = !maskIsVisible"
+    [nzOkDisabled]="!currentResetContractForSku"
+    (nzOnOk)="resetSku()"
+>
+    <nz-radio-group
+        [(ngModel)]="currentResetContractForSku"
+        *ngIf="currentFactoryContractArr && currentFactoryContractArr.length; else notData"
+    >
+        <label nz-radio [nzValue]="item" *ngFor="let item of currentFactoryContractArr">{{item}}</label>
+    </nz-radio-group>
+</nz-modal>
+
+<nz-modal
+    [nzWidth]="1200"
+    [(nzVisible)]="cabinetShow"
+    nzTitle="提交排柜" 
+    (nzOnOk)="doCabinet()"
+    (nzOnCancel)="cabinetShow = false"
+    nzMaskClosable="false"
+>
+    <nz-table
+        #basicTable
+        [nzData]="currentSkuArr"
+        [nzScroll]="{
+            x: '1820px',
+            y: '500px'
+        }"
+    >
+        <thead>
+            <tr>
+                <th nzWidth="60px" nzLeft="0px" nzAlign="center">序号</th>
+                <th nzWidth="100px" nzLeft="60px" nzAlign="center">SKU</th>
+                <th nzWidth="100px" nzLeft="160px" nzAlign="center">SKU中文名</th>
+                <th nzAlign="center" nzWidth="100px">箱数 <span class="important">*</span></th>
+                <th nzAlign="center" nzWidth="160px">条码 <span class="important">*</span></th>
+
+                <th nzAlign="center" nzWidth="100px">毛重 <span class="important">*</span></th>
+                <th nzAlign="center" nzWidth="100px">净重 <span class="important">*</span></th>
+                <th nzAlign="center" nzWidth="220px">尺寸（长*宽*高:CM）<span class="important">*</span></th>
+                <th nzAlign="center" nzWidth="180px">工厂名称 <span class="important">*</span></th>
+                <th nzAlign="center" nzWidth="180px">工厂地址 <span class="important">*</span></th>
+
+                <th nzAlign="center" nzWidth="160px">工厂联系人 <span class="important">*</span></th>
+                <th nzAlign="center" nzWidth="160px">工厂联系手机号 <span class="important">*</span></th>
+                <th nzAlign="center" nzWidth="100px">跟单人 <span class="important">*</span></th>
+                <th nzAlign="center" nzWidth="100px">采购人 <span class="important">*</span></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let data of basicTable.data;let i = index">
+                <td nzLeft="0px" [nzAlign]="'center'" nzWidth="60px">{{i + 1}}</td>
+                <td nzLeft="60px" [nzAlign]="'center'" nzWidth="100px">{{data.sku}}</td>
+                <td nzLeft="160px" [nzAlign]="'center'" nzWidth="100px">{{data.sku_chinese}}</td>
+                <td nzAlign="center">
+                    <input nz-input placeholder="箱数" [(ngModel)]="data.container_num" nzSize="small" />
+                </td>
+                <td nzAlign="center">
+                    <input
+                        class="barCode-input"
+                        nz-input
+                        placeholder="条码"
+                        [(ngModel)]="data.bar_code"
+                        nzSize="small"
+                    />
+                </td>
+
+                <td nzAlign="center">
+                    <input nz-input placeholder="外箱毛重" [(ngModel)]="data.outer_gross_weight" nzSize="small" />
+                </td>
+                <td nzAlign="center">
+                    <input nz-input placeholder="外箱净重" [(ngModel)]="data.outer_net_weight" nzSize="small" />
+                </td>
+                <td nzAlign="center">
+                    <input
+                        nz-input
+                        class="f-l size-input mr-3"
+                        placeholder="长:CM"
+                        [(ngModel)]="data.outer_box_size_length"
+                        nzSize="small"
+                    />
+                    <input
+                        nz-input
+                        class="f-l size-input mr-3"
+                        placeholder="宽:CM"
+                        [(ngModel)]="data.outer_box_size_width"
+                        nzSize="small"
+                    />
+                    <input
+                        nz-input
+                        class="f-l size-input mr-3"
+                        placeholder="高:CM"
+                        [(ngModel)]="data.outer_box_size_height"
+                        nzSize="small"
+                    />
+                </td>
+                <td nzAlign="center">
+                    <input
+                        class="factory-input"
+                        nz-input
+                        placeholder="工厂名称"
+                        [(ngModel)]="data.factory_name"
+                        nzSize="small"
+                    />
+                </td>
+                <td nzAlign="center">
+                    <input
+                        nz-input
+                        class="factory-input"
+                        placeholder="工厂地址"
+                        [(ngModel)]="data.factory_address"
+                        nzSize="small"
+                    />
+                </td>
+                <td nzAlign="center">
+                    <input
+                        nz-input
+                        class="factory-input"
+                        placeholder="工厂联系人"
+                        [(ngModel)]="data.factory_contacts"
+                        nzSize="small"
+                    />
+                </td>
+
+                <td nzAlign="center">
+                    <input
+                        nz-input
+                        class="factory-input"
+                        placeholder="工厂联系手机号"
+                        [(ngModel)]="data.mobil_phone"
+                        nzSize="small"
+                    />
+                </td>
+                <td nzAlign="center">
+                    <input nz-input placeholder="跟单人" [(ngModel)]="data.schedule_user_name" nzSize="small" />
+                </td>
+                <td nzAlign="center">
+                    <input nz-input placeholder="采购人" [(ngModel)]="data.purchaser_user_name" nzSize="small" />
+                </td>
+            </tr>
+        </tbody>
+    </nz-table>
+</nz-modal>
+
+<ng-template #notData>暂无</ng-template>

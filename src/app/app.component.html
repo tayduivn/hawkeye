@@ -1,0 +1,57 @@
+<ion-app>
+    <ion-split-pane when="lg">
+        <ion-menu [hidden]="showMenu != true" class="menu" max-edge-start="120" style="--width: 200px;">
+            <ion-header>
+                <ion-toolbar>
+                    <ion-title>鹰眼</ion-title>
+                </ion-toolbar>
+            </ion-header>
+            <ion-content>
+                <ion-list>
+                     <ion-menu-toggle menu="" auto-hide="false" *ngFor="let p of appPages">
+                        <!--爬坑 menu='' 导致初始化的时候点不动菜单按钮 并且router-outlet上多有一个menu-content-open的类-->
+                        <div
+                            class="parent-menu pos-r"
+                            [routerLink]="p.notModify ? p.url : 'dashboard/' + p.url"
+                            (click)="choice(p)"
+                            *ngIf="p.type == 'link'"
+                            [ngClass]="!p.active ? 'border-bottom' : ''"
+                        >
+                            <div
+                                class="item-active-bar pos-a"
+                                [ngClass]="currentParentItem.url == p.url ? 'active' : ''"
+                            ></div>
+                            <ion-icon slot="start" [name]="p.icon"></ion-icon>
+                            <span>{{ p.title }}</span>
+                        </div>
+
+                        <div
+                            class="parent-menu"
+                            (click)="menuBtn(p)"
+                            *ngIf="p.type == 'btn'"
+                            [ngClass]="!p.active ? 'border-bottom' : ''"
+                        >
+                            <ion-icon slot="start" [name]="p.icon"></ion-icon>
+                            <span>{{ p.title }}</span>
+                        </div>
+
+                        <ul class="son-menu" *ngIf="p.active">
+                            <ion-item
+                                *ngFor="let item of p.children"
+                                (click)="menuBtn(item)"
+                                [ngClass]="currentSonItem.url == item.url ? 'son-active' : ''"
+                            >
+                                <ion-icon slot="start" [name]="item.icon"></ion-icon>
+                                <ion-label>
+                                    {{ item.title }}
+                                </ion-label>
+                            </ion-item>
+                        </ul>
+                    </ion-menu-toggle>
+                </ion-list>
+            </ion-content>
+        </ion-menu>
+        <ion-router-outlet main></ion-router-outlet>
+    </ion-split-pane>
+    <app-loadding *ngIf="loading"></app-loadding>
+</ion-app>

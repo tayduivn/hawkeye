@@ -1,0 +1,9 @@
+<div class="progress" style="margin-bottom: 0;">
+    <div
+        class="progress-bar progress-bar-striped active"
+        role="progressbar"
+        [ngStyle]="{ width: (current / total > 1 ? 100 : (current / total) * 100) + '%' }"
+    >
+        {{ ((current / total > 1 ? 100 : (current / total) * 100) | number: '2.1-2') + '%' }}
+    </div>
+</div>
