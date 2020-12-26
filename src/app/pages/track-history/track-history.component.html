@@ -1,0 +1,108 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="secondary">
+            <ion-button (click)="baseData.utilFn.goBack()">
+                <i class="iconfont iconfanhui"></i>
+                <ion-label class="global-back-text">返回</ion-label>
+            </ion-button>
+        </ion-buttons>
+
+        <ion-buttons slot="start">
+            <ion-menu-button></ion-menu-button>
+        </ion-buttons>
+
+        <ion-title>
+            历史记录列表
+        </ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+    <div class="swiper-container" [swiper]="config">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide pb-100">
+                <table
+                    class="table table-striped table-condensed table-responsive table-hover table-condensed table-text-no-break"
+                >
+                    <thead>
+                        <tr>
+                            <td>序号</td>
+                            <td>合同号</td>
+                            <!-- <td>工厂名称</td> -->
+                            <td *ngIf="baseData.userInfo.department != 'manager'">更新人</td>
+                            <td>当前周数</td>
+                            <td>是否停滞</td>
+                            <td>进度</td>
+                            <td>更新日期</td>
+                            <td>预计完成的时间</td>
+                            <td>距离下单第几周</td>
+                            <td>操作记录</td>
+                        </tr>
+                    </thead>
+                    <tbody *ngIf="historyList && historyList.length">
+                        <tr
+                            *ngFor="let item of historyList; let i = index"
+                            class="pos-r"
+                            [ngClass]="{ gray: !item.id }"
+                        >
+                            <td class="chip-text" Chipboard>{{ i + 1 }}</td>
+                            <td class="chip-text" Chipboard>{{ item.contract && item.contract.contract_no }}</td>
+                            <!-- <td class='chip-text' Chipboard>{{item.contract && item.contract.manufacturer}}</td> -->
+                            <td class="chip-text" *ngIf="baseData.userInfo.department != 'manager'" Chipboard>
+                                {{ item.username ? item.username : '暂无更新' }}
+                            </td>
+                            <td>
+                                <strong class="chip-text" Chipboard>{{ i + 1 }}</strong>
+                                <i class="chip-text" Chipboard>{{
+                                    '&nbsp;&nbsp;(' + item.week_Monday + '——' + item.week_Sunday + ')'
+                                }}</i>
+                            </td>
+                            <td class="chip-text" Chipboard>
+                                {{ item.repeat_record ? '是' : '否' }}
+                            </td>
+                            <td *ngIf="item.id">
+                                <app-progress [current]="item.quantity" [total]="item.total_count"></app-progress>
+                            </td>
+                            <td *ngIf="item.id" class="chip-text" Chipboard>
+                                {{ item.created_at | date: 'yyyy-MM-dd' }}
+                            </td>
+                            <td *ngIf="item.id" class="chip-text" Chipboard>
+                                {{ item.estimate_complete_time | date: 'yyyy-MM-dd' }}
+                            </td>
+                            <td *ngIf="item.id" class="chip-text" Chipboard>
+                                {{ item.to_day + '天(' + item.to_week + '周)' }}
+                            </td>
+                            <td *ngIf="item.id">
+                                <button 
+                                    nz-button
+                                    nzType="primary"
+                                    nzSize="small"
+                                    (click)="toDetail(item)"
+                                >操作记录</button>
+                            </td>
+                            <td colspan="5" *ngIf="!item.id">暂无记录</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <app-no-data-show *ngIf="!historyList.length"></app-no-data-show>
+            </div>
+        </div>
+    </div>
+</ion-content>
+
+<nz-drawer
+    [nzBodyStyle]="{ height: 'calc(100% - 55px)', overflow: 'auto', 'padding-bottom': '53px' }"
+    [nzMaskClosable]="false"
+    [nzWidth]="820"
+    [nzPlacement]="'left'"
+    [nzTitle]="'跟踪进度'"
+    [nzVisible]="drawerVisible"
+    nzTitle="Create"
+    (nzOnClose)="closeDrawer()"
+>
+    <app-progress-update
+        *ngIf="drawerVisible"
+        [contractId]="currentHistory.id"
+        [type]="'history'"
+    ></app-progress-update>
+</nz-drawer>

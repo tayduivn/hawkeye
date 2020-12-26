@@ -1,0 +1,105 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="secondary">
+            <ion-button (click)="baseData.utilFn.goBack()">
+                <i class="iconfont iconfanhui"></i>
+                <ion-label class="global-back-text">返回</ion-label>
+            </ion-button>
+        </ion-buttons>
+        <ion-buttons slot="start">
+            <ion-menu-button></ion-menu-button>
+        </ion-buttons>
+        <ion-title>
+            验货任务
+        </ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+    <ion-card>
+        <ion-card-header>
+            <ion-card-title>采购合同号</ion-card-title>
+        </ion-card-header>
+
+        <ion-card-content>
+            {{ contract.contract_no }}
+        </ion-card-content>
+    </ion-card>
+
+    <ion-card>
+        <ion-card-header>
+            <ion-card-title>验货SKU数</ion-card-title>
+        </ion-card-header>
+
+        <ion-card-content>
+            {{ contract.quantity }}
+        </ion-card-content>
+    </ion-card>
+
+    <ion-card>
+        <ion-card-header>
+            <ion-card-title>是否与工厂联系</ion-card-title>
+        </ion-card-header>
+
+        <ion-card-content>
+            {{ contract.is_contacted_factory ? '是' : '否' }}
+        </ion-card-content>
+    </ion-card>
+
+    <ion-card>
+        <ion-card-header>
+            <ion-card-title>是否购买车票</ion-card-title>
+        </ion-card-header>
+
+        <ion-card-content>
+            {{ contract.is_bought_ticket ? '是' : '否' }}
+        </ion-card-content>
+    </ion-card>
+
+    <ion-card>
+        <ion-card-header>
+            <ion-card-title>验货工厂是否曾经验过</ion-card-title>
+        </ion-card-header>
+
+        <ion-card-content>
+            {{ contract.is_inspected_factory ? '是' : '否' }}
+        </ion-card-content>
+    </ion-card>
+
+    <ion-card>
+        <ion-card-header>
+            <ion-card-title>验货产品是否曾经验过</ion-card-title>
+        </ion-card-header>
+
+        <ion-card-content>
+            {{ contract.is_inspected_product ? '是' : '否' }}
+        </ion-card-content>
+    </ion-card>
+
+    <ion-card>
+        <ion-card-header>
+            <ion-card-title>是否规范好时间路线</ion-card-title>
+        </ion-card-header>
+
+        <ion-card-content>
+            {{ contract.is_plan_date ? '是' : '否' }}
+        </ion-card-content>
+    </ion-card>
+
+    <ion-card>
+        <ion-card-header>
+            <ion-card-title>是否熟悉要求</ion-card-title>
+        </ion-card-header>
+
+        <ion-card-content>
+            {{ contract.is_know_demand ? '是' : '否' }}
+        </ion-card-content>
+    </ion-card>
+
+    <ion-card>
+        <ion-card-content>
+            <ion-button size="small" (click)="seeSku(contract)" color="primary">查看SKU</ion-button>
+            <ion-button size="small" (click)="inspecSetting(contract)" color="primary">验货员操作</ion-button>
+        </ion-card-content>
+    </ion-card>
+</ion-content>

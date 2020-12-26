@@ -1,0 +1,235 @@
+<div class="tab-view-page over-h">
+    <div class="btn-group mb-15" *ngIf="userLimit.has('user-add',38)">
+        <ion-button size="small" (click)="editUser()">
+            添加用户
+        </ion-button>
+    </div>
+
+    <nz-form-item>
+        <nz-form-label [nzSm]="1" [nzXs]="24" nzFor="email">搜索</nz-form-label>
+        <nz-form-control [nzSm]="23" [nzXs]="24">
+            <input class="search-bar ml-5" nz-input [formControl]="keywords" placeholder="请输入用户名模糊搜索" />
+        </nz-form-control>
+    </nz-form-item>
+
+    <nz-table
+        #basicTable
+        [nzData]="userList"
+        [nzTotal]="total"
+        [nzPageSize]="pageSize"
+        [nzLoading]="loading"
+        [nzFrontPagination]="false"
+        [nzPageIndex]="pageIndex"
+        (nzPageIndexChange)="getUserList($event)"
+    >
+        <!-- (nzQueryParams)="onQueryParamsChange($event)" -->
+        <thead>
+            <tr>
+                <th *ngIf="userLimit.has('user-name',86)">姓名</th>
+                <th *ngIf="userLimit.has('company-no',86)">工号</th>
+                <th *ngIf="userLimit.has('department-name',86)">部门</th>
+                <th *ngIf="userLimit.has('role-name',86)">岗位</th>
+                <th>操作</th>
+                <th *ngIf="userLimit.has('permissions-is-enable',86)">禁用/启用（岗位权限）</th>
+                <th *ngIf="userLimit.has('is-enable',86)">禁用/启用</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of basicTable.data">
+                <td *ngIf="userLimit.has('user-name',86)">
+                    {{item.name}}
+                    <ion-badge
+                        color="dark"
+                        *ngIf="item.company_no=='XD118'||item.company_no=='XD111'||item.company_no=='XD006'||item.company_no=='XD147'"
+                        class="fs-12"
+                        >管理员
+                    </ion-badge>
+                </td>
+                <td *ngIf="userLimit.has('company-no',86)">{{item.company_no}}</td>
+                <td *ngIf="userLimit.has('department-name',86)">
+                    {{item.parent_role && item.parent_role.length ? item.parent_role[0].name:'暂未分配'}}
+                </td>
+                <td *ngIf="userLimit.has('role-name',86)">
+                    {{item.role && item.role.length ? item.role[0].name:'暂未分配'}}
+                </td>
+                <td>
+                    <button
+                        nzSize="small"
+                        class="mr-5"
+                        nz-button
+                        nzType="primary"
+                        [disabled]="!item.status"
+                        *ngIf="userLimit.has('user-edit',87)"
+                        (click)="editUser(item)"
+                    >
+                        编辑
+                    </button>
+
+                    <button
+                        nzSize="small"
+                        class="mr-5"
+                        (click)="drawerVisible = !drawerVisible;drawerType = 'operation'; currentUser = item;addPermissionToUser(item)"
+                        nz-button
+                        nzType="default"
+                        *ngIf="userLimit.has('permissions-distribution',87)"
+                        [disabled]="!item.status"
+                    >
+                        分配权限
+                    </button>
+
+                    <button
+                        nzSize="small"
+                        class="mr-5"
+                        nz-button
+                        nzType="danger"
+                        nz-popconfirm
+                        nzPopconfirmTitle="确定要重置密码吗?"
+                        nzPopconfirmPlacement="bottom"
+                        *ngIf="userLimit.has('password-reset',87)"
+                        (nzOnConfirm)="resetPwd(item)"
+                        [disabled]="!item.status"
+                    >
+                        重置密码
+                    </button>
+
+                    <button
+                        nzSize="small"
+                        class="mr-5"
+                        nz-button
+                        *ngIf="userLimit.has('role-permissions',87)"
+                        nzType="dashed"
+                        (click)="drawerVisible = !drawerVisible;drawerType = 'readonly'; currentUser = item;showPostPermission(item)"
+                        [disabled]="!item.status||!item.role.length"
+                    >
+                        岗位权限
+                    </button>
+                </td>
+                <td *ngIf="userLimit.has('permissions-is-enable',86)">
+                    <nz-switch
+                        [(ngModel)]="item.is_need_role_permission"
+                        *ngIf="userLimit.has('permissions-is-enable',86)"
+                        (ngModelChange)="togglePermissionStatus(item)"
+                    ></nz-switch>
+                </td>
+                <td *ngIf="userLimit.has('is-enable',86)">
+                    <nz-switch
+                        [(ngModel)]="item.status"
+                        *ngIf="userLimit.has('is-enable',86)"
+                        (ngModelChange)="toggleStatus(item)"
+                    ></nz-switch>
+                </td>
+            </tr>
+        </tbody>
+    </nz-table>
+</div>
+
+<nz-modal
+    [(nzVisible)]="editIsVisible"
+    [nzTitle]="currentUser.id ? '编辑用户' : '添加用户'"
+    nzOkText="确定"
+    nzCancelText="取消"
+    (nzOnOk)="addHandleOk()"
+    (nzOnCancel)="editIsVisible = !editIsVisible"
+    [nzOkDisabled]="isDisabled"
+>
+    <div>
+        <nz-form-item>
+            <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired nzFor="email">姓名</nz-form-label>
+            <nz-form-control [nzSm]="12" [nzXs]="24">
+                <input class="w100" nz-input placeholder="请填写姓名" [(ngModel)]="currentUser.name" />
+            </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+            <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired nzFor="email">邮箱</nz-form-label>
+            <nz-form-control [nzSm]="12" [nzXs]="24">
+                <input nz-input placeholder="请填写邮箱" [(ngModel)]="currentUser.email" />
+            </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+            <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired nzFor="email">工号</nz-form-label>
+            <nz-form-control [nzSm]="12" nzHasFeedback [nzXs]="24" [nzErrorTip]="combineTpl">
+                <input
+                    nz-input
+                    placeholder="请填写工号"
+                    required
+                    [(ngModel)]="currentUser.company_no"
+                    pattern="['X']['D'][0-9][0-9][0-9]"
+                />
+            </nz-form-control>
+            <ng-template #combineTpl let-control>
+                <ng-container *ngIf="control.hasError('maxlength')">MaxLength is 12</ng-container>
+                <ng-container *ngIf="control.hasError('minlength')">MinLength is 6</ng-container>
+                <ng-container *ngIf="control.hasError('required')">工号是必填项</ng-container>
+            </ng-template>
+        </nz-form-item>
+
+        <nz-form-item>
+            <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired nzFor="email">设备MAC地址</nz-form-label>
+            <nz-form-control [nzSm]="12" [nzXs]="24">
+                <input nz-input placeholder="请填写设备MAC地址" [(ngModel)]="currentUser.mac" />
+            </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+            <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired nzFor="email">电话</nz-form-label>
+            <nz-form-control [nzSm]="12" [nzXs]="24">
+                <input nz-input placeholder="请填写电话" [(ngModel)]="currentUser.telephone" />
+            </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+            <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired nzFor="email">部门</nz-form-label>
+            <nz-form-control [nzSm]="12" [nzXs]="24">
+                <nz-select
+                    nzShowSearch
+                    nzAllowClear
+                    nzPlaceHolder="选择部门"
+                    (ngModelChange)="getPositionByDid($event).subscribe()"
+                    [(ngModel)]="currentDepartment"
+                    class="w170"
+                >
+                    <nz-option [nzLabel]="item.name" [nzValue]="item.id" *ngFor="let item of departmentList">
+                    </nz-option>
+                </nz-select>
+            </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+            <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired nzFor="email">岗位</nz-form-label>
+            <nz-form-control [nzSm]="12" [nzXs]="24">
+                <nz-select
+                    nzShowSearch
+                    nzAllowClear
+                    nzPlaceHolder="选择部门"
+                    [(ngModel)]="currentPosition"
+                    class="w170"
+                >
+                    <nz-option [nzLabel]="item.name" [nzValue]="item.id" *ngFor="let item of positionList"></nz-option>
+                </nz-select>
+            </nz-form-control>
+        </nz-form-item>
+    </div>
+</nz-modal>
+
+<nz-drawer
+    [nzBodyStyle]="{ height: 'calc(100% - 55px)', overflow: 'auto', 'padding-bottom': '53px' }"
+    [nzWidth]="720"
+    [nzVisible]="drawerVisible"
+    [nzTitle]="'给' + currentUser.name + '分配权限'"
+    (nzOnClose)="drawerVisible = !drawerVisible"
+>
+    <div class="w100" *ngIf="drawerType == 'operation'">
+        <button nzSize="small" class="f-r" nz-button nzType="primary" (click)="submitPermission()">
+            提交
+        </button>
+    </div>
+    <app-permission-tree
+        [nzCheckable]="drawerType == 'readonly' ? false : true"
+        [permission]="permissions"
+        [permissionListFiled]="fieldPermission"
+        (onChange)="permissionChange($event)"
+    >
+    </app-permission-tree>
+</nz-drawer>

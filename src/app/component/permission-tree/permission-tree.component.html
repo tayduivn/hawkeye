@@ -1,0 +1,40 @@
+<nz-tabset class="w100">
+    <nz-tab nzTitle="菜单/按钮">
+        <nz-tree
+            [nzData]="_permissions"
+            nzCheckable
+            [nzBlockNode]="true"
+            nzMultiple
+            [nzExpandAll]="true"
+            [nzTreeTemplate]="nzTreeTemplate"
+            (nzCheckBoxChange)="getTreePermission($event.keys)"
+        >
+            <ng-template #nzTreeTemplate let-node>
+                <span>
+                    {{ node.title }}
+                </span>
+                <span [ngClass]="node.origin.type"> ({{ permissionTypeMap[node.origin.type] }}) </span>
+            </ng-template>
+        </nz-tree>
+    </nz-tab>
+    <nz-tab nzTitle="列表字段">
+        <nz-collapse>
+            <nz-collapse-panel
+                *ngFor="let panel of _permissionListFiled"
+                [nzHeader]="$any(panel).title"
+                [nzActive]="$any(panel).active"
+            >
+                <nz-checkbox-group
+                    [(ngModel)]="panel.children"
+                    (ngModelChange)="logReportFiled(panel)"
+                ></nz-checkbox-group>
+            </nz-collapse-panel>
+        </nz-collapse>
+    </nz-tab>
+    <nz-tab nzTitle="验货报告">
+        <nz-checkbox-group
+            [(ngModel)]="permissionReport"
+            (ngModelChange)="logReportFiled(permissionReport)"
+        ></nz-checkbox-group>
+    </nz-tab>
+</nz-tabset>

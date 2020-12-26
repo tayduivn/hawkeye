@@ -1,0 +1,147 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="secondary">
+            <ion-button (click)="baseData.utilFn.goBack()">
+                <i class="iconfont iconfanhui"></i>
+                <ion-label class="global-back-text">返回</ion-label>
+            </ion-button>
+        </ion-buttons>
+
+        <ion-buttons slot="start">
+            <ion-menu-button></ion-menu-button>
+        </ion-buttons>
+        <ion-title>
+            工厂和合同数据对比
+        </ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content padding class="padding">
+    <nz-descriptions nzTitle="工厂数据" nzBordered [nzSize]="'default'">
+        <nz-descriptions-item nzTitle="工厂环境照片">
+            <ng-container
+                *ngIf="
+                    data.factoryObj.factory_environment_pic && data.factoryObj.factory_environment_pic.posted.length;
+                    else notHas
+                "
+            >
+                <ul imgGallery>
+                    <li *ngFor="let sItem of data.factoryObj.factory_environment_pic.posted; let i = index">
+                        <img class="inner-img" [src]="imgOrigin + sItem" [hidden]="i != 0" />
+                    </li>
+                </ul>
+            </ng-container>
+        </nz-descriptions-item>
+        <nz-descriptions-item nzTitle="样品间照片">
+            <ng-container
+                *ngIf="
+                    data.factoryObj.factory_sample_room_pic && data.factoryObj.factory_sample_room_pic.posted.length;
+                    else notHas
+                "
+            >
+                <ul imgGallery>
+                    <li *ngFor="let sItem of data.factoryObj.factory_sample_room_pic.posted; let i = index">
+                        <img class="inner-img" [src]="imgOrigin + sItem" [hidden]="i != 0" />
+                    </li>
+                </ul>
+            </ng-container>
+        </nz-descriptions-item>
+        <nz-descriptions-item nzTitle="工厂其他照片">
+            <ul
+                imgGallery
+                *ngIf="
+                    data.factoryObj.factory_other_pic && data.factoryObj.factory_other_pic.posted.length;
+                    else notHas
+                "
+            >
+                <li *ngFor="let item of data.factoryObj.factory_other_pic.posted; let i = index">
+                    <img class="inner-img" [hidden]="i != 0" [src]="imgOrigin + item" />
+                </li>
+            </ul>
+        </nz-descriptions-item>
+        <nz-descriptions-item nzTitle="工厂地址">
+            <ng-container *ngIf="data.factoryObj.new_address && data.factoryObj.new_address.posted; else notHas">
+                {{ data.factoryObj.new_address.posted }}
+            </ng-container>
+        </nz-descriptions-item>
+        <nz-descriptions-item nzTitle="工厂接待人">
+            <ng-container *ngIf="data.factoryObj.new_contact_name.posted; else notHas">
+                {{ data.factoryObj.new_contact_name.posted }}
+            </ng-container>
+        </nz-descriptions-item>
+        <nz-descriptions-item nzTitle="工厂工人数">
+            <ng-container *ngIf="data.factoryObj.factory_people_num.posted; else notHas">
+                {{ data.factoryObj.factory_people_num.posted }}
+            </ng-container>
+        </nz-descriptions-item>
+        <nz-descriptions-item nzTitle="工厂设备">
+            <ng-container *ngIf="data.factoryObj.factory_equipment_name.posted; else notHas">
+                {{ data.factoryObj.factory_equipment_name.posted }}
+            </ng-container>
+        </nz-descriptions-item>
+        <nz-descriptions-item nzTitle="备注">
+            <ng-container
+                *ngIf="data.factoryObj.factory_remark && data.factoryObj.factory_remark.posted.length; else notHas"
+            >
+                <p
+                    class="desc-p"
+                    [ngClass]="item.level"
+                    *ngFor="let item of data.factoryObj.factory_remark.posted; let i = index"
+                >
+                    {{ i + 1 + ':' + (item.text ? item.text : item) }}
+                </p>
+
+                <br />
+            </ng-container>
+        </nz-descriptions-item>
+    </nz-descriptions>
+
+    <ng-container *ngFor="let contract of data.contract">
+        <nz-descriptions
+        nzBordered
+        class="mt-30"
+        *ngFor="let item of contract.sku_desc"
+        [nzTitle]="'合同号：' + contract.contract_no + ' ，         SKU：' + item.sku"
+        [nzSize]="'default'"
+    >
+        <nz-descriptions-item nzTitle="大货包装完成数量" class="text-l">
+            <ng-container *ngIf="item.sku_package_complete_num; else notHas">
+                {{ item.sku_package_complete_num.posted }}
+                <br />
+            </ng-container>
+        </nz-descriptions-item>
+
+        <nz-descriptions-item nzTitle="大货生产完成数量">
+            <ng-container *ngIf="item.sku_production_complete_num; else notHas">
+                {{ item.sku_production_complete_num.posted }}
+                <br />
+            </ng-container>
+        </nz-descriptions-item>
+
+        <nz-descriptions-item nzTitle="图片">
+            <ng-container *ngIf="item.contract_sku_pic && item.contract_sku_pic.posted.length; else notHas">
+                <ul imgGallery>
+                    <li *ngFor="let sItem of item.contract_sku_pic.posted; let i = index">
+                        <img class="inner-img" [src]="imgOrigin + sItem" [hidden]="i != 0" />
+                    </li>
+                </ul>
+            </ng-container>
+        </nz-descriptions-item>
+
+        <nz-descriptions-item nzTitle="备注">
+            <ng-container *ngIf="item.desc && item.desc.posted.length; else notHas">
+                <p
+                    class="desc-p"
+                    *ngFor="let sItem of item.desc.posted; let i = index"
+                    [ngClass]="[sItem.level ? sItem.level : '']"
+                >
+                    {{ i + 1 + ':' + (sItem.text ? sItem.text : sItem) }}
+                </p>
+            </ng-container>
+        </nz-descriptions-item>
+    </nz-descriptions>
+    </ng-container>
+   
+
+    <ng-template #notHas>暂无</ng-template>
+</ion-content>

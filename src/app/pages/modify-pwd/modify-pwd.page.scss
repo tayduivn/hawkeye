@@ -1,0 +1,33 @@
+ion-list {
+    background: #fff;
+    ion-item {
+        font-size: 14px;
+        color: #555;
+        --background: #fff;
+    }
+}
+
+.showerr {
+    text-align: left;
+    font-size: 12px;
+    color: #f00;
+    padding-left: 15px;
+    background: 0;
+}
+ion-card {
+    --background: #fff;
+    width: 300px;
+    margin: 0 auto;
+    margin-top: 200px;
+}
+
+ion-button {
+    width: 280px;
+    margin: 0 auto;
+}
+
+ion-content {
+    display: flex;
+    align-content: center;
+    justify-content: center;
+}

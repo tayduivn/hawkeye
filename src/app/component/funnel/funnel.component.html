@@ -1,0 +1,7 @@
+<ion-icon name="funnel" class="fs-12" nz-dropdown [nzDropdownMenu]="menu" (click)="openSelector()"></ion-icon>
+
+<nz-dropdown-menu #menu="nzDropdownMenu">
+    <ul nz-menu nzSelectable>
+        <li nz-menu-item *ngFor="let item of _list" (click)="onSelected.emit(item)" >{{ item.key }}</li>
+    </ul>
+</nz-dropdown-menu>

@@ -1,0 +1,51 @@
+ion-list {
+    width: 500px;
+}
+
+.date-box {
+    padding: 0 10px;
+    ion-label {
+        line-height: 38px;
+    }
+    ion-datetime {
+        min-width: 100px;
+    }
+}
+.date-box::after {
+    content: '';
+    display: block;
+    clear: both;
+}
+
+input {
+    border: 1px solid #e5e5e5;
+    width: 400px;
+    border-radius: 5px;
+    padding: 5px;
+    height: 40px;
+}
+
+ion-label.title {
+    color: #f00;
+}
+
+ion-list {
+    background: rgb(247, 247, 247);
+}
+ion-item {
+    --background: rgb(247, 247, 247);
+}
+
+.choice-date {
+    background: #f3f3f3;
+    color: #555;
+    font-weight: bold;
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    ion-datetime {
+        --padding-end: 20px;
+        border-radius: 5px;
+    }
+}

@@ -1,0 +1,127 @@
+<ion-content>
+    <!-- 展示一个相同工厂的合同列表  -->
+    <nz-steps
+        nzType="navigation"
+        nzDirection="horizontal"
+        nzSize="small"
+        [nzCurrent]="index"
+        (nzIndexChange)="onIndexChange($event)"
+    >
+        <nz-step nzTitle="选择工厂" nzStatus="{{index == 0 ? 'wait' : 'process'}}" nzDescription="选择要操作的工厂"></nz-step>
+        <nz-step
+            nzTitle="勾选SKU"
+            [nzDisabled]="!currentFactory"
+            nzStatus="{{index <= 1 ? 'wait' : 'process'}}" 
+            nzDescription="勾选2个及以上不同批次号下的SKU"
+        ></nz-step>
+        <nz-step
+            [nzDisabled]="!currentFactory || !treeChecked.length"
+            nzTitle="填写信息"
+            nzStatus="finish"
+            nzStatus="{{index == 2 ? 'finish' : 'wait'}}" 
+            nzDescription="选择验货人及验货时间"
+        ></nz-step>
+    </nz-steps>
+
+    <div class="tips">
+        <h4 nz-typography>当前工厂: {{ currentFactory }}</h4>
+    </div>
+    <!-- 选择要合并的合同 -->
+    <div class="container" *ngIf="index == 0">
+        <div class="f-r search-bar mb-10">
+            <nz-input-group nzSearch >
+                <input type="text" [formControl]="factoryKeywords" nz-input placeholder="请输入工厂名检索工厂" />
+            </nz-input-group>
+        </div>
+
+        <nz-table class="mt-20" #basicTable [nzData]="_tasks" [nzShowPagination]="false" [nzFrontPagination]="false">
+            <thead>
+                <tr>
+                    <th>选择工厂</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr
+                    *ngFor="let data of basicTable.data"
+                    (click)="tree = [data]; index = 1; currentFactory = data.title; currentFactoryTreeKey = data.key"
+                >       
+                    <td>{{ data.title }}</td>
+                </tr>
+            </tbody>
+        </nz-table>
+    </div>
+    <!-- 显示穿梭框 -->
+    <div class="container" [hidden]="index !== 1">
+        <div class="f-r search-bar mb-10">
+            <nz-input-group>
+                <input
+                    type="text"
+                    nz-input
+                    [(ngModel)]="treeKeywords"
+                    (input)="treeKeyChange($event)"
+                    placeholder="请输入流水号或者合同号或者SKU加以检索"
+                />
+            </nz-input-group>
+        </div>
+        <div class="clearfix"></div>
+        <nz-tree
+            class="mt-40"
+            [nzSearchValue]="treeKeywords"
+            (nzCheckBoxChange)="treeOnChange($event)"
+            [nzData]="tree"
+            [nzCheckable]="true" 
+            nzShowLine
+            (nzClick)="nzEvent($event)"
+            #nzTree
+        >
+        </nz-tree>
+    </div>
+    <!-- 填写信息 -->
+    <div class="container" *ngIf="index == 2">
+        <nz-form-item class="mt-30">
+            <nz-form-label [nzSm]="10" [nzXs]="24" nzRequired>选择验货人</nz-form-label>
+            <nz-form-control [nzSm]="14" [nzXs]="24">
+                <nz-select
+                    class="min-width-100"
+                    [nzMaxTagCount]="3"
+                    nzMode="multiple"
+                    nzPlaceHolder="请选择"
+                    [(ngModel)]="inspector"
+                >
+                    <nz-option nzLabel="请选择验货人" nzValue=""></nz-option>
+                    <nz-option *ngFor="let item of inspectors" [nzLabel]="item.name" [nzValue]="item.id"></nz-option>
+                </nz-select>
+            </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+            <nz-form-label [nzSm]="10" [nzXs]="24" nzRequired>选择验货时间</nz-form-label>
+            <nz-form-control [nzSm]="14" [nzXs]="24">
+                <nz-date-picker
+                    [nzFormat]="'yyyy/MM/dd'"
+                    class="mr-5"
+                    nzPlaceholder="请选择开始时间"
+                    [(ngModel)]="startTime"
+                    (ngModelChange)="onChange($event, 'start')"
+                ></nz-date-picker>
+                -
+                <nz-date-picker
+                    [nzFormat]="'yyyy/MM/dd'"
+                    nzPlaceholder="请选择结束时间"
+                    [(ngModel)]="endTime"
+                    (ngModelChange)="onChange($event, 'end')"
+                ></nz-date-picker>
+            </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+            <nz-form-label [nzSm]="10" [nzXs]="24">填写备注</nz-form-label>
+            <nz-form-control [nzSm]="14" [nzXs]="48">
+                <textarea rows="4" cols="41" [(ngModel)]="params.desc" nz-input placeholder="请填写备注"></textarea>
+            </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+            <nz-form-control [nzXs]="{ span: 24, offset: 0 }" [nzSm]="{ span: 14, offset: 10 }">
+                <button nz-button nzType="primary" [disabled]="!canClick" (click)="submit()">提交</button>
+            </nz-form-control>
+        </nz-form-item>
+    </div>
+</ion-content>

@@ -1,0 +1,101 @@
+<div #screen id="screen">
+    <ng-template #commentTemplateRef let-comment="comment">
+        <nz-comment
+            [nzAuthor]="(comment.user && comment.user.name) || '未知'"
+            [nzDatetime]="(comment.created_at | date: 'yyyy-MM-dd hh:mm:ss') || '几天前'"
+        >
+            <nz-avatar nz-comment-avatar nzIcon="user" [nzSrc]="'../../../assets/img/avatar-2.png'"></nz-avatar>
+            <nz-comment-content>
+                <p *ngIf="!comment.advise_img && !comment.advise_video">{{ comment.contents || '暂无' }}</p>
+                <div class="comment-img" *ngIf="comment.advise_img">
+                    <img [src]="env.origin + '/' + comment.advise_img" alt="" imgGallery />
+                </div>
+                <div class="comment-video" *ngIf="comment.advise_video">
+                    <video controls [src]="env.origin + '/' + comment.advise_video"></video>
+                </div>
+            </nz-comment-content>
+            <nz-comment-action>
+                <span (click)="reply(comment); commentBoxShow = true">回复</span>
+                <span
+                    nz-popconfirm
+                    nzPopconfirmTitle="确定要删除吗?"
+                    class="ml-15"
+                    nzPopconfirmPlacement="bottom"
+                    (nzOnConfirm)="delConfirm(comment)"
+                    >删除</span
+                >
+                <span
+                    (click)="commentBoxShow = false"
+                    *ngIf="comment.id == currentComment.id && commentBoxShow"
+                    class="ml-15"
+                    >取消</span
+                >
+            </nz-comment-action>
+
+            <ng-container *ngIf="comment.son && comment.son.length">
+                <ng-template ngFor let-child [ngForOf]="comment.son">
+                    <ng-template [ngTemplateOutlet]="commentTemplateRef" [ngTemplateOutletContext]="{ comment: child }">
+                    </ng-template>
+                </ng-template>
+            </ng-container>
+
+            <nz-comment-content *ngIf="comment.id == currentComment.id && commentBoxShow">
+                <nz-tabset [nzType]="'line'" nzSize="small">
+                    <nz-tab [nzTitle]="'文字'">
+                        <nz-form-item>
+                            <textarea [(ngModel)]="inputValue" nz-input rows="4"></textarea>
+                        </nz-form-item>
+                        <nz-form-item>
+                            <button
+                                nz-button
+                                nzType="primary"
+                                nzSize="small"
+                                [nzLoading]="submitting"
+                                [disabled]="!inputValue"
+                                (click)="handleSubmit(comment)"
+                            >
+                                添加回复
+                            </button>
+                        </nz-form-item>
+                    </nz-tab>
+                    <nz-tab [nzTitle]="'图片'">
+                        <nz-upload
+                            [nzShowButton]="fileList.length < 8"
+                            [nzPreview]="handlePreview"
+                            [nzAccept]="'image/png,image/jpeg,image/gif,image/bmp'"
+                            [nzRemove]="shouldRemoveImg"
+                            [nzFileType]="'image/png,image/jpeg,image/gif,image/bmp'"
+                            [nzCustomRequest]="customRequest"
+                            (nzChange)="handleChange($event)"
+                        >
+                            <div class="ant-upload-text">点击上传</div>
+                        </nz-upload>
+                    </nz-tab>
+                    <nz-tab [nzTitle]="'视频'">
+                        <nz-upload
+                            [nzFileType]="'video/mp4,video/wma'"
+                            [nzRemove]="shouldRemoveImg"
+                            [nzAccept]="'video/mp4,video/wma'"
+                            [nzCustomRequest]="customRequestVideo"
+                            (nzChange)="handleChange($event)"
+                        >
+                            <div class="ant-upload-text">点击上传</div>
+                        </nz-upload>
+                    </nz-tab>
+                </nz-tabset>
+            </nz-comment-content>
+        </nz-comment>
+    </ng-template>
+    <ng-template [ngTemplateOutlet]="commentTemplateRef" [ngTemplateOutletContext]="{ comment: _data }"> </ng-template>
+</div>
+
+<nz-modal
+    [nzVisible]="previewVisible"
+    [nzContent]="modalContent"
+    [nzFooter]="null"
+    (nzOnCancel)="previewVisible = false"
+>
+    <ng-template #modalContent>
+        <img [src]="previewImage" [ngStyle]="{ width: '100%' }" />
+    </ng-template>
+</nz-modal>

@@ -1,0 +1,64 @@
+.uploadfile {
+    width: 100px;
+    .pos-r {
+        overflow: hidden;
+        input[type='file'] {
+            opacity: 0;
+            // font-size: 100px;
+            top: 0;
+            left: 0;
+        }
+    }
+    .img-responsive {
+        height: 50px !important;
+    }
+}
+
+.wd-50 {
+    width: 50px;
+    height: 50px !important;
+}
+.wd-5 {
+    height: 50px !important;
+    width: 5px;
+}
+.hg-0 {
+    height: 0px;
+}
+
+.wd-he-150 {
+    width: 100px;
+    display: inline;
+    height: 50px;
+}
+
+nz-table {
+    thead tr {
+        height: auto;
+        font-weight: normal;
+        font-size: 14px;
+        color: #404040;
+    }
+    tr:nth-child(1n + 0) {
+        background: transparent !important;
+    }
+    tr:nth-child(2n + 0) {
+        background: transparent !important;
+    }
+    td {
+        text-align: left;
+        vertical-align: middle !important;
+    }
+}
+
+.x{
+    font-size: 12px;
+    display: inline-block;
+    width: 16px;
+    line-height: 16px;
+    text-align: center;
+    height: 16px;
+    border-radius: 100%;
+    color: #fff;
+    background: rgba(0,0,0,.5);
+}

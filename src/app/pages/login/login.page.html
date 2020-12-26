@@ -1,0 +1,95 @@
+<!-- <ion-header color='primary'>
+  <ion-toolbar color="primary">
+    <ion-title text-center>鹰眼</ion-title>
+  </ion-toolbar>
+</ion-header> -->
+
+<ion-content padding>
+    <div class="logo-box">
+        <img src="../../assets/img/logo.png" alt="" class="logo" />
+    </div>
+
+    <form [formGroup]="registerForm">
+        <ion-list vertical-center>
+            <ion-item *ngIf="status == 'registry'">
+                <ion-label position="floating">姓名</ion-label>
+                <ion-input [(ngModel)]="loginInfo.name" formControlName="username" clearInput="true"></ion-input>
+            </ion-item>
+            <span *ngIf="formErrors.username" class="showerr alert-danger">{{ formErrors.username }}</span>
+
+            <ion-item>
+                <ion-label position="floating">工号</ion-label>
+                <ion-input
+                    type="text"
+                    [(ngModel)]="loginInfo.company_no"
+                    formControlName="company_no"
+                    clearInput="true"
+                ></ion-input>
+            </ion-item>
+            <span *ngIf="formErrors.company_no" class="showerr alert-danger">{{ formErrors.company_no }}</span>
+
+            <ion-item>
+                <ion-label position="floating">密码</ion-label>
+                <ion-input
+                    type="password"
+                    [(ngModel)]="loginInfo.password"
+                    formControlName="password"
+                    clearInput="true"
+                    (keyup)="projectNameChanged($event)"
+                ></ion-input>
+            </ion-item>
+            <span *ngIf="formErrors.password" class="showerr alert-danger">{{ formErrors.password }}</span>
+
+            <ion-item *ngIf="status == 'registry'">
+                <ion-label position="floating">确认密码</ion-label>
+                <ion-input
+                    type="password"
+                    [(ngModel)]="loginInfo.password_confirmation"
+                    formControlName="password_confirmation"
+                    clearInput="true"
+                ></ion-input>
+            </ion-item>
+            <span *ngIf="formErrors.password_confirmation && status == 'registry'" class="showerr alert-danger"
+                >{{ formErrors.password_confirmation }}</span
+            >
+        </ion-list>
+
+        <div class="mt-30">
+            <ion-button
+                events="ionBur"
+                type="submit"
+                color="secondary"
+                [disabled]="!registerForm.value.company_no 
+                       || formErrors.company_no 
+                       || !registerForm.value.password"
+                expand="block"
+                *ngIf="status == 'login'"
+                (click)="doLogin()"
+                >登录
+            </ion-button>
+            <ion-button
+                *ngIf="status == 'registry'"
+                color="secondary"
+                [disabled]="!registerForm.value.company_no 
+                            || !registerForm.value.username 
+                            || !registerForm.value.password 
+                            || formErrors.password_confirmation
+                            || formErrors.username
+                            || formErrors.company_no
+                            || formErrors.password
+                            || !registerForm.value.password_confirmation"
+                type="submit"
+                expand="block"
+                (click)="doRegistry()"
+            >
+                注册
+            </ion-button>
+            <ion-button fill="clear" *ngIf="status == 'login'" color="light" (click)="tabStatus('registry')"
+                >注册账号</ion-button
+            >
+            <ion-button fill="clear" *ngIf="status != 'login'" color="light" (click)="tabStatus('login')"
+                >去登录</ion-button
+            >
+        </div>
+    </form>
+</ion-content>

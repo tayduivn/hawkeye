@@ -1,0 +1,86 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="secondary">
+            <ion-button (click)="baseData.utilFn.goBack()">
+                <i class="iconfont iconfanhui"></i>
+                <ion-label class="global-back-text">返回</ion-label>
+            </ion-button>
+        </ion-buttons>
+
+        <ion-buttons slot="start">
+            <ion-menu-button></ion-menu-button>
+        </ion-buttons>
+
+        <ion-title>
+            任务详情
+        </ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+    <ion-select
+        [interfaceOptions]="customAlertOptions"
+        interface="popover"
+        value="currentPoId"
+        [(ngModel)]="currentPoId"
+        [selectedText]="defaultSelect.contract_no"
+        (ionChange)="choicePo()"
+        [compareWith]="locatopnCompare"
+        okText="确定"
+        cancelText="取消"
+    >
+        <ion-select-option *ngFor="let item of poList" value="{{item.contract_id}}">
+            {{item.contract_no}}
+        </ion-select-option>
+    </ion-select>
+
+    <div class="slider_box">
+        <div class="sku-list">
+            <h4 class=".h4">sku列表</h4>
+            <table class="table table-striped table-hover table-condensed table-bordered">
+                <thead>
+                    <tr>
+                        <td>缩略图</td>
+                        <td>产品名</td>
+                        <td>sku</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of taskDetail" (click)="toInspection(item,'sku')">
+                        <td>
+                            <img class="thumbnail" [src]="baseData.fileUrl+item.pic" alt="缩略图" />
+                        </td>
+                        <td>{{item.name}}</td>
+                        <td>{{item.sku}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="acc-list" *ngIf="factory_group != 'null'">
+            <h4 class=".h4">配件列表</h4>
+            <p *ngIf="accessList && !accessList.length">暂无配件</p>
+            <table
+                class="table table-striped table-hover table-condensed table-bordered"
+                *ngIf="accessList && accessList.length"
+            >
+                <thead>
+                    <tr>
+                        <td>对应产品sku</td>
+                        <td>产品名</td>
+                        <td>sku</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of accessList" (click)="toInspection(item,'acc')">
+                        <td>
+                            {{item.ProductCode}}
+                        </td>
+                        <td>{{item.AccessoryName}}</td>
+                        <td>{{item.AccessoryCode}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</ion-content>

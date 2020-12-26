@@ -1,0 +1,35 @@
+<div class="page-box">
+    <ion-button [fill]="'clear'" color="" size="small" (click)="changePage(1)" [disabled]="pageNum == 1"
+        >首页</ion-button
+    >
+    <ion-button [fill]="'clear'" size="small" (click)="changePage(pageNum - 1)" [disabled]="pageNum <= 1"
+        >上一页</ion-button
+    >
+    <div class="text">
+        <ion-text>{{ pageNum }}</ion-text>
+        <ion-text>/</ion-text>
+        <ion-text>{{ pageTotal }}</ion-text>
+    </div>
+    <ion-button [fill]="'clear'" size="small" (click)="changePage(+(+pageNum) + 1)" [disabled]="pageNum >= pageTotal"
+        >下一页</ion-button
+    >
+    <ion-button [fill]="'clear'" size="small" (click)="changePage(pageTotal)" [disabled]="pageNum == pageTotal"
+        >尾页</ion-button
+    >
+    <nz-select
+        *ngIf="hidePaging"
+        [(ngModel)]="pagingTotal"
+        nzSize="small"
+        class="mr-10"
+        (ngModelChange)="pagingTotalChange($event)"
+    >
+        <nz-option [nzValue]="10" nzLabel="10条/页">10条/页</nz-option>
+        <nz-option [nzValue]="20" nzLabel="20条/页">20条/页</nz-option>
+        <nz-option [nzValue]="30" nzLabel="30条/页">30条/页</nz-option>
+        <nz-option [nzValue]="50" nzLabel="50条/页">50条/页</nz-option>
+        <nz-option [nzValue]="100" nzLabel="100条/页">100条/页</nz-option>
+    </nz-select>
+
+    <input placeholder="0" [(ngModel)]="paging" type="number" (change)="regValid($event)" />
+    <ion-button [fill]="'clear'" size="small" (click)="changePage(paging)" [disabled]="!paging">跳转</ion-button>
+</div>

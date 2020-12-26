@@ -1,0 +1,441 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="secondary">
+            <ion-button (click)="baseData.utilFn.goBack()">
+                <i class="iconfont iconfanhui"></i>
+                <ion-label class="global-back-text">返回</ion-label>
+            </ion-button>
+        </ion-buttons>
+
+        <ion-buttons slot="start">
+            <ion-menu-button></ion-menu-button>
+        </ion-buttons>
+        <ion-title>
+            数据对比详情
+        </ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content class="padding">
+    <div class="container_box">
+        <ion-card>
+            <ion-card-header>
+                <ion-card-title>一：备注部分</ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+                <ion-grid>
+                    <ion-grid>
+                        <ion-row class="header">
+                            <ion-col class="align-self-center" size="3">对比项</ion-col>
+                            <ion-col class="align-self-center" size="3">系统</ion-col>
+                            <ion-col class="align-self-center" size="5">数据</ion-col>
+                            <ion-col class="align-self-center" size="1">历史</ion-col>
+                        </ion-row>
+                    </ion-grid>
+                    <ng-container *ngIf="compareData">
+                        <ion-row
+                            *ngFor="let item of compareData | boxType: 'desc'; let i = index"
+                            [ngClass]="{ success: item.compare_res == 1, danger: item.compare_res == 2 }"
+                        >
+                            <ion-col class="align-self-center" size="3">{{ item.chinese_name }}</ion-col>
+                            <ion-col class="align-self-center" size="3">
+                                {{ item.system && item.system.length ? item.system : '暂无' }}
+                            </ion-col>
+                            <ion-col class="align-self-center" size="5">
+                                <ul *ngIf="item.type == 'pic'" imgGallery>
+                                    <ng-container *ngIf="item.posted && item.posted.length; else notData">
+                                        <li *ngFor="let sItem of item.posted; let i = index">
+                                            <img [src]="imgOrigin + sItem" [hidden]="i > 7" />
+                                        </li>
+                                    </ng-container>
+                                </ul>
+                                <ng-container *ngIf="item.type == 'video'">
+                                    <button
+                                        nz-button
+                                        nzType="primary"
+                                        nzSize="small"
+                                        *ngIf="item.posted && item.posted.length"
+                                        (click)="modalShow = true; modalVideos = item.posted"
+                                    >
+                                        查看视频
+                                    </button>
+                                </ng-container>
+                                <div class="remark-box" *ngIf="item.type == 'desc'">
+                                    <ng-container *ngIf="item.posted && item.posted.length; else notData">
+                                        <p *ngFor="let sItem of item.posted" [ngClass]="[item.level ? item.level : '']">
+                                            {{ sItem.text ? sItem.text : sItem }}
+                                        </p>
+                                    </ng-container>
+                                </div>
+                                <div *ngIf="item.type == 'boolean' || item.type == 'bool'">
+                                    {{ item.posted ? '是' : '否' }}
+                                </div>
+
+                                <p *ngIf="item.type == 'string'">{{ item.posted ? item.posted : '暂无' }}</p>
+                            </ion-col>
+                            <ion-col class="align-self-center" size="1" *ngIf="item.posted" (click)="showHistory(item)"
+                                >历史对比</ion-col
+                            >
+                        </ion-row>
+                    </ng-container>
+                </ion-grid>
+            </ion-card-content>
+        </ion-card>
+        <ion-card>
+            <ion-card-header>
+                <ion-card-title>二：检验详情</ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+                <ion-grid>
+                    <ion-grid>
+                        <ion-row class="header">
+                            <ion-col class="align-self-center" size="3">对比项</ion-col>
+                            <ion-col class="align-self-center" size="3">系统</ion-col>
+                            <ion-col class="align-self-center" size="5">数据</ion-col>
+                            <ion-col class="align-self-center" size="1">历史</ion-col>
+                        </ion-row>
+                    </ion-grid>
+                    <ng-container *ngIf="compareData">
+                        <ion-row
+                            *ngFor="let item of compareData | boxType: 'detail'; let i = index"
+                            [ngClass]="{ success: item.compare_res == 1, danger: item.compare_res == 2 }"
+                        >
+                            <ion-col class="align-self-center" size="3">{{ item.chinese_name }}</ion-col>
+                            <ion-col class="align-self-center" size="3">
+                                {{ item.system ? item.system : '暂无' }}
+                                <!-- {{item.system | json}} -->
+                            </ion-col>
+                            <ion-col class="align-self-center" size="5">
+                                <ul *ngIf="item.type == 'pic'" imgGallery>
+                                    <li *ngFor="let sItem of item.posted; let i = index">
+                                        <img [src]="imgOrigin + sItem" [hidden]="i > 7" />
+                                    </li>
+                                </ul>
+
+                                <ng-container *ngIf="item.type == 'video'">
+                                    <button
+                                        nz-button
+                                        nzType="primary"
+                                        *ngIf="item.posted && item.posted.length"
+                                        nzSize="small"
+                                        (click)="modalShow = true; modalVideos = item.posted"
+                                    >
+                                        查看视频
+                                    </button>
+                                </ng-container>
+
+                                <div class="remark-box" *ngIf="item.type == 'desc'">
+                                    <ng-container *ngIf="item.posted && item.posted.length; else notData">
+                                        <p *ngFor="let sItem of item.posted" [ngClass]="[item.level ? item.level : '']">
+                                            {{ sItem.text ? sItem.text : sItem }}
+                                        </p>
+                                    </ng-container>
+                                </div>
+                                <div *ngIf="item.type == 'boolean' || item.type == 'bool'">
+                                    {{ item.posted ? '是' : '否' }}
+                                </div>
+
+                                <p *ngIf="item.type == 'string'">{{ item.posted ? item.posted : '暂无' }}</p>
+                            </ion-col>
+                            <ion-col class="align-self-center" size="1" *ngIf="item.posted" (click)="showHistory(item)"
+                                >历史对比</ion-col
+                            >
+                        </ion-row>
+                    </ng-container>
+                </ion-grid>
+            </ion-card-content>
+        </ion-card>
+
+        <ion-card>
+            <ion-card-header>
+                <ion-card-title>三：验货要求</ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+                <ion-grid>
+                    <ion-grid>
+                        <ion-row class="header">
+                            <ion-col class="align-self-center" size="3">验货条目</ion-col>
+                            <ion-col class="align-self-center" size="3">验货要求</ion-col>
+                            <ion-col class="align-self-center" size="5">验货标准</ion-col>
+                            <ion-col class="align-self-center" size="1">要求反馈</ion-col>
+                        </ion-row>
+                    </ion-grid>
+                    <ng-container *ngFor="let item of compareData | boxType: 'inspection_require'; let i = index">
+                        <ion-row *ngFor="let sItem of item.system.inspection_require; let j = index">
+                            <ion-col>{{ sItem.theme_name }}</ion-col>
+                            <ion-col>{{ sItem.require }}</ion-col>
+                            <ion-col>{{ sItem.standard }}</ion-col>
+                            <ion-col>
+                                <ul imgGallery class="clear">
+                                    <ng-container
+                                        *ngIf="
+                                            item.system_posted_all[j].posted_pic &&
+                                                item.system_posted_all[j].posted_pic.length;
+                                            else notData
+                                        "
+                                    >
+                                        <li *ngFor="let tItem of item.system_posted_all[j].posted_pic; let i = index">
+                                            <img
+                                                [src]="imgOrigin.substr(0, imgOrigin.length - 8) + tItem"
+                                                [hidden]="i > 7"
+                                            />
+                                        </li>
+                                    </ng-container>
+                                </ul>
+                                <br />
+                                <button
+                                    nz-button
+                                    nzType="primary"
+                                    nzSize="small"
+                                    *ngIf="item.system_posted_all[j].posted_video"
+                                    (click)="modalShow = true; modalVideos = item.system_posted_all[j].posted_video"
+                                >
+                                    查看视频
+                                </button>
+                            </ion-col>
+                        </ion-row>
+                    </ng-container>
+                </ion-grid>
+            </ion-card-content>
+        </ion-card>
+
+        <ion-card>
+            <ion-card-header>
+                <ion-card-title>四：测试部分</ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+                <ion-grid>
+                    <ion-grid>
+                        <ion-row class="header">
+                            <ion-col class="align-self-center" size="3">对比项</ion-col>
+                            <ion-col class="align-self-center" size="3">系统</ion-col>
+                            <ion-col class="align-self-center" size="5">数据</ion-col>
+                            <ion-col class="align-self-center" size="1">历史</ion-col>
+                        </ion-row>
+                    </ion-grid>
+                    <ng-container *ngIf="compareData">
+                        <ion-row
+                            *ngFor="let item of compareData | boxType: 'test'; let i = index"
+                            [ngClass]="{ success: item.compare_res == 1, danger: item.compare_res == 2 }"
+                        >
+                            <ion-col class="align-self-center" size="3">{{ item.chinese_name }}</ion-col>
+                            <ion-col class="align-self-center" size="3">
+                                {{ item.system && item.system.length ? item.system : '暂无' }}
+                            </ion-col>
+                            <ion-col class="align-self-center" size="5">
+                                <ul *ngIf="item.type == 'pic'" imgGallery>
+                                    <li *ngFor="let sItem of item.posted; let i = index">
+                                        <img [src]="imgOrigin + sItem" [hidden]="i > 7" />
+                                    </li>
+                                </ul>
+                                <ng-container *ngIf="item.type == 'video'">
+                                    <button
+                                        nz-button
+                                        nzType="primary"
+                                        nzSize="small"
+                                        *ngIf="item.posted && item.posted.length"
+                                        (click)="modalShow = true; modalVideos = item.posted"
+                                    >
+                                        查看视频
+                                    </button>
+                                </ng-container>
+                                <div class="remark-box" *ngIf="item.type == 'desc'">
+                                    <p *ngFor="let sItem of item.posted" [ngClass]="[item.level ? item.level : '']">
+                                        {{ sItem.text ? sItem.text : sItem }}
+                                    </p>
+                                </div>
+                                <div *ngIf="item.type == 'boolean' || item.type == 'bool'">
+                                    {{ item.posted ? '是' : '否' }}
+                                </div>
+
+                                <p *ngIf="item.type == 'string'">{{ item.posted ? item.posted : '暂无' }}</p>
+                            </ion-col>
+                            <ion-col class="align-self-center" *ngIf="item.posted" size="1" (click)="showHistory(item)"
+                                >历史对比</ion-col
+                            >
+                        </ion-row>
+                    </ng-container>
+                </ion-grid>
+            </ion-card-content>
+        </ion-card>
+
+        <ion-card>
+            <ion-card-header>
+                <ion-card-title>五：产品图片</ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+                <ion-grid>
+                    <ion-grid>
+                        <ion-row class="header">
+                            <ion-col class="align-self-center" size="3">对比项</ion-col>
+                            <ion-col class="align-self-center" size="3">系统</ion-col>
+                            <ion-col class="align-self-center" size="5">数据</ion-col>
+                            <ion-col class="align-self-center" size="1">历史</ion-col>
+                        </ion-row>
+                    </ion-grid>
+                    <ng-container *ngIf="compareData">
+                        <ion-row
+                            *ngFor="let item of compareData | boxType: 'product'; let i = index"
+                            [ngClass]="{ success: item.compare_res == 1, danger: item.compare_res == 2 }"
+                        >
+                            <ion-col class="align-self-center" size="3">{{ item.chinese_name }}</ion-col>
+                            <ion-col class="align-self-center" size="3">
+                                {{ item.system && item.system.length ? item.system : '暂无' }}
+                            </ion-col>
+                            <ion-col class="align-self-center" size="5">
+                                <ul *ngIf="item.type == 'pic'" imgGallery>
+                                    <ng-container *ngIf="item.posted && item.posted.length; else notData">
+                                        <li *ngFor="let sItem of item.posted; let i = index">
+                                            <img [src]="imgOrigin + sItem" [hidden]="i > 7" />
+                                        </li>
+                                    </ng-container>
+                                </ul>
+                                <ng-container *ngIf="item.type == 'video'">
+                                    <button
+                                        nz-button
+                                        nzType="primary"
+                                        nzSize="small"
+                                        *ngIf="item.posted && item.posted.length"
+                                        (click)="modalShow = true; modalVideos = item.posted"
+                                    >
+                                        查看视频
+                                    </button>
+                                </ng-container>
+                                <div class="remark-box" *ngIf="item.type == 'desc'">
+                                    <p *ngFor="let sItem of item.posted" [ngClass]="[item.level ? item.level : '']">
+                                        {{ sItem.text ? sItem.text : sItem }}
+                                    </p>
+                                </div>
+                                <div *ngIf="item.type == 'boolean' || item.type == 'bool'">
+                                    {{ item.posted ? '是' : '否' }}
+                                </div>
+
+                                <p *ngIf="item.type == 'string'">{{ item.posted ? item.posted : '暂无' }}</p>
+                            </ion-col>
+                            <ion-col class="align-self-center" size="1" *ngIf="item.posted" (click)="showHistory(item)"
+                                >历史对比</ion-col
+                            >
+                        </ion-row>
+                    </ng-container>
+                </ion-grid>
+            </ion-card-content>
+        </ion-card>
+
+        <ion-card>
+            <ion-card-header>
+                <ion-card-title>六：其他</ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+                <ion-grid>
+                    <ion-grid>
+                        <ion-row class="header">
+                            <ion-col class="align-self-center" size="3">对比项</ion-col>
+                            <ion-col class="align-self-center" size="3">系统</ion-col>
+                            <ion-col class="align-self-center" size="5">数据</ion-col>
+                            <ion-col class="align-self-center" size="1">历史</ion-col>
+                        </ion-row>
+                    </ion-grid>
+                    <ng-container *ngIf="compareData">
+                        <ion-row
+                            *ngFor="let item of compareData | boxType: 'other'; let i = index"
+                            [ngClass]="{ success: item.compare_res == 1, danger: item.compare_res == 2 }"
+                        >
+                            <ion-col class="align-self-center" size="3">{{ item.chinese_name }}</ion-col>
+                            <ion-col class="align-self-center" size="3">
+                                {{ item.system && item.system.length ? item.system : '暂无' }}
+                            </ion-col>
+                            <ion-col class="align-self-center" size="5">
+                                <ul *ngIf="item.type == 'pic'" imgGallery>
+                                    <li *ngFor="let sItem of item.posted; let i = index">
+                                        <img [src]="imgOrigin + sItem" [hidden]="i > 7" />
+                                    </li>
+                                </ul>
+                                <ng-container *ngIf="item.type == 'video'">
+                                    <button
+                                        nz-button
+                                        nzType="primary"
+                                        nzSize="small"
+                                        *ngIf="item.posted && item.posted.length"
+                                        (click)="modalShow = true; modalVideos = item.posted"
+                                    >
+                                        查看视频
+                                    </button>
+                                </ng-container>
+                                <div class="remark-box" *ngIf="item.type == 'desc'">
+                                    <p *ngFor="let sItem of item.posted" [ngClass]="[item.level ? item.level : '']">
+                                        {{ sItem.text ? sItem.text : sItem }}
+                                    </p>
+                                </div>
+                                <div *ngIf="item.type == 'boolean' || item.type == 'bool'">
+                                    {{ item.posted ? '是' : '否' }}
+                                </div>
+
+                                <p *ngIf="item.type == 'string'">{{ item.posted ? item.posted : '暂无' }}</p>
+                            </ion-col>
+                            <ion-col class="align-self-center" *ngIf="item.posted" size="1" (click)="showHistory(item)"
+                                >历史对比</ion-col
+                            >
+                        </ion-row>
+                    </ng-container>
+                </ion-grid>
+            </ion-card-content>
+        </ion-card>
+    </div>
+</ion-content>
+
+<nz-drawer
+    [nzBodyStyle]="{
+        height: 'calc(100% - 55px)',
+        overflow: 'auto',
+        'padding-bottom': '53px'
+    }"
+    [nzMaskClosable]="true"
+    [nzWidth]="520"
+    [nzPlacement]="'right'"
+    [nzTitle]="historyField"
+    [nzVisible]="drawer"
+    (nzOnClose)="drawer = !drawer"
+>
+    <p *ngIf="!currentCompareHistoryData">发生异常</p>
+    <app-compare-history *ngIf="currentCompareHistoryData" [data]="currentCompareHistoryData"></app-compare-history>
+</nz-drawer>
+
+<nz-modal
+    [(nzVisible)]="modalShow"
+    nzWidth="800px"
+    nzHeight="500px"
+    nzTitle="查看视频"
+    nzClosable="false"
+    [nzFooter]="modalFooter"
+    (nzOnOk)="modalShow = false"
+>
+    <div class="modal-main">
+        <ul *ngIf="modalVideos.length">
+            <li
+                *ngFor="let item of modalVideos; let i = index"
+                [ngClass]="(currentVideo ? currentVideo : modalVideos[0]) == item ? 'current' : ''"
+                (click)="currentVideo = item; play()"
+            >
+                <video
+                    [src]="
+                        item.indexOf('storage') != -1
+                            ? imgOrigin.substr(0, imgOrigin.length - 8) + item
+                            : imgOrigin + item
+                    "
+                ></video>
+            </li>
+        </ul>
+        <video
+            *ngIf="modalVideos.length; else notData"
+            [src]="
+                modalVideos[0].indexOf('storage') != -1
+                    ? imgOrigin.substr(0, imgOrigin.length - 8) + (currentVideo ? currentVideo : modalVideos[0])
+                    : imgOrigin + (currentVideo ? currentVideo : modalVideos[0])
+            "
+            controls
+            #player
+        ></video>
+    </div>
+</nz-modal>
+
+<ng-template #notData>暂无</ng-template>

@@ -1,0 +1,51 @@
+.factoryBaseInformation,
+.factoryGeneralSituation,
+.productInformation,
+.collaborativeProduct,
+.specimenInformation,
+.factoryAssess {
+    span {
+        font-size: 14px;
+        font-weight: bold;
+    }
+    margin-bottom: 20px;
+}
+
+.row-item {
+    border-right: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    text-align: center;
+    height: 50px;
+    line-height: 50px;
+}
+.row-container1 {
+    width: 70%;
+    margin-top: 20px;
+    border-top: 1px solid #ccc;
+    border-left: 1px solid #ccc;
+}
+.backColor {
+    background-color: #ededed;
+}
+.zwf {
+    height: 200px;
+}
+
+// 缩略图的样式
+.thumbnail {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    margin-left: 10px;
+    padding: 0;
+}
+
+.thumbnail-container {
+    padding: 5px 0;
+    display: flex;
+    justify-content: flex-start;
+}
+.noShowImg {
+    display: flex;
+    justify-content: center;
+}

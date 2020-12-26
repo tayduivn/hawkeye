@@ -1,0 +1,11 @@
+<div class="root pos-r" style="border: 1px solid #ccc;">
+    <div id="editorMenu"></div>
+    <div id="editor" style="height:200px;max-height:200px; border-top: 1px solid #ccc;">
+        <p>{{ defaultMessage }}</p>
+    </div>
+    <!-- {{commit.editor.txt.text()}} -->
+    <!-- [disabled]="commit.editor && commit.editor.txt && !commit.editor.txt.text()"  -->
+    <button nz-button nzType="primary" nzSize="small" class="enter" (click)="onData.emit(commit.editor.txt.html())">
+        确定
+    </button>
+</div>

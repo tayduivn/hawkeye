@@ -1,0 +1,108 @@
+<div>
+    <label class="mr-15">预计完成时间</label>
+    <nz-date-picker [(ngModel)]="updateData.estimate_complete_time"></nz-date-picker>
+</div>
+<nz-table
+    class="mt-20"
+    #scgeduleTable
+    nzSize="small"
+    [(nzPageSize)]="scheduleList.length"
+    [nzShowPagination]="false"
+    [nzData]="scheduleList"
+>
+    <thead>
+        <tr>
+            <th [nzAlign]="'center'">序号</th>
+            <th [nzAlign]="'center'">状态</th>
+            <th [nzAlign]="'center'">拍照</th>
+            <th [nzAlign]="'center'">执行日期</th>
+            <th [nzAlign]="'center'">更新日期</th>
+            <th [nzAlign]="'center'">操作</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr
+            *ngFor="let data of scgeduleTable.data; let i = index"
+            [ngStyle]="{
+                background: type != 'set-status' ? (data.description == '大货部分包装完成' ? '#fffbe5' : '') : '',
+                color: type != 'set-status' ? (data.description == '大货部分包装完成' ? '#5c3c00' : '') : ''
+            }"
+        >
+            <td [nzAlign]="'center'">{{ i + 1 }}</td>
+            <td [nzAlign]="'center'" (click)="choiceStatus(data)">
+                {{ data.description }}
+            </td>
+            <td [nzAlign]="'center'" class="uploadfile" imgGallery>
+                <div class="pos-r">
+                    <button nz-button nzSize="small" nzType="primary" [disabled]="type == 'history'">
+                        选择图片
+                    </button>
+                    <input
+                        [disabled]="type == 'history'"
+                        class="pos-a"
+                        multiple
+                        type="file"
+                        accept="image/*"
+                        (change)="choice($event, data)"
+                    />
+                </div>
+
+                <ng-container *ngFor="let sItem of data.show_photo; let idx = index">
+                    <div class="f-l mt-10" *ngIf="idx == 0">
+                        <span class="x" (click)="data.show_photo.splice(idx, 1)">X</span>
+                        <img
+                            *ngIf="sItem && sItem != ''"
+                            [ngClass]="{ 'wd-50': idx == 0, 'wd-5': idx != 0 }"
+                            [src]="sItem.length > 1000 ? sItem : baseData.usFileUrl + sItem + '?random=' + random"
+                            class="img-responsive"
+                            alt="预览图"
+                        />
+                    </div>
+                </ng-container>
+            </td>
+            <td [nzAlign]="'center'">
+                <ng-container *ngIf="data.change_time != '请选择'">
+                    <nz-date-picker [(ngModel)]="data.change_time" [nzDisabled]="type == 'history'"></nz-date-picker>
+                </ng-container>
+            </td>
+            <td [nzAlign]="'center'">
+                <label *ngIf="data.change_time && data.status == 1" [ngClass]="{ guay: type == 'history' }">
+                    {{ data.update_time }}</label
+                >
+            </td>
+            <td [nzAlign]="'center'">
+                <label
+                    nz-checkbox
+                    [(ngModel)]="data.status"
+                    [disabled]="type == 'history'"
+                    [nzChecked]="data.status"
+                    *ngIf="data.description == '本周工厂无更新内容'"
+                ></label>
+                <label
+                    nz-checkbox
+                    [(ngModel)]="data.status"
+                    [disabled]="type == 'history'"
+                    [nzChecked]="data.status"
+                    *ngIf="data.description != '本周工厂无更新内容'"
+                ></label>
+            </td>
+        </tr>
+    </tbody>
+</nz-table>
+
+<div class="f-r mt-20 mb-20">
+    <button class="dis-ib" nz-button nzType="primary" nzSize="small" *ngIf="type != 'history'" (click)="submit()">
+        提交
+    </button>
+</div>
+
+<nz-modal
+    nzWrapClassName="vertical-center-modal"
+    [(nzVisible)]="visible"
+    [nzWidth]="1080"
+    (nzOnOk)="progressItemUpdate.enter('enter'); visible = false"
+    (nzOnCancel)="visible = false"
+    nzTitle="大货包装完成"
+>
+    <app-progress-item-update #progressItemUpdate [type]="'set'" [skuList]="skuList"> </app-progress-item-update>
+</nz-modal>

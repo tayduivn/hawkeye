@@ -1,0 +1,88 @@
+<div class="tab-view-page over-h">
+  <div class="panel-top">
+    <div nz-row [nzGutter]="16">
+      <!-- 考察人员 -->
+      <div nz-col nzSpan="4" class="inspect-person">
+        <span>考察人员: </span>
+        <nz-select [(ngModel)]="searchQuery.user_id" nzAllowClear nzPlaceHolder="请选择">
+          <nz-option [nzValue]="item.user_id" [nzLabel]="item.user_name" *ngFor="let item  of userInfo"></nz-option>
+        </nz-select>
+      </div>
+      <!-- 考察对象 -->
+      <div nz-col nzSpan="6" class="inspect-target">
+        <span>考察对象: </span>
+        <nz-input-group [nzSuffix]="inputClearTpl">
+          <input type="text" nz-input [(ngModel)]="searchQuery.name" placeholder="请输入考察对象" />
+        </nz-input-group>
+        <ng-template #inputClearTpl><i nz-icon class="ant-input-clear-icon" nzTheme="fill" nzType="close-circle"
+            *ngIf="searchQuery.name" (click)="searchQuery.name = null"></i></ng-template>
+      </div>
+      <!-- 考察日期 -->
+      <div nz-col nzSpan="7" class="inspect-date">
+        <span>考察日期: </span>
+        <nz-range-picker [(ngModel)]="date"></nz-range-picker>
+      </div>
+      <!-- 操作 -->
+      <div nz-col nzSpan="4" class="btns">
+        <button nz-button nzSize="small" nzType="primary" class="mr-10" (click)="getSearch()">
+          查询
+        </button>
+        <button nz-button nzSize="small" nzType="primary" class="mr-10" (click)="reset()">
+          重置
+        </button>
+      </div>
+    </div>
+
+
+  </div>
+
+  <div class="swiper-container">
+    <div class="swiper-wrapper">
+      <div class="swiper-slide">
+        <nz-table [nzData]="listOfData" nzBordered [nzShowPagination]="false">
+          <thead>
+            <tr>
+              <th>考察人员</th>
+              <th>考察对象</th>
+              <th>成立日期</th>
+              <th>工厂联系人</th>
+              <th>职位</th>
+              <th>联系方式</th>
+              <th>考察日期</th>
+              <th>操作</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let data of listOfData">
+              <td>{{ data.user_name }}</td>
+              <td>{{ data.name }}</td>
+              <td>{{ data.create_time }}</td>
+              <td>{{ data.contacts }}</td>
+              <td>{{ data.position }}</td>
+              <td>{{ data.phone }}</td>
+              <td>{{ data.add_time }}</td>
+              <td class="operating">
+                <div>
+                  <a (click)="goToDetails(data.id)">查看详情</a>
+                  <nz-divider nzType="vertical"></nz-divider>
+                  <a>预览报告</a>
+                  <nz-divider nzType="vertical"></nz-divider>
+                  <a>下载报告</a>
+                  <nz-divider nzType="vertical"></nz-divider>
+                  <a>下载图片</a>
+                  <nz-divider nzType="vertical"></nz-divider>
+                  <a>下载视频</a>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </nz-table>
+      </div>
+    </div>
+    <nz-pagination [(nzPageIndex)]="queryInfo.page" [(nzPageSize)]="queryInfo.paginate" [nzTotal]="total"
+      [nzSize]="'small'" nzShowSizeChanger nzShowQuickJumper [nzPageSizeOptions]="[10,15,20,25]"
+      (nzPageIndexChange)="pageChanged()" (nzPageSizeChange)="pageSizeChanged()">
+    </nz-pagination>
+  </div>
+
+</div>>

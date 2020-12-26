@@ -1,0 +1,116 @@
+<div class="tab-view-page">
+    <div class="search-box">
+        <ion-segment color="tertiary" [(ngModel)]="getListParams.type" (ionChange)="segmentChange()">
+            <ion-segment-button value="contract_no">
+                <ion-label>合同号</ion-label>
+                <ion-icon name="calendar"></ion-icon>
+            </ion-segment-button>
+            <ion-segment-button value="factory_simple_address">
+                <ion-label>工厂地址</ion-label>
+                <ion-icon name="link"></ion-icon>
+            </ion-segment-button>
+            <ion-segment-button value="manufacturer">
+                <ion-label>工厂名称</ion-label>
+                <ion-icon name="star"></ion-icon>
+            </ion-segment-button>
+        </ion-segment>
+        <ion-searchbar
+            debounce="500"
+            [placeholder]='"按" + chinaeseType + "搜索"'
+            showCancelButton="true"
+            [(ngModel)]="getListParams.keywords"
+            (ionChange)="getListBySearch()"
+            spellcheck="true"
+        >
+        </ion-searchbar>
+    </div>
+
+    <div class="choice-box">
+        <app-pagination
+            *ngIf="applyInspecList && applyInspecList.length!=0"
+            [pagging]="{pageNum:getListParams.page,pageTotal:data.last_page}"
+            (pagechange)="getList($event)"
+        ></app-pagination>
+
+        <div class="flex-end f-r">
+            <div class="pos-r">
+                <ion-label>状态：</ion-label>
+                <ion-select [(ngModel)]="getListParams.status" interface="popover" (ionChange)="getList()">
+                    <ion-select-option value="">请选择</ion-select-option>
+                    <ion-select-option [value]="item.status" *ngFor="let item of statusArr;let i = index"
+                        >{{item.status_desc}}</ion-select-option
+                    >
+                </ion-select>
+            </div>
+        </div>
+    </div>
+
+    <div class="over-s">
+        <table class="table table-striped table-condensed table-hover table-condensed table-text-no-break">
+            <thead>
+                <tr>
+                    <td class="chip-text" Chipboard  *ngIf='userLimit.has("apply-name",162)'>申请人</td>
+                    <td class="chip-text" Chipboard  *ngIf='userLimit.has("contract-no",162)'>合同号</td>
+
+                    <!-- <td class='chip-text' Chipboard>流水号</td> -->
+                    <td class="chip-text" Chipboard  *ngIf='userLimit.has("factory-name",162)'>工厂名称</td>
+                    <td   *ngIf='userLimit.has("factory-address")'>
+                        <app-sort
+                            [sortField]='"order_by"'
+                            [sortName]='"工厂地址"'
+                            (outFn)="getListByFactoryAddress($event)"
+                        >
+                        </app-sort>
+                    </td>
+                    <td class="chip-text" Chipboard  *ngIf='userLimit.has("contract-sku-num",162)'>合同SKU数</td>
+                    <td class="chip-text" Chipboard  *ngIf='userLimit.has("inspect-sku-num",162)'>验货SKU数</td>
+                    <td class="chip-text" Chipboard  *ngIf='userLimit.has("new-sku-num",162)'>新品SKU数量</td>
+                    <td class="chip-text" Chipboard  *ngIf='userLimit.has("created-at",162)'>申请时间</td>
+                    <td class="chip-text" Chipboard  *ngIf='userLimit.has("is-new-factory",162)'>是否是新工厂</td>
+
+                    <td class="chip-text" Chipboard  *ngIf='userLimit.has("earliest-inspect-time",162)'>最早可验货时间</td>
+                    <td class="chip-text" Chipboard  *ngIf='userLimit.has("estimate-inspect-time",162)'>预计装柜时间</td>
+                    <td   *ngIf='userLimit.has("inspection-status",162)' >
+                        状态
+                    </td>
+                    <td class="chip-text" Chipboard   *ngIf='userLimit.has("show-detail",162)'>操作</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of applyInspecList;let i = index">
+                    <td class="chip-text" Chipboard  *ngIf='userLimit.has("apply-name",162)'>{{item.apply_name}}</td>
+                    <td class="chip-text" Chipboard  *ngIf='userLimit.has("contract-no",162)'>{{item.contract_no}}</td>
+                    <td class="chip-text" Chipboard  *ngIf='userLimit.has("factory-name",162)'>{{item.factory_name}}</td>
+                    <td class="chip-text" Chipboard  *ngIf='userLimit.has("factory-address",162)'>{{item.ProviceName + item.CityName}}</td>
+                    <td class="chip-text" Chipboard  *ngIf='userLimit.has("contract-sku-num",162)'>{{item.total_quantity}}</td>
+                    <td class="chip-text" Chipboard  *ngIf='userLimit.has("inspect-sku-num",162)'>{{item.quantity}}</td>
+                    <td class="chip-text" Chipboard  *ngIf='userLimit.has("new-sku-num",162)'>{{item.new_quantity}}</td>
+                    <td class="chip-text" Chipboard  *ngIf='userLimit.has("created-at",162)'>{{item.created_at | date:'yyyy-MM-dd'}}</td>
+                    <td class="chip-text" Chipboard  *ngIf='userLimit.has("is-new-factory",162)'>{{item.is_new_factory=='1'?'是':'否'}}</td>
+                    <td class="chip-text" Chipboard  *ngIf='userLimit.has("earliest-inspect-time",162)'>{{item.inspection_date | date:'yyyy-MM-dd'}}</td>
+                    <td class="chip-text" Chipboard  *ngIf='userLimit.has("estimate-inspect-time",162)'>{{item.estimated_loading_time | date:'yyyy-MM-dd'}}</td>
+                    <td class="chip-text" Chipboard  *ngIf='userLimit.has("inspection-status",162)'>{{item.status_desc}}</td>
+                    <td  *ngIf='userLimit.has("show-detail",162)'>
+                        <button
+                            nz-button
+                            (click)="seeSku(item)"
+                            nzType="primary"
+                            nzSize="small"
+                        >
+                            查看详情
+                        </button>
+                    </td >
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <app-pagination
+        *ngIf="applyInspecList && applyInspecList.length!=0"
+        class="f-r"
+        [pagging]="{pageNum:getListParams.page,pageTotal:data.last_page}"
+        (pagechange)="getList($event)"
+    ></app-pagination>
+    <div style="clear: both;"></div>
+    <app-no-data-show *ngIf="applyInspecList&&applyInspecList.length == 0"></app-no-data-show>
+</div>

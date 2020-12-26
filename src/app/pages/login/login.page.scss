@@ -1,0 +1,64 @@
+ion-content {
+    --background: transparent;
+    z-index: 2;
+}
+
+.logo-box {
+    margin-top: 3rem;
+    width: 100%;
+    text-align: center;
+    .logo {
+        width: 5rem;
+        display: inline-block;
+        margin-bottom: 0.5rem;
+    }
+}
+
+.showerr {
+    text-align: left;
+    font-size: 12px;
+    color: #f00;
+    padding-left: 15px;
+    background: 0;
+}
+.custom-loading {
+    color: #f00;
+}
+
+form {
+    width: 60%;
+    margin: 0 auto;
+}
+
+ion-list {
+    background: transparent;
+}
+ion-item {
+    --background: transparent;
+    color: #f4f5f8;
+}
+
+ion-input {
+    // --color:#f00;
+    input {
+        color: #f00;
+    }
+}
+
+@media screen and (min-width: 800px) {
+    .logo-box {
+        margin-top: 1rem;
+    }
+    form {
+        width: 300px;
+    }
+}
+
+@media screen and (min-width: 1080px) {
+    .logo-box {
+        margin-top: 6rem;
+    }
+    form {
+        width: 300px;
+    }
+}

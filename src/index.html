@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title>鹰眼</title>
+
+        <base href="/" />
+
+        <meta
+            name="viewport"
+            content="viewport-fit=cover, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"
+        />
+        <meta name="format-detection" content="telephone=no" />
+        <meta name="msapplication-tap-highlight" content="no" />
+
+        <link rel="stylesheet" href="/assets/fonts/iconfont.css" />
+        <link rel="icon" type="image/png" href="assets/icon/favicon.png" />
+        <link rel="stylesheet" href="assets/css/common.min.css" />
+
+        <link rel="stylesheet" href="assets/css/viewer.css" />
+        <script type="text/javascript" src="assets/js/viewer.min.js"></script>
+        <script src="assets/ueditor/ueditor.config.js"></script>
+        <script src="assets/ueditor/ueditor.all.js"></script>
+        <!-- add to homescreen for ios -->
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+        <script>
+            var html = document.getElementsByTagName('html')[0],
+                pageWidth = html.getBoundingClientRect().width;
+            if (pageWidth > 750) {
+                html.style.fontSize = 30 + 'px';
+            } else {
+                html.style.fontSize = pageWidth / 16 + 'px';
+            }
+        </script>
+    </head>
+
+    <body>
+        <app-root style="z-index: 2;"></app-root>
+        <script
+            type="text/javascript"
+            src="assets/js/background2.js"
+            color="#0000ff"
+            opacity="0.7"
+            count="150"
+            zIndex="-1"
+        ></script>
+    </body>
+</html>

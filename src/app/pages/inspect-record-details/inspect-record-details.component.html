@@ -1,0 +1,216 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="secondary">
+      <ion-button (click)="baseData.utilFn.goBack()">
+        <i class="iconfont iconfanhui"></i>
+        <ion-label class="global-back-text">返回</ion-label>
+      </ion-button>
+    </ion-buttons>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>
+      考察记录详情
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content padding class="padding">
+  <!-- 工厂基本信息 -->
+  <div class="factoryBaseInformation">
+    <span>工厂基本信息</span>
+    <div class="row-container1">
+      <!-- 表头区域 -->
+      <div nz-row>
+        <div nz-col nzSpan="4" class="row-item backColor">考察对象</div>
+        <div nz-col nzSpan="2" class="row-item backColor">法人代表</div>
+        <div nz-col nzSpan="4" class="row-item backColor">成立日期</div>
+        <div nz-col nzSpan="2" class="row-item backColor">注册资本(万)</div>
+        <div nz-col nzSpan="2" class="row-item backColor">年销售额(万)</div>
+        <div nz-col nzSpan="2" class="row-item backColor">企业性质</div>
+        <div nz-col nzSpan="2" class="row-item backColor">生产产品类型</div>
+        <div nz-col nzSpan="2" class="row-item backColor">工厂联系人</div>
+        <div nz-col nzSpan="2" class="row-item backColor">职位</div>
+        <div nz-col nzSpan="2" class="row-item backColor">联系方式</div>
+      </div>
+      <div nz-row>
+        <div nz-col nzSpan="4" class="row-item">{{data.name?data.name:'暂无'}}</div>
+        <div nz-col nzSpan="2" class="row-item">{{data.legaler?data.legaler:'暂无'}}</div>
+        <div nz-col nzSpan="4" class="row-item">{{data.create_time?data.create_time:'暂无'}}</div>
+        <div nz-col nzSpan="2" class="row-item">{{data.registered_capital?data.registered_capital:'暂无'}}</div>
+        <div nz-col nzSpan="2" class="row-item">{{data.annual_sales?data.annual_sales:'暂无'}}</div>
+        <div nz-col nzSpan="2" class="row-item">{{data.company_nature?data.company_nature:'暂无'}}</div>
+        <div nz-col nzSpan="2" class="row-item">{{data.product_type?data.product_type:'暂无'}}</div>
+        <div nz-col nzSpan="2" class="row-item">{{data.contacts?data.contacts:'暂无'}}</div>
+        <div nz-col nzSpan="2" class="row-item">{{data.position?data.position:'暂无'}}</div>
+        <div nz-col nzSpan="2" class="row-item">{{data.phone?data.phone:'暂无'}}</div>
+      </div>
+      <div nz-row>
+        <div nz-col nzSpan="4" class="row-item backColor">工厂地址(1)</div>
+        <div nz-col nzSpan="20" class="row-item">{{data.address_one?data.address_one:'暂无'}}</div>
+      </div>
+      <div nz-row>
+        <div nz-col nzSpan="4" class="row-item backColor">工厂地址(2)</div>
+        <div nz-col nzSpan="20" class="row-item">{{data.address_two?data.address_two:'暂无'}}</div>
+      </div>
+      <div nz-row>
+        <div nz-col nzSpan="4" class="row-item backColor">营业执照照片</div>
+        <div nz-col nzSpan="20" class="row-item thumbnail-container">
+          <img class="thumbnail" [src]="imgOrigin+item" alt="" imgGallery *ngFor="let item of businessPic" />
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- 工厂概况 -->
+  <div class="factoryGeneralSituation">
+    <span>工厂概况</span>
+    <div class="row-container1">
+      <!-- 表头区域 -->
+      <div nz-row>
+        <div nz-col nzSpan="4" class="row-item backColor">工厂面积(m³)</div>
+        <div nz-col nzSpan="2" class="row-item backColor">工厂人数</div>
+        <div nz-col nzSpan="2" class="row-item backColor">生产设备</div>
+        <div nz-col nzSpan="2" class="row-item backColor">生产能力</div>
+        <div nz-col nzSpan="3" class="row-item backColor">研发&质检能力</div>
+        <div nz-col nzSpan="2" class="row-item backColor">生产周期</div>
+        <div nz-col nzSpan="2" class="row-item backColor">主要销售市场</div>
+        <div nz-col nzSpan="2" class="row-item backColor">主要客户</div>
+        <div nz-col nzSpan="2" class="row-item backColor">产品相关认证</div>
+        <div nz-col nzSpan="3" class="row-item backColor">工厂付款方式</div>
+      </div>
+      <div nz-row>
+        <div nz-col nzSpan="4" class="row-item">{{data.acreage?data.acreage:'暂无'}}</div>
+        <div nz-col nzSpan="2" class="row-item">{{data.people_num?data.people_num:'暂无'}}</div>
+        <div nz-col nzSpan="2" class="row-item">{{data.production_equipment?data.production_equipment:'暂无'}}</div>
+        <div nz-col nzSpan="2" class="row-item" *ngIf="data.production_capacity==1">好</div>
+        <div nz-col nzSpan="2" class="row-item" *ngIf="data.production_capacity==2">一般</div>
+        <div nz-col nzSpan="2" class="row-item" *ngIf="data.production_capacity==3">差</div>
+        <div nz-col nzSpan="2" class="row-item" *ngIf="!data.production_capacity">暂无</div>
+        <div nz-col nzSpan="3" class="row-item" *ngIf="data.quality==1">好</div>
+        <div nz-col nzSpan="3" class="row-item" *ngIf="data.quality==2">一般</div>
+        <div nz-col nzSpan="3" class="row-item" *ngIf="data.quality==3">差</div>
+        <div nz-col nzSpan="3" class="row-item" *ngIf="!data.quality">暂无</div>
+        <div nz-col nzSpan="2" class="row-item">{{data.production_cycle?data.production_cycle:'暂无'}}</div>
+        <div nz-col nzSpan="2" class="row-item">{{data.sales_market?data.sales_market:'暂无'}}</div>
+        <div nz-col nzSpan="2" class="row-item">{{data.customer?data.customer:'暂无'}}</div>
+        <div nz-col nzSpan="2" class="row-item">{{data.authentication?data.authentication:'暂无'}}</div>
+        <div nz-col nzSpan="3" class="row-item">{{data.pay_type?data.pay_type:'暂无'}}</div>
+      </div>
+      <div nz-row>
+        <div nz-col nzSpan="8" class="row-item backColor">工厂人员组成</div>
+        <div nz-col nzSpan="9" class="row-item backColor">工厂部门组成</div>
+        <div nz-col nzSpan="4" class="row-item backColor">工厂是否接受过第三方验厂?</div>
+        <div nz-col nzSpan="3" class="row-item backColor">第三方名称</div>
+      </div>
+      <div nz-row>
+        <div nz-col nzSpan="8" class="row-item">{{data.manning?data.manning:'暂无'}}</div>
+        <div nz-col nzSpan="9" class="row-item">{{data.department?data.department:'暂无'}}</div>
+        <div nz-col nzSpan="4" class="row-item" *ngIf="data.third_party==0">没有</div>
+        <div nz-col nzSpan="4" class="row-item" *ngIf="data.third_party==1">有</div>
+        <div nz-col nzSpan="4" class="row-item" *ngIf="!data.third_party">暂无</div>
+        <div nz-col nzSpan="3" class="row-item">{{data.third_name?data.third_name:'暂无'}}</div>
+      </div>
+      <div nz-row>
+        <div nz-col nzSpan="4" class="row-item backColor">工厂外观照片</div>
+        <div nz-col nzSpan="20" class="row-item thumbnail-container">
+          <img class="thumbnail" alt="" imgGallery [src]="imgOrigin+item" alt="" imgGallery
+            *ngFor="let item of facadePic" />
+        </div>
+      </div>
+      <div nz-row>
+        <div nz-col nzSpan="4" class="row-item backColor">生产车间照片(设备,生产线等)</div>
+        <div nz-col nzSpan="20" class="row-item thumbnail-container">
+          <img class="thumbnail" alt="" imgGallery [src]="imgOrigin+item" alt="" imgGallery
+            *ngFor="let item of plantPic" />
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- 产品信息 -->
+  <div class="productInformation">
+    <span>产品信息</span>
+    <!-- 表头区域 -->
+    <div class="row-container1">
+      <div nz-row>
+        <div nz-col nzSpan="4" class="row-item backColor">产品名称</div>
+        <div nz-col nzSpan="5" class="row-item backColor">主要材料</div>
+        <div nz-col nzSpan="5" class="row-item backColor">主要工艺</div>
+        <div nz-col nzSpan="5" class="row-item backColor">外协工厂处理的工艺或材料</div>
+        <div nz-col nzSpan="5" class="row-item backColor">产品照片</div>
+      </div>
+      <div nz-row *ngFor="let item of productList;let i=index">
+        <div nz-col nzSpan="4" class="row-item">{{item.name?item.name:'暂无'}}</div>
+        <div nz-col nzSpan="5" class="row-item">{{item.material?item.material:'暂无'}}</div>
+        <div nz-col nzSpan="5" class="row-item">{{item.craft?item.craft:'暂无'}}</div>
+        <div nz-col nzSpan="5" class="row-item">{{item.third_mc?item.third_mc:'暂无'}}</div>
+        <div nz-col nzSpan="5" class="row-item thumbnail-container">
+          <img class="thumbnail" alt="" imgGallery *ngFor="let img of item.hash_arr"
+            [src]="imgOrigin+img.replace('storage/', '')" />
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- 拟合作产品 -->
+  <div class="collaborativeProduct">
+    <span>拟合作产品</span>
+    <div class="row-container1">
+      <div nz-row>
+        <div nz-col nzSpan="4" class="row-item backColor">产品名称</div>
+        <div nz-col nzSpan="20" class="row-item backColor">合作注意点</div>
+      </div>
+      <div nz-row *ngFor="let item of collaborativeProductList">
+        <div nz-col nzSpan="4" class="row-item">{{item.name}}</div>
+        <div nz-col nzSpan="20" class="row-item">{{item.lime_light}}</div>
+      </div>
+    </div>
+  </div>
+  <!-- 样品情况 关于环境照片之类的应该是直接放一个图片的预览（应该是放缩略图）-->
+  <div class=" specimenInformation">
+    <span>样品情况</span>
+    <div class="row-container1">
+      <div nz-row>
+        <div nz-col nzSpan="4" class="row-item backColor">是否谈到样品</div>
+        <div nz-col nzSpan="5" class="row-item backColor">是否愿意提供样品</div>
+        <div nz-col nzSpan="5" class="row-item backColor">样品费情况</div>
+        <div nz-col nzSpan="5" class="row-item backColor">样品准备时间</div>
+        <div nz-col nzSpan="5" class="row-item backColor">付款情况</div>
+      </div>
+      <div nz-row>
+        <div nz-col nzSpan="4" class="row-item">{{isHave_sample===1?"是":"否"}}</div>
+        <div nz-col nzSpan="5" class="row-item">{{isProvideSample===1?"是":"否"}}</div>
+        <div nz-col nzSpan="5" class="row-item">{{isSampleInformationShow===1?sampleProductList.amount:'无'}}</div>
+        <div nz-col nzSpan="5" class="row-item">{{isSampleInformationShow===1?sampleProductList.readiness_time:'无'}}
+        </div>
+        <div nz-col nzSpan="5" class="row-item">{{isSampleInformationShow===1?sampleProductList.payment:'无'}}</div>
+      </div>
+      <div nz-row>
+        <div nz-col nzSpan="4" class="row-item backColor">样品间环境照片</div>
+        <div nz-col nzSpan="20" class="row-item thumbnail-container" *ngIf="isSampleInformationShow">
+          <img class="thumbnail" [src]="imgOrigin+item" alt="" imgGallery *ngFor="let item of specimenPic" />
+        </div>
+        <div nz-col nzSpan="20" class="row-item thumbnail-container noShowImg" *ngIf="!isSampleInformationShow">暂无</div>
+      </div>
+    </div>
+  </div>
+  <!-- 工厂评估 仅仅只展示后端数据-->
+  <div class="factoryAssess">
+    <span>工厂评估</span>
+    <div class="row-container1">
+      <div nz-row>
+        <div nz-col nzSpan="4" class="row-item backColor">工作合作意愿</div>
+        <div nz-col nzSpan="20" class="row-item">{{factoryAssess.cooperative_will?factoryAssess.cooperative_will:'暂无'}}
+        </div>
+      </div>
+      <div nz-row>
+        <div nz-col nzSpan="4" class="row-item backColor">合作前景判断</div>
+        <div nz-col nzSpan="20" class="row-item">{{factoryAssess.prospect_judge?factoryAssess.prospect_judge:'暂无'}}
+        </div>
+      </div>
+      <div nz-row>
+        <div nz-col nzSpan="4" class="row-item backColor">建议补充</div>
+        <div nz-col nzSpan="20" class="row-item">{{factoryAssess.replenish?factoryAssess.replenish:'暂无'}}</div>
+      </div>
+    </div>
+  </div>
+  <!-- 占位符  把底部撑开  目的是将整个页面完全显示出来 不要占位符的话页面不能完全显示 -->
+  <div class="zwf"></div>
+</ion-content>

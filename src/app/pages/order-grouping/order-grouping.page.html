@@ -1,0 +1,57 @@
+<div class="tab-view-page">
+    <div class="mb-15" *ngIf="userLimit.has('group-submit',32)">
+        <ion-label>输入分组</ion-label>
+        <ion-input class="mb-5 mt-5" [(ngModel)]="updateGroup.inspection_group_name" (keyup)="onKey()"></ion-input>
+        <div *ngIf="inspection_group_no" class="mt-20 mb-20">
+            <ion-label>批次号:</ion-label>
+            <ion-text>{{inspection_group_no}}</ion-text>
+        </div>
+        <ion-button
+            size="small"
+            [disabled]="!updateGroup.contents.length||!updateGroup.inspection_group_name"
+            (click)="setGroupSubmit()"
+            >提交</ion-button
+        >
+    </div>
+
+    <div class="search-box">
+        <ion-segment color="tertiary" [(ngModel)]="getListParams.type" (ionChange)="segmentChange()">
+            <ion-segment-button value="contract_no">
+                <ion-label>合同号</ion-label>
+                <ion-icon name="calendar"></ion-icon>
+            </ion-segment-button>
+            <ion-segment-button value="factory_simple_address">
+                <ion-label>工厂地址</ion-label>
+                <ion-icon name="link"></ion-icon>
+            </ion-segment-button>
+            <ion-segment-button value="manufacturer">
+                <ion-label>工厂名称</ion-label>
+                <ion-icon name="star"></ion-icon>
+            </ion-segment-button>
+        </ion-segment>
+        <ion-searchbar
+            debounce="500"
+            [placeholder]='"按" + chinaeseType + "搜索"'
+            showCancelButton="true"
+            [(ngModel)]="getListParams.keywords"
+            (ionChange)="getListBySearch()"
+            spellcheck="true"
+        >
+        </ion-searchbar>
+    </div>
+    <ag-grid-angular
+        style="width: 100%; height: 650px;"
+        class="ag-theme-balham"
+        [rowData]="inspecList"
+        [rowDragManaged]="true"
+        (selectionChanged)="onSelectionChanged($event)"
+        [animateRows]="true"
+        [defaultColDef]="defaultColDef"
+        (rowClicked)="rowClicked($event)"
+        [rowSelection]='"multiple"'
+        (rowDragEnd)="rowDragEnd($event)"
+        (gridReady)="onGridReady($event)"
+        [columnDefs]="columnDefs"
+    >
+    </ag-grid-angular>
+</div>

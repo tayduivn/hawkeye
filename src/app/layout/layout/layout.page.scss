@@ -1,0 +1,114 @@
+.title-box {
+    float: right;
+    margin-top: 25px;
+    > div {
+        float: right;
+    }
+}
+.color {
+    position: fixed !important;
+    width: 200px;
+    height: 200px;
+    top: 57px;
+    right: 0;
+    background: #f00;
+    z-index: 9999;
+}
+.tab-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    ion-icon {
+        margin-left: 10px;
+        color: #8c8c8c;
+    }
+}
+ion-icon.active {
+    color: #262626 !important;
+}
+#slogan {
+    margin-left: 10px;
+    display: block !important;
+    width: auto !important;
+    float: left;
+}
+ion-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: red !important;
+    --background: url('../../../assets/img/sd.png') 100%;
+}
+.animate {
+    width: 100%;
+    height: 56px;
+    background: url('../../../assets/img/snow-bg.png') repeat-y center;
+    -webkit-animation: auto 20s linear infinite;
+}
+
+@-webkit-keyframes auto {
+    0% {
+        background-position: center 0, 0 0;
+    }
+
+    100% {
+        background-position: center 885px, 0 0;
+    }
+}
+.date-time,
+.mr-40 {
+    span {
+        font-weight: bold;
+    }
+}
+
+// -------------------------
+
+@-webkit-keyframes play {
+    0% {
+        -webkit-transform: translate(0, -315px);
+    }
+    100% {
+        -webkit-transform: translate(0, 0);
+    }
+}
+
+.animate .ice {
+    -webkit-animation: play 2s;
+}
+.animate .con {
+    width: 100%;
+    height: 56px;
+    background-repeat: no-repeat;
+    background-position: 0 204px;
+    position: relative;
+}
+
+.animate .con .ice1 {
+    width: 87px;
+    height: 55px;
+    background: url('../../../assets/img/ice.png');
+    position: absolute;
+    bottom: 0;
+    left: 480px;
+    -webkit-animation-duration: 1s;
+}
+.animate .con .ice2 {
+    width: 87px;
+    height: 55px;
+    background: url('../../../assets/img/ice.png');
+    position: absolute;
+    bottom: 0;
+    left: 280px;
+    -webkit-animation-duration: 1.5s;
+}
+
+.animate .con .ice3 {
+    width: 87px;
+    height: 55px;
+    background: url('../../../assets/img/ice.png');
+    position: absolute;
+    bottom: 0;
+    left: 400px;
+    -webkit-animation-duration: 2;
+}

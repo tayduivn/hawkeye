@@ -1,0 +1,187 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="secondary">
+            <ion-button (click)="baseData.utilFn.goBack()">
+                <i class="iconfont iconfanhui"></i>
+                <ion-label class="global-back-text">返回</ion-label>
+            </ion-button>
+        </ion-buttons>
+
+        <ion-buttons slot="start">
+            <ion-menu-button></ion-menu-button>
+        </ion-buttons>
+
+        <ion-title>
+            {{type=='set-status'?'进度排除项':'跟踪进度'}}
+        </ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+    <ion-list *ngIf="type=='set-status'" class="mb-20">
+        <ion-item>
+            <span>合同号：{{contract.contract_no}}</span>
+            <span class="ml-20">工厂名：{{contract.factory_name}}</span>
+        </ion-item>
+        <table
+            style="width: 50%;"
+            class="table f-l table-striped table-condensed table-responsive table-hover table-condensed table-text-no-break"
+        >
+            <thead>
+                <tr>
+                    <td>SKU</td>
+                    <td>中文名</td>
+                </tr>
+            </thead>
+            <tbody>
+                <ng-container *ngFor="let item of contract.sku_list;let i=index">
+                    <tr *ngIf="i%2==0">
+                        <td>{{item.sku}}</td>
+                        <td>{{item.name}}</td>
+                    </tr>
+                </ng-container>
+            </tbody>
+        </table>
+        <table
+            style="width: 50%;"
+            class="table f-l table-striped table-condensed table-responsive table-hover table-condensed table-text-no-break"
+        >
+            <thead>
+                <tr>
+                    <td>SKU</td>
+                    <td>中文名</td>
+                </tr>
+            </thead>
+            <tbody>
+                <ng-container *ngFor="let item of contract.sku_list;let i=index">
+                    <tr *ngIf="i%2!=0">
+                        <td>{{item.sku}}</td>
+                        <td>{{item.name}}</td>
+                    </tr>
+                </ng-container>
+            </tbody>
+        </table>
+    </ion-list>
+    <div class="slider_box pb-60" *ngIf="statusList&&statusList.length">
+        <table
+            class="table table-striped table-condensed table-responsive table-hover table-condensed table-text-no-break"
+        >
+            <thead>
+                <tr>
+                    <td>序号</td>
+                    <td>状态</td>
+                    <td *ngIf="type!='set-status'">拍照</td>
+                    <td *ngIf="type!='set-status'">执行日期</td>
+                    <td *ngIf="type!='set-status'">更新日期</td>
+                    <td *ngIf="type=='set-status'">进度要求</td>
+                    <td *ngIf="type=='set-status'">我不需要</td>
+                    <td>操作</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr
+                    *ngFor="let item of statusListCopy;let idx=index"
+                    [ngClass]="{'guay':type=='history'}"
+                    [ngStyle]="{'background':type!='set-status'?(item.description == '大货部分包装完成'?'#fffbe5':''):'','color':type!='set-status'?(item.description == '大货部分包装完成'?'#5c3c00':''):''}"
+                >
+                    <td>{{idx+1}}</td>
+                    <td (click)="choiceStatus(item)">
+                        <span class="lh-40">{{item.description}}</span>
+                        <ion-icon
+                            name="hand"
+                            class="fs-20 ml-10"
+                            *ngIf="type!='set-status' && item.description=='大货部分包装完成'"
+                        >
+                        </ion-icon>
+                    </td>
+
+                    <td imgGallery class="clearfix uploadfile" *ngIf="type!='set-status'">
+                        <div class="pos-r">
+                            <ion-button *ngIf="type!='history'" size="small">选择图片</ion-button>
+                            <input class="pos-a" multiple type="file" accept="image/*" (change)="choice($event,item)" />
+                        </div>
+                        <span class="please-choice" *ngIf='type=="history"&& item.show_photo.length==0'>暂无拍照</span>
+
+                        <div *ngFor="let sItem of item.show_photo;let idx = index" class="f-l mt-10">
+                            <img
+                                *ngIf="sItem&&sItem!=''"
+                                [ngClass]="{'wd-50':idx==0,'wd-5':idx!=0}"
+                                [src]='sItem.length>1000?sItem:(baseData.usFileUrl+sItem+"?random="+random)'
+                                class="img-responsive"
+                                alt="预览图"
+                            />
+                        </div>
+                    </td>
+                    <td class="pos-r" *ngIf="type!='set-status'">
+                        <span class="please-choice" *ngIf="!item.change_time">未选择</span>
+                        <span class="please-choice" *ngIf='item.change_time == "请选择"&&type!="history"'>请选择</span>
+                        <ion-datetime
+                            [ngClass]='{"hg_0":item.change_time == "请选择"}'
+                            *ngIf="item.change_time"
+                            [disabled]='type=="history"'
+                            display-format="YYYY-MMM-DD"
+                            doneText="完成"
+                            max="2022"
+                            [(ngModel)]="item.change_time"
+                            value="{{currentTime}}"
+                            min="2019"
+                            cancelText="取消"
+                            monthShortNames="01, 02,03,04, 05,06,07,08,09,10,11,12"
+                        >
+                        </ion-datetime>
+                    </td>
+                    <td *ngIf="type!='set-status'">
+                        <ion-label *ngIf="item.change_time && item.status==1" [ngClass]="{'guay':type=='history'}">
+                            {{item.update_time}}</ion-label
+                        >
+                        <span class="please-choice" *ngIf='type=="history"'>无</span>
+                    </td>
+                    <td *ngIf="type=='set-status'">
+                        {{item.details}}
+                    </td>
+                    <td [ngStyle]="{'color':item.is_need?'#666':'#b9b9b9'}" *ngIf="type=='set-status'">
+                        我不需要
+                    </td>
+                    <td>
+                        <ion-checkbox
+                            [disabled]='(type=="history")|| notUpdate'
+                            (ionChange)="blur(item)"
+                            (click)="except(item)"
+                            *ngIf="item.description!='本周工厂无更新内容'&&type!='set-status'"
+                            color="dark"
+                            name="item.description"
+                            [(ngModel)]="item.status"
+                        >
+                        </ion-checkbox>
+
+                        <ion-checkbox
+                            [disabled]='(type=="history")'
+                            (click)="change(item)"
+                            *ngIf="item.description=='本周工厂无更新内容'&&type!='set-status'"
+                            color="dark"
+                            name="item.description"
+                            [(ngModel)]="item.status"
+                        >
+                        </ion-checkbox>
+
+                        <ion-checkbox
+                            [disabled]="item.meta_is_need&&notUpdate"
+                            *ngIf="type=='set-status'"
+                            color="dark"
+                            (click)="setStatusJudgeFn(item)"
+                            name="item.description"
+                            [(ngModel)]="item.is_need"
+                        >
+                        </ion-checkbox>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="f-r mb-20 mt-20" *ngIf='type!="history"'>
+            <label class="mr-20">预计完成时间</label>
+            <nz-date-picker [nzFormat]="'yyyy/MM/dd'" [(ngModel)]="updateData.estimate_complete_time"></nz-date-picker>
+        </div>
+        <ion-button *ngIf='type!="history"' size="small" [expand]='"block"' (click)="submit()">提交</ion-button>
+    </div>
+    <app-no-data-show *ngIf='type!="set-status"&&(!statusList.length)'></app-no-data-show>
+</ion-content>

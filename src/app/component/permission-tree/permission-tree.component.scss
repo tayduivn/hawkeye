@@ -1,0 +1,16 @@
+.menu {
+    color: gray;
+}
+.btn {
+    color: blue;
+}
+.field {
+    color: red;
+}
+.inspect-report {
+    color: green;
+}
+
+:host ::ng-deep .ant-tree .ant-tree-treenode[ng-reflect-is-leaf='true'] {
+    display: inline;
+}

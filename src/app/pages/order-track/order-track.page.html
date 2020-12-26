@@ -1,0 +1,316 @@
+<div class="tab-view-page over-h">
+    <div class="panel-top">
+        <nz-input-group nzCompact class="w150 f-l">
+            <nz-form-label>按需搜索</nz-form-label>
+            <nz-select [(ngModel)]="getListParams.type" class="w150" (ngModelChange)="getList()">
+                <nz-option [nzLabel]="'跟单人'" [nzValue]="'create_user'"></nz-option>
+                <nz-option [nzLabel]="'合同号'" [nzValue]="'contract_no'"></nz-option>
+                <nz-option [nzLabel]="'SKU'" [nzValue]="'sku'"></nz-option>
+                <nz-option [nzLabel]="'工厂名称'" [nzValue]="'manufacturer'"></nz-option>
+            </nz-select>
+            <input
+                type="text"
+                nz-input
+                [placeholder]="'按' + chinaeseType + '搜索'"
+                [(ngModel)]="getListParams.keywords"
+                (change)="getListBySearch()"
+                style="width:240px"
+            />
+        </nz-input-group>
+        <div class="flex-end f-l mb-10">
+            <div class="pos-r">
+                <nz-form-label>是否更新</nz-form-label>
+                <nz-select class="w120" [(ngModel)]="getListParams.is_update" nzAllowClear nzPlaceHolder="是否更新">
+                    <nz-option nzLabel="请选择" nzValue="0"></nz-option>
+                    <nz-option nzLabel="是" nzValue="1"></nz-option>
+                    <nz-option nzLabel="否" nzValue="2"></nz-option>
+                </nz-select>
+            </div>
+            <div *ngIf="getListParams.is_update != '0'" class="pos-r">
+                <nz-form-label>开始时间</nz-form-label>
+                <nz-date-picker
+                    nzSize="small"
+                    [nzFormat]="'yyyy/MM/dd'"
+                    nzShowTime
+                    [(ngModel)]="start_time"
+                ></nz-date-picker>
+            </div>
+            <div *ngIf="getListParams.is_update != '0'" class="pos-r">
+                <ion-label>结束时间：</ion-label>
+                <nz-date-picker
+                    nzSize="small"
+                    [nzFormat]="'yyyy/MM/dd'"
+                    nzShowTime
+                    [(ngModel)]="end_time"
+                    (ngModelChange)=" getListByTime()"
+                ></nz-date-picker>
+            </div>
+
+            <button nz-button nzType="primary" nzSize="small" (click)="multiApply()">批量操作</button>
+        </div>
+
+        <div class="clearfix"></div>
+    </div>
+    <nz-table
+        #basicTable
+        [nzPageIndex]="1"
+        nzShowPagination
+        [nzPageSize]="15"
+        [nzTotal]="contracts.data.total"
+        [nzLoading]="loading"
+        [nzFrontPagination]="false"
+        [nzPageIndex]="pageIndex"
+        (nzPageIndexChange)="getListByPaging($event)"
+        [nzData]="contracts.data.data"
+    >
+        <thead (nzSortChange)="getListBySort($event)">
+            <tr>
+                <th
+                    *ngIf="baseData.userInfo.department != 'manager' && 
+                                userLimit.has('purchase-person',41) 
+                                "
+                >
+                    跟单人
+                </th>
+                <th class="chip-text" *ngIf="userLimit.has('contract-no',41)">
+                    合同号
+                </th>
+                <th *ngIf="baseData.userInfo.department != 'manager' && userLimit.has('factory-name',41) ">
+                    工厂名
+                </th>
+                <th *ngIf="userLimit.has('order-time',41)" nzShowSort nzSortKey="order_sign">
+                    距离下单时长
+                </th>
+                <th *ngIf="userLimit.has('over-time',41)" nzShowSort nzSortKey="order_delivery">
+                    超出约定交货时长
+                </th>
+                <th *ngIf="userLimit.has('progress',41)" nzShowSort nzSortKey="order_progress">
+                    进度
+                </th>
+
+                <th
+                    *ngIf="userLimit.has('is-delay',41)"
+                    nzShowFilter
+                    [nzFilters]="listOfName"
+                    [nzFilterMultiple]="false"
+                    (nzFilterChange)="getListByFilter($event,'is_delay_order')"
+                >
+                    是否延迟
+                </th>
+                <th
+                    *ngIf="userLimit.has('is-interrupt-update',41)"
+                    nzShowFilter
+                    [nzFilters]="listOfName"
+                    [nzFilterMultiple]="false"
+                    (nzFilterChange)="getListByFilter($event,'break_update')"
+                >
+                    是否中断更新
+                </th>
+                <th
+                    *ngIf="baseData.userInfo.department != 'manager' && userLimit.has('is-exclude-progress',41)"
+                    nzShowFilter
+                    [nzFilters]="listOfName"
+                    [nzFilterMultiple]="false"
+                    (nzFilterChange)="getListByFilter($event,'is_out_shedule')"
+                >
+                    是否排除进度
+                </th>
+                <th class="chip-text" *ngIf="userLimit.has('stagnation-cycle',41)">
+                    停滞周期（周）
+                </th>
+                <th class="chip-text" *ngIf="userLimit.has('operation',41)">操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of basicTable.data">
+                <td *ngIf="baseData.userInfo.department != 'manager' && userLimit.has('purchase-person',41) ">
+                    {{ item.create_user }}
+                </td>
+                <td
+                    valign="middle"
+                    valign="center"
+                    (click)="showSkuInfo(item)"
+                    class="chip-text"
+                    *ngIf="userLimit.has('contract-no',41)"
+                >
+                    {{ item.contract_no }}
+                </td>
+                <td *ngIf="baseData.userInfo.department != 'manager' && userLimit.has('factory-name',41)">
+                    {{ item.manufacturer }}
+                </td>
+                <td class="chip-text" *ngIf="userLimit.has('order-time',41)">
+                    {{ item.to_day + "天(" + item.to_week + "周)" }}
+                </td>
+                <td
+                    *ngIf="userLimit.has('over-time',41)"
+                    [ngStyle]="{
+  color:
+    item.plan_day == 0
+      ? '#000'
+      : item.plan_day > 0
+      ? '#f00'
+      : '#0fa40f'
+}"
+                >
+                    {{ item.plan_day + "天(" + item.plan_week + "周)" }}
+                </td>
+                <td *ngIf="userLimit.has('progress',41)">
+                    <!-- <app-progress [current]="item.quantity" [total]="item.total_count"></app-progress> -->
+                    <nz-progress [nzPercent]="(item.quantity/item.total_count*100).toFixed(2)"></nz-progress>
+                </td>
+                <td class="chip-text" *ngIf="userLimit.has('is-delay',41)">
+                    <ion-badge [color]="item.delay_track == 1 ? '' : 'medium'">
+                        {{ item.delay_track == 1 ? "是" : item.delay_track == 0 ? "否" : "" }}
+                    </ion-badge>
+                </td>
+                <td class="chip-text" *ngIf="userLimit.has('is-interrupt-update',41)">
+                    <ion-badge [color]="item.break_update ? '' : 'medium'">
+                        {{ item.break_update ? "是" : "否" }}
+                    </ion-badge>
+                </td>
+                <td *ngIf="baseData.userInfo.department != 'manager' && userLimit.has('is-exclude-progress',41)">
+                    <ion-badge [color]="item.must_select_status ? '' : 'medium'">
+                        {{ item.must_select_status ? "是" : "否" }}
+                    </ion-badge>
+                </td>
+                <td *ngIf="userLimit.has('stagnation-cycle',41)">
+                    <div class="progress mb-0" style="min-width: 90px;" *ngIf="item.repeat_record < 6">
+                        <div class="f-l keep-progress" *ngIf="item.repeat_record >= 1"></div>
+                        <div class="f-l keep-progress" *ngIf="item.repeat_record >= 2"></div>
+                        <div class="f-l keep-progress" *ngIf="item.repeat_record >= 3"></div>
+                        <div class="f-l keep-progress" *ngIf="item.repeat_record >= 4"></div>
+                        <div class="f-l keep-progress" *ngIf="item.repeat_record >= 5"></div>
+                    </div>
+                    <span *ngIf="item.repeat_record >= 6" style="font-weight: bold;">{{ item.repeat_record }}</span>
+                </td>
+                <td style="min-width: 100px;" *ngIf="userLimit.has('operation',41)">
+                    <button nz-button nz-popover [nzTitle]="titleTemplate" [nzContent]="contentTemplate">
+                        操作选项
+                    </button>
+                    <ng-template #titleTemplate><i nz-icon type="check"></i> 操作选项</ng-template>
+                    <ng-template #contentTemplate>
+                        <button
+                            nz-button
+                            *ngIf="userLimit.has('history-record')"
+                            (click)="toHistory(item.id)"
+                            nzSize="small"
+                            nzType="primary"
+                            class="mr-5"
+                        >
+                            历史记录
+                        </button>
+
+                        <button
+                            nz-button
+                            *ngIf="
+                            userLimit.has('progress-update',65) &&
+                            baseData.userInfo.department != 'manager'
+                          "
+                            (click)="currentContract = item;openDrawer('progressUpdate')"
+                            nzSize="small"
+                            nzType="Dashed"
+                            class="mr-5"
+                        >
+                            进度更新
+                        </button>
+
+                        <button
+                            nz-button
+                            *ngIf="
+        userLimit.has('apply-inspect',65) &&
+        baseData.userInfo.department != 'manager'
+      "
+                            (click)="applyInsp(item)"
+                            nzSize="small"
+                            nzType="primary"
+                            class="mr-5"
+                        >
+                            申请验货
+                        </button>
+
+                        <button
+                            nz-button
+                            [disabled]="item.plan_day > -60"
+                            *ngIf="
+        userLimit.has('delay-tracking',65) &&
+        baseData.userInfo.department != 'manager'
+      "
+                            (click)="toggleTrack(item)"
+                            nzSize="small"
+                            nzType="Dashed"
+                            class="mr-5"
+                        >
+                            {{ item.delay_track ? "恢复跟踪" : "延迟跟踪" }}
+                        </button>
+
+                        <button
+                            nz-button
+                            *ngIf="
+        userLimit.has('progress-exclude',65) &&
+        baseData.userInfo.department != 'manager'
+      "
+                            (click)="currentContract = item;openDrawer('trackExclude')"
+                            nzSize="small"
+                            nzType="primary"
+                            class="mr-5"
+                        >
+                            进度排除项
+                        </button>
+
+                        <button
+                            nz-button
+                            *ngIf="
+                            userLimit.has('not-inspect',65) &&
+                            baseData.userInfo.department != 'manager'
+                          "
+                            [disabled]="true"
+                            nzSize="small"
+                            nzType="primary"
+                            class="mr-5 nz-danger"
+                        >
+                            申请免检
+                        </button>
+                    </ng-template>
+                </td>
+            </tr>
+        </tbody>
+    </nz-table>
+</div>
+
+<nz-drawer
+    [nzBodyStyle]="{
+    height: 'calc(100% - 55px)',
+    overflow: 'auto',
+    'padding-bottom': '53px'
+  }"
+    [nzMaskClosable]="true"
+    [nzWidth]="drawerType == 'orderHistory' ? 1200 : 820"
+    [nzPlacement]="'right'"
+    [nzTitle]="
+    drawerType == 'trackExclude'
+      ? '进度排除项'
+      : drawerType == 'progressUpdate'
+      ? '跟踪进度'
+      : drawerType == 'skuInfo'
+      ? 'SKU信息'
+      : '历史记录'
+  "
+    [nzVisible]="drawerType"
+    nzTitle="Create"
+    (nzOnClose)="closeDrawer()"
+>
+    <app-track-exclude
+        (onSubmit)="progressUpdate($event)"
+        *ngIf="drawerType == 'trackExclude'"
+        [currentContract]="currentContract"
+        (emitStatusFn)="drawerEmit($event)"
+    ></app-track-exclude>
+    <app-progress-update
+        (onSubmit)="progressUpdate($event)"
+        *ngIf="drawerType == 'progressUpdate'"
+        [contractId]="currentContract.id"
+        [type]="'set'"
+    ></app-progress-update>
+
+    <app-sku-info *ngIf="drawerType == 'skuInfo'" [contract]="currentContract"></app-sku-info>
+</nz-drawer>

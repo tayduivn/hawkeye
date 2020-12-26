@@ -1,0 +1,161 @@
+.close-box {
+    background: #fff;
+    z-index: 200002;
+    box-shadow: 2px 2px 10px #555;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    height: 55px;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    padding: 0 10px;
+    left: 0;
+}
+
+.swiper-container {
+    margin-top: 60px;
+    padding-bottom: 40px;
+    .swiper-slide {
+        width: 1340px;
+        min-width: 1000px;
+    }
+}
+
+td {
+    border: 1px solid #cecece;
+    box-sizing: border-box !important;
+    height: 36px;
+}
+#table1 {
+    width: 1340px;
+}
+
+table {
+    border-collapse: collapse;
+    text-align: center;
+    padding: 0;
+    word-break: break-all;
+}
+table thead td {
+    border: 1px solid #cecece;
+}
+
+table tbody td {
+    border-bottom: 1px solid #cecece;
+}
+.table2 tr td:nth-child(1) {
+    border-left: 0;
+}
+.table2 tr td:nth-last-child(1) {
+    border-right: 0;
+}
+.table2 tr:nth-child(1) td {
+    border-top: 0;
+}
+.table2 tr:nth-last-child(1) td {
+    border-bottom: 0;
+}
+td {
+    padding: 0 !important;
+    // overflow: unset !important;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+.table2,
+.three-table {
+    td {
+        height: 36px;
+    }
+}
+
+.w20 {
+    width: 20px !important;
+    overflow: hidden;
+}
+
+.w50 {
+    width: 50px !important;
+    overflow: hidden;
+}
+
+.w30 {
+    width: 30px !important;
+    overflow: hidden;
+}
+
+.w60 {
+    width: 60px !important;
+    overflow: hidden;
+}
+
+.w40 {
+    width: 40px !important;
+    overflow: hidden;
+}
+
+.w70 {
+    width: 70px !important;
+    overflow: hidden;
+}
+
+.w80 {
+    width: 80px !important;
+    overflow: hidden;
+}
+
+.w90 {
+    width: 90px !important;
+    overflow: hidden;
+}
+
+.w100 {
+    width: 100px !important;
+    overflow: hidden;
+}
+
+.w120 {
+    width: 120px !important;
+    overflow: hidden;
+}
+
+.w110 {
+    width: 110px !important;
+    overflow: hidden;
+}
+
+.w220 {
+    width: 220px !important;
+    overflow: hidden;
+}
+.w230 {
+    width: 230px !important;
+    overflow: hidden;
+}
+
+.w150 {
+    width: 150px !important;
+    overflow: hidden;
+}
+
+.w200 {
+    width: 200px !important;
+    overflow: hidden;
+}
+.bot-box {
+    padding: 0 10px;
+    height: 40px;
+    background: #fff;
+    z-index: 200002;
+    box-shadow: 2px 2px 10px #555;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+.probable-date-div {
+    top: 0;
+    left: 0;
+    overflow: hidden;
+}

@@ -1,0 +1,35 @@
+:host ::ng-deep nz-table table tr:nth-child(2n + 0) {
+    background: none !important;
+}
+nz-table table tr:nth-child(1n + 0) {
+}
+
+.input-num {
+    background: #1790b7;
+    color: #fff;
+}
+.text-c {
+    text-align: center;
+}
+
+.total {
+    li {
+        span {
+            font-size: 14px;
+            padding-right: 20px;
+        }
+    }
+}
+
+
+
+.panel{
+    background-color: white;
+    padding: 10px;
+    margin-bottom: 10px;
+    box-shadow: -6px 6px 5px 0px #e6e6e6;
+}
+
+.w--100{
+    width: 100% !important;
+}

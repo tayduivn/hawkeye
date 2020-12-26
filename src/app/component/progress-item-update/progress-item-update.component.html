@@ -1,0 +1,59 @@
+<h3 class="text-c">SKU进度</h3>
+
+<nz-table
+    class="mt-20"
+    #scgeduleTable
+    nzSize="small"
+    [(nzPageSize)]="skuList.length"
+    [nzShowPagination]="false"
+    [nzData]="skuList"
+>
+    <thead>
+        <tr>
+            <th [nzAlign]="'center'">序号</th>
+            <th [nzAlign]="'center'">缩略图</th>
+            <th [nzAlign]="'center'">SKU</th>
+            <th [nzAlign]="'center'">名称</th>
+            <th [nzAlign]="'center'">合同数量</th>
+            <th [nzAlign]="'center'">完成数量</th>
+            <th [nzAlign]="'center'">完成时间</th>
+            <th [nzAlign]="'center'">完成进度</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let item of scgeduleTable.data; let i = index">
+            <td [nzAlign]="'center'">{{ i + 1 }}</td>
+            <td [nzAlign]="'center'">
+                <img class="thumbnail" [src]="fileUrl + item.pic" alt="" imgGallery />
+            </td>
+            <td [nzAlign]="'center'">{{ item.sku }}</td>
+            <td [nzAlign]="'center'">{{ item.name }}</td>
+            <td [nzAlign]="'center'">{{ item.detail_counts }}</td>
+            <td [nzAlign]="'center'">
+                <input
+                    nz-input
+                    type="number"
+                    placeholder="请输入数量"
+                    [disabled]="type != 'set'"
+                    [(ngModel)]="item.complete_counts"
+                    (blur)="inspectIptVer(item)"
+                />
+            </td>
+            <td>
+                <nz-date-picker [nzDisabled]="type == 'history'" [(ngModel)]="item.complete_time"></nz-date-picker>
+            </td>
+            <td>
+                <div style="width: 120px;">
+                    <nz-progress
+                        nzSize="small"
+                        [nzPercent]="
+                            (item.complete_counts / item.Count > 1 ? 100 : (item.complete_counts / item.Count) * 100)
+                                | number: '2.1-2'
+                        "
+                        nzStatus="active"
+                    ></nz-progress>
+                </div>
+            </td>
+        </tr>
+    </tbody>
+</nz-table>

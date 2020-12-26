@@ -1,0 +1,413 @@
+<div class="tab-view-page over-h" padding (click)="setAllTipsHide($event)">
+    `
+    <div>
+        <label class="mr-5">选择周</label>
+        <nz-week-picker
+            class="mb-10"
+            [(ngModel)]="date"
+            (ngModelChange)="getWeek($event)"
+            nzPlaceHolder="选择周"
+        ></nz-week-picker>
+
+        <button nz-button [nzSize]="'small'" nzType="primary" *ngIf="userLimit.has('generate-group',43)" class="ml-15" (click)="doGroup()">
+            {{ grouping ? '确认分组' : '分组'}}
+        </button>
+        <button nz-button [nzSize]="'small'" nzType="link" *ngIf="grouping && userLimit.has('generate-group',43)" (click)="grouping = false;">
+            取消分组
+        </button>
+
+        <button nz-button [nzSize]="'small'" nzType="link" (click)="getConfirmedTask({name:'select_all',value:true})">
+            显示所有
+        </button>
+
+        <button nz-button nzType="primary" *ngIf="userLimit.has('edit-task',43)" nzSize="small" class="ml-25" (click)="editTask()">
+            编辑任务
+        </button>
+        <label class="f-l mr-5 mt-7">搜索</label>
+        <div class="f-l mr-25">
+            <nz-input-group [nzAddOnBefore]="addOnBeforeTemplate" class="f-l">
+                <input type="text" nz-input [formControl]="keywords" placeholder="请输入内容自动输入" />
+            </nz-input-group>
+            <ng-template #addOnBeforeTemplate>
+                <nz-select [formControl]="searchVal">
+                    <nz-option nzLabel="请选择" nzValue=""></nz-option>
+                    <nz-option nzLabel="SKU" nzValue="sku"></nz-option>
+                    <nz-option nzLabel="工厂名" nzValue="factory_name"></nz-option>
+                    <nz-option nzLabel="SKU中文名" nzValue="sku_name_search"></nz-option>
+                    <nz-option nzLabel="合同号" nzValue="contract_no"></nz-option>
+                </nz-select>
+            </ng-template>
+            <div style="clear: both;"></div>
+        </div>
+    </div>
+
+    <div class="swiper-container" [swiper]="swiperConfig">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide">
+                <table
+                    id="table1"
+                    style="table-layout: fixed;"
+                    [ngStyle]="{'width':grouping? tableWidth + 50 +'px': tableWidth + 'px'}"
+                    class="table table-striped table-condensed table-hover table-condensed table-text-no-break mb-0"
+                >
+                    <!-- [ngStyle]="{'width':grouping?'2050px':'2000px'}" -->
+                    <thead>
+                        <tr>
+                            <td class="w50" *ngIf="grouping">选择</td>
+                            <td class="w100" *ngIf="userLimit.has('inspector',43)">
+                                <app-sort
+                                    [sortField]="'inspection_username_order_by'"
+                                    [sortName]="'验货人'"
+                                    (outFn)="getConfirmedTask($event)"
+                                ></app-sort>
+                            </td>
+                            <td class="w120" *ngIf="userLimit.has('inspection-group-no',43)">
+                                <app-sort
+                                    [sortField]="'inspection_group_no_order_by'"
+                                    [sortName]="'批次号'"
+                                    (outFn)="getConfirmedTask($event)"
+                                ></app-sort>
+                            </td>
+
+                            <td class="w100" *ngIf="userLimit.has('earliest-inspection-time',43)">最早可验货时间</td>
+                            <td class="w160" *ngIf="userLimit.has('factory-name',43)">工厂名称</td>
+                            <td class="w160" *ngIf="userLimit.has('inspection-time',43)">计划验货时间</td>
+
+                            <td class="w100" *ngIf="userLimit.has('schedule-name',43)">跟单人</td>
+                            <td class="w90" *ngIf="userLimit.has('purchaser',43)">申请人</td>
+                            <td class="w100" *ngIf="userLimit.has('inspection-status',43)">状态</td>
+                            <td class="w100" *ngIf="userLimit.has('inspect-sku-num',43)">验货SKU数</td>
+                            <td class="w150" *ngIf="userLimit.has('contract-no',43)">合同号</td>
+                            <td class="w100" *ngIf="userLimit.has('estimated-loading-time',43)">预计装柜时间</td>
+                            <td class="w150">合同操作</td>
+
+                            <td class="w120">操作</td>
+
+                            <td class="w100" *ngIf="userLimit.has('desc',43)">备注</td>
+                            <td class="w150" *ngIf="userLimit.has('sku',43)">货号</td>
+                            <td class="w200" *ngIf="userLimit.has('sku-desc',43)">货号备注</td>
+                        </tr>
+                    </thead>
+                </table>
+
+                <div class="custom-tbody" *ngIf="confirmedGroup && confirmedGroup.length != 0">
+                    <table
+                        id="table1"
+                        style="table-layout: fixed;"
+                        [ngStyle]="{'width':grouping? tableWidth + 50 +'px': tableWidth + 'px'}"
+                        class="table table-striped table-condensed table-hover table-condensed table-text-no-break"
+                    >
+                        <tbody>
+                            <tr *ngFor="let item of confirmedGroup; let i = index">
+                                <!-- 选择 -->
+                                <td class="w50" *ngIf="grouping">
+                                    <input type="checkbox" [(ngModel)]="item.isSelectedForFont" />
+                                </td>
+                                <!-- 验货人 -->
+                                <td class="w100" *ngIf="userLimit.has('inspector',43)">
+                                    {{ item.user.join(",") }}
+                                </td>
+
+                                <!-- 批次号 -->
+                                <td
+                                    class="w120 pos-r chip-text"
+                                    Chipboard
+                                    [title]="item.inspection_group_no"
+                                    *ngIf="userLimit.has('inspection-group-no',43)"
+                                >
+                                    {{ item.inspection_group_no.length > 14 ? item.inspection_group_no.slice(0,12)+'…' :
+                                    item.inspection_group_no }}
+                                </td>
+                                <td [attr.colSpan]="tenColSpan" [ngStyle]="{'width': tableTenWidth +'px !important'}">
+                                    <table
+                                        class="table2"
+                                        style="table-layout: fixed;"
+                                        [ngStyle]="{'width': tableTenWidth +'px !important'}"
+                                    >
+                                        <tbody>
+                                            <tr
+                                                *ngFor="let sItem of item.apply_inspections;let j = index"
+                                                (mouseenter)="currentHoverItem = sItem"
+                                                (mouseleave)="currentHoverItem = null"
+                                            >
+                                                <!-- 最早可验货时间 -->
+                                                <td
+                                                    class="w100 pos-r"
+                                                    *ngIf="userLimit.has('earliest-inspection-time',43)"
+                                                >
+                                                    {{ sItem.inspection_date | date: "yyyy-MM-dd" }}
+                                                </td>
+
+                                                <!-- 工厂名称 -->
+                                                <td
+                                                    *ngIf="userLimit.has('factory-name',43)"
+                                                    [ngStyle]="{
+                          height:
+                            36 *
+                              (sItem.sku_group.length > sItem.data.length
+                                ? sItem.sku_group.length
+                                : sItem.data.length) +
+                            'px'
+                        }"
+                                                    class="pos-r w160"
+                                                    title="{{ sItem.factory_name }}"
+                                                    style="overflow: visible !important;"
+                                                >
+                                                    <div
+                                                        class="inner-div pos-a chip-text"
+                                                        Chipboard
+                                                        [ngStyle]="{
+                            'line-height':
+                              36 *
+                                (sItem.sku_group.length > sItem.data.length
+                                  ? sItem.sku_group.length
+                                  : sItem.data.length) +
+                              'px'
+                          }"
+                                                    >
+                                                        {{ sItem.factory_name.length > 9 ?
+                                                        sItem.factory_name.substring(0, 9) + "…" : sItem.factory_name }}
+                                                    </div>
+
+                                                    <app-td-overflow-text
+                                                        *ngIf="sItem.show_factory_tips"
+                                                        [text]="sItem.factory_name"
+                                                    ></app-td-overflow-text>
+                                                </td>
+
+                                                <!-- 计划验货时间 -->
+                                                <td class="w160 pos-r" *ngIf="userLimit.has('inspection-time',43)">
+                                                    <div
+                                                        class="probable-date-div pos-a chip-text"
+                                                        Chipboard
+                                                        [ngStyle]="{
+                            'line-height': 36 * sItem.sku_group.length + 'px'
+                          }"
+                                                    >
+                                                        {{ (sItem.date ? (sItem.date.probable_inspection_date_start |
+                                                        date: "yyyy-MM-dd" | filterText) : "") + " - " + (sItem.date ?
+                                                        (sItem.date.probable_inspection_date_end | date: "yyyy-MM-dd" |
+                                                        filterText) : "") }}
+                                                    </div>
+                                                </td>
+
+                                                <td
+                                                    [attr.colSpan]="sevenColSpan"
+                                                    [ngStyle]="{'width':tableSevenWidth + 'px !important'}"
+                                                >
+                                                    <table
+                                                        class="table3"
+                                                        style="table-layout: fixed; overflow: hidden;"
+                                                        [ngStyle]="{'width':tableSevenWidth + 'px'}"
+                                                    >
+                                                        <tbody>
+                                                            <tr *ngFor="let tItem of sItem.data; let k = index">
+                                                                <!-- 跟单人 -->
+                                                                <td
+                                                                    class="w100 pos-r"
+                                                                    *ngIf="userLimit.has('schedule-name',43)"
+                                                                >
+                                                                    <div class="address-div pos-a chip-text" Chipboard>
+                                                                        {{ 
+                                                                        tItem.schedule_user }}
+                                                                    </div>
+                                                                </td>
+
+                                                                <!-- 采购人 -->
+                                                                <td
+                                                                    class="chip-text w90 pos-r"
+                                                                    Chipboard
+                                                                    *ngIf="userLimit.has('purchaser',43)"
+                                                                >
+                                                                    {{ tItem.apply_name }}
+                                                                </td>
+
+                                                                <!-- 状态 -->
+                                                                <td
+                                                                    class="chip-text w100 pos-r"
+                                                                    Chipboard
+                                                                    *ngIf="userLimit.has('inspection-status',43)"
+                                                                >
+                                                                    {{ tItem.status_desc }}
+                                                                </td>
+
+                                                                <!-- 验货SKU数 -->
+                                                                <td
+                                                                    class="w100 pos-r"
+                                                                    *ngIf="userLimit.has('inspect-sku-num',43)"
+                                                                >
+                                                                    <div
+                                                                        class="inspec-date-div pos-a chip-text"
+                                                                        Chipboard
+                                                                    >
+                                                                        {{ tItem.quantity }}
+                                                                    </div>
+                                                                </td>
+
+                                                                <!-- 合同号 -->
+                                                                <td
+                                                                    class="w150 pos-r"
+                                                                    *ngIf="userLimit.has('contract-no',43)"
+                                                                >
+                                                                    <div
+                                                                        class="address-div w150 pos-a chip-text"
+                                                                        Chipboard
+                                                                    >
+                                                                        {{ tItem.contract_no }}
+                                                                    </div>
+                                                                </td>
+
+                                                                <!-- 预计装柜时间 -->
+                                                                <td
+                                                                    class="w100 pos-r"
+                                                                    *ngIf="userLimit.has('estimated-loading-time',43)"
+                                                                >
+                                                                    <div
+                                                                        class="address-div w100 pos-a chip-text"
+                                                                        Chipboard
+                                                                    >
+                                                                        {{ tItem.estimated_loading_time | date:
+                                                                        "yyyy-MM-dd" }}
+                                                                    </div>
+                                                                </td>
+
+                                                                <!-- 合同操作 -->
+                                                                <td class="w150">
+                                                                    <button
+                                                                        nz-button
+                                                                        nzType="primary"
+                                                                        class="mr-5"
+                                                                        nzSize="small"
+                                                                        *ngIf="userLimit.has('show-sku',43)"
+                                                                        (click)="seeSku(tItem,i,j,k)"
+                                                                    >
+                                                                        查看SKU
+                                                                    </button>
+                                                                    <button
+                                                                        nz-button
+                                                                        nzType="dashed"
+                                                                        nzSize="small"
+                                                                        *ngIf="userLimit.has('show-detail',43)"
+                                                                        (click)="seeDetail(tItem)"
+                                                                    >
+                                                                        查看详情
+                                                                    </button>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+
+                                <!-- 操作 -->
+                                <td class="w120">
+                                    <button
+                                        nzType="danger"
+                                        nz-button
+                                        nzSize="small"
+                                        class="mr-5"
+                                        *ngIf="userLimit.has('reset',43)"
+                                        (click)="cancelExamineInspection(item)"
+                                    >
+                                        返回
+                                    </button>
+                                    <button
+                                        *ngIf="item.group_name && item.group_name.length && userLimit.has('exit-group',43)"
+                                        nz-button
+                                        nzType="danger"
+                                        nzSize="small"
+                                        (click)="exitGroup(item)"
+                                    >
+                                        退出组
+                                    </button>
+                                </td>
+
+                                <td [attr.colSpan]="threeColSpan">
+                                    <table
+                                        class="table3"
+                                        style="table-layout: fixed;"
+                                        [ngStyle]="{'width': tableThreeWidth + 'px'}"
+                                    >
+                                        <tbody>
+                                            <tr
+                                                *ngFor="let sItem of item.apply_inspections"
+                                                style="background: transparent;"
+                                            >
+                                                <!-- 备注 -->
+                                                <td
+                                                    class="w100 chip-text"
+                                                    Chipboard
+                                                    title="{{ sItem.desc }}"
+                                                    style="background: transparent !important;"
+                                                    *ngIf="userLimit.has('desc',43)"
+                                                >
+                                                    {{ sItem.desc }}
+                                                </td>
+                                                <td
+                                                    [attr.colSpan]="twoColSpan"
+                                                    style=" background: transparent !important;"
+                                                    [ngStyle]="{'width': tableTwoWidth + 'px'}"
+                                                >
+                                                    <table
+                                                        class="three-table"
+                                                        [ngStyle]="{'width': tableTwoWidth + 'px'}"
+                                                    >
+                                                        <tbody>
+                                                            <tr *ngFor="let tItem of sItem.sku_group">
+                                                                <!-- 货号 -->
+                                                                <td
+                                                                    *ngIf="userLimit.has('sku',43)"
+                                                                    class="w150"
+                                                                    title="{{
+                                  tItem.sku_k.substring(
+                                    tItem.sku_k.lastIndexOf('&') + 1,
+                                    tItem.sku_k.length
+                                  )
+                                }}"
+                                                                >
+                                                                    {{ tItem.sku_k.substring(
+                                                                    tItem.sku_k.lastIndexOf("&") + 1, tItem.sku_k.length
+                                                                    ) }}
+                                                                </td>
+
+                                                                <!-- 货号备注 -->
+                                                                <td
+                                                                    class="w200"
+                                                                    title="{{ tItem.g_item }}"
+                                                                    *ngIf="userLimit.has('sku-desc',43)"
+                                                                >
+                                                                    {{ tItem.g_item }}
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <app-no-data-show *ngIf="!confirmedGroup.length"></app-no-data-show>
+            </div>
+        </div>
+        <div class="swiper-scrollbar"></div>
+    </div>
+
+    <app-pagination
+        class="f-r mt-6 mb-6"
+        [pagging]="{
+    pageNum: getConfirmedParams.page,
+    pageTotal: contracts.last_page
+    }"
+        [hidePaging]="true"
+        (onPagingTotalChange)="pagingTotalChange($event)"
+        (pagechange)="getListByPaging($event)"
+    ></app-pagination>
+</div>

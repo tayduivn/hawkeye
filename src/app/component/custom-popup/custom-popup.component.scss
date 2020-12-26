@@ -1,0 +1,268 @@
+.clearfix:after {
+    content: '';
+    display: block;
+    clear: both;
+}
+
+.box {
+    width: 100%;
+    box-sizing: border-box;
+    height: 100%;
+    // overflow: scroll;
+    td {
+        background: #fff !important;
+    }
+    tr:nth-child(1n + 0) {
+        background: #fff;
+    }
+}
+
+.file-image {
+    top: 0;
+    left: 0;
+    opacity: 0;
+    width: 100%;
+}
+
+.load-img {
+    img {
+        width: 35px;
+        height: 35px !important;
+    }
+}
+
+.pd-0 {
+    padding: 0 !important;
+}
+
+.pb-80 {
+    padding-bottom: 80px;
+}
+
+.box.has-mb {
+    > div {
+        margin-bottom: 80px !important;
+    }
+}
+
+.f-r {
+    float: right;
+}
+.close-box {
+    background: #fff;
+    z-index: 200002;
+    box-shadow: 2px 2px 10px #555;
+    height: 55px;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    padding: 0 10px;
+    line-height: 55px;
+    left: 0;
+    > div {
+        display: flex;
+        justify-content: start;
+        align-items: center;
+    }
+}
+.close-box::after {
+    content: '';
+    display: block;
+    clear: both;
+}
+
+.no-data {
+    text-align: center;
+    margin-top: 50px;
+}
+
+.table {
+    width: auto;
+    min-width: 100%;
+    color: #666;
+    text-align: center;
+    thead {
+        padding: 10px 0;
+        border-top: 1px solid #666;
+        border-bottom: 1px solid #666;
+    }
+    td {
+        padding: 1px !important;
+        text-align: center;
+        vertical-align: middle !important;
+        input {
+            width: 100px;
+            text-align: center;
+            height: 50px;
+        }
+    }
+    td.remark {
+        text-align: left;
+        ion-textarea {
+            border-radius: 5px;
+            border: 1px double #ccc;
+            width: 120px;
+            height: 60px;
+        }
+    }
+    .uploadfile {
+        .pos-r {
+            overflow: hidden;
+            input[type='file'] {
+                opacity: 0;
+                font-size: 100px;
+                top: 0;
+                left: 0;
+            }
+        }
+        .img-responsive {
+            height: 50px !important;
+        }
+    }
+}
+.text-c {
+    text-align: center;
+}
+
+.bot-box {
+    padding: 0 10px;
+    height: 80px;
+    background: #fff;
+    z-index: 200002;
+    box-shadow: 2px 2px 10px #555;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    .choice-date {
+        background: #f3f3f3;
+        color: #555;
+        font-weight: bold;
+        border-radius: 3px;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        ion-datetime {
+            --padding-end: 20px;
+            border-radius: 5px;
+        }
+    }
+}
+
+.thumbnail {
+    width: 40px;
+    margin-bottom: 0 !important;
+    height: 40px;
+}
+
+h6 {
+    //   margin-bottom: 20px;
+    color: #555;
+}
+
+.select-text-c {
+    text-align: center;
+
+    text-align-last: center;
+}
+.wd-50 {
+    width: 50px;
+    height: 50px !important;
+}
+.wd-5 {
+    height: 50px !important;
+    width: 5px;
+}
+.hg-0 {
+    height: 0px;
+}
+
+.wd-he-150 {
+    width: 100px;
+    display: inline;
+    height: 50px;
+}
+
+.control-label {
+    width: 100px;
+    padding: 0;
+}
+
+.flex-layout {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.desc-item {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    input {
+        width: 200px !important;
+        height: 30px !important;
+        line-height: 30px;
+        text-align: left;
+    }
+    button {
+        margin-top: 3px;
+    }
+}
+
+.desc-show {
+    width: 100px;
+}
+
+.desc-item::after {
+    content: '';
+    display: block;
+    clear: both;
+}
+
+.container {
+    overflow: hidden;
+    width: 100%;
+    position: absolute;
+    height: calc(100% - 135px);
+    top: 55px;
+    box-sizing: border-box;
+}
+
+ion-content {
+    overflow: hidden;
+}
+
+p {
+    margin-bottom: 0 !important;
+}
+
+.mr-20 {
+    margin-right: 20px !important;
+}
+#fixed-thead {
+    position: relative;
+    z-index: 999;
+}
+
+.ant-input-group {
+    position: static !important;
+}
+
+.ant-input {
+    position: static !important;
+}
+
+ion-button .button-native {
+    position: static !important;
+}
+
+.ant-btn {
+    position: static !important;
+}
+
+.sc-ion-textarea-md-h {
+    position: static !important;
+}
+
+.w100{
+    width: 100px !important;
+}
