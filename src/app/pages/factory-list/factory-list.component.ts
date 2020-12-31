@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FactoryListQueryInfo, InspectingService } from 'src/app/services/inspecting.service';
 import { PageEffectService } from 'src/app/services/page-effect.service';
+import { environment } from '../../../environments/environment';
 @Component({
     selector: 'app-factory-list',
     templateUrl: './factory-list.component.html',
@@ -142,10 +143,18 @@ export class FactoryListComponent implements OnInit {
         this.getList(this.queryInfo);
         console.log(this.queryInfo);
     }
-    // [routerLink]="['/dashboard/inspect-record-details',data.id]"
+
     goToDetails(id: any) {
         console.log(id);
         const queryParams = { id };
         this.router.navigate(['/dashboard/inspect-record-details'], { queryParams });
+    }
+    // 点击下载视频
+    goToDownLoadVideo(id: string) {
+        window.open(environment.apiUrl + '/factory/down_factory_inspect_video?apply_inspection_no=' + id);
+    }
+
+    goToDownLoadimage(id: string) {
+        window.open(environment.apiUrl + '/factory/down_factory_inspect_image?apply_inspection_no=' + id);
     }
 }

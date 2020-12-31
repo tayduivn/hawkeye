@@ -15,6 +15,9 @@ nz-select {
         margin-right: 10px;
     }
 }
+.swiper-wrapper {
+    width: 100%;
+}
 .btns {
     height: 32px;
     display: flex;
@@ -32,8 +35,11 @@ nz-select {
 .swiper-container {
     padding-top: 15px;
 }
+.swiper-slide {
+    width: 100% !important;
+}
 nz-table {
-    width: 1505px;
+    width: 100%;
     th,
     td {
         text-align: center;

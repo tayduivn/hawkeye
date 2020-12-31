@@ -54,13 +54,13 @@
           </thead>
           <tbody>
             <tr *ngFor="let data of listOfData">
-              <td>{{ data.user_name }}</td>
-              <td>{{ data.name }}</td>
-              <td>{{ data.create_time }}</td>
-              <td>{{ data.contacts }}</td>
-              <td>{{ data.position }}</td>
-              <td>{{ data.phone }}</td>
-              <td>{{ data.add_time }}</td>
+              <td>{{ data.user_name?data.user_name:'暂无' }}</td>
+              <td>{{ data.name ?data.name:'暂无'}}</td>
+              <td>{{ data.create_time?data.create_time:'暂无' }}</td>
+              <td>{{ data.contacts? data.contacts:'暂无' }}</td>
+              <td>{{ data.position? data.position:'暂无'}}</td>
+              <td>{{ data.phone?data.phone:'暂无' }}</td>
+              <td>{{ data.add_time?data.add_time:'暂无' }}</td>
               <td class="operating">
                 <div>
                   <a (click)="goToDetails(data.id)">查看详情</a>
@@ -69,9 +69,9 @@
                   <nz-divider nzType="vertical"></nz-divider>
                   <a>下载报告</a>
                   <nz-divider nzType="vertical"></nz-divider>
-                  <a>下载图片</a>
+                  <a (click)="goToDownLoadimage(data.factory_inspect_no)">下载图片</a>
                   <nz-divider nzType="vertical"></nz-divider>
-                  <a>下载视频</a>
+                  <a (click)="goToDownLoadVideo(data.factory_inspect_no)">下载视频</a>
                 </div>
               </td>
             </tr>

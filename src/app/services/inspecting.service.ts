@@ -46,6 +46,21 @@ export class InspectingService {
             params,
         });
     }
+    // 下载视频的接口
+    DownLoadVideo(params): Observable<any> {
+        return this.baseData.get({
+            url: '/factory/down_factory_inspect_video',
+            params,
+        });
+    }
+
+    // 下载图片的接口
+    DownLoadImage(params): Observable<any> {
+        return this.baseData.get({
+            url: '/factory/down_factory_inspect_image',
+            params,
+        });
+    }
 }
 export interface FactoryListQueryInfo {
     name?: string; //考察对象
