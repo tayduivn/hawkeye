@@ -8,7 +8,10 @@ export const environment = {
     fileUrlPath: 'http://keyi.xdrlgroup.com',
     usFileUrl: 'http://192.168.3.18/storage/',
     origin: 'http://192.168.3.18',
-
+    // apiUrl: 'http://192.168.3.8/api/v1',
+    // fileUrlPath: 'http://keyi.xdrlgroup.com',
+    // usFileUrl: 'http://192.168.3.8/storage/',
+    // origin: 'http://192.168.3.8',
     // apiUrl:'http://121.196.179.68:8081/api/v1',
     // fileUrlPath:'http://keyi.xdrlgroup.com',
     // usFileUrl:'http://121.196.179.68:8081/',

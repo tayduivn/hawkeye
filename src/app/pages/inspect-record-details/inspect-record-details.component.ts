@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { map, switchMap } from 'rxjs/operators';
 import { BaseDataService } from 'src/app/services/base-data.service';
-import { FactoryDetails, InspectingService } from 'src/app/services/inspecting.service';
+import { InspectingService } from 'src/app/services/inspecting.service';
 import { PageEffectService } from 'src/app/services/page-effect.service';
 import { environment } from 'src/environments/environment';
 
@@ -48,6 +48,7 @@ export class InspectRecordDetailsComponent implements OnInit {
         private activatedRoute: ActivatedRoute,
         private inspecting: InspectingService,
         private es: PageEffectService,
+        private elementRef: ElementRef,
     ) {}
     ngOnInit() {
         this.activatedRoute.queryParams
@@ -183,15 +184,21 @@ export class InspectRecordDetailsComponent implements OnInit {
     }
     closeVideo() {
         console.log(1);
-
         this.isVideoShow = false;
         this.videoUrl = '';
     }
     ngOnDestroy(): void {
         //Called once, before the instance is destroyed.
         //Add 'implements OnDestroy' to the class.
+        console.log(1);
+    }
+    // 点击返回前一页的时候清空
+    backToMain() {
         this.isVideoShow = false;
         this.videoUrl = '';
-        console.log(1);
+    }
+    ngAfterViewInit() {
+        // let divEle = this.elementRef.nativeElement.querySelectorAll('.demo');
+        // console.log(divEle);
     }
 }

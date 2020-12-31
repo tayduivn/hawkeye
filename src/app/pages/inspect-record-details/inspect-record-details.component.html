@@ -3,7 +3,7 @@
     <ion-buttons slot="secondary">
       <ion-button (click)="baseData.utilFn.goBack()">
         <i class="iconfont iconfanhui"></i>
-        <ion-label class="global-back-text">返回</ion-label>
+        <ion-label class="global-back-text" (click)="backToMain()">返回</ion-label>
       </ion-button>
     </ion-buttons>
     <ion-buttons slot="start">
@@ -107,9 +107,9 @@
         <div nz-col nzSpan="4" class="row-item" *ngIf="data.third_party==1">有</div>
         <div nz-col nzSpan="3" class="row-item">{{data.third_name?data.third_name:'暂无'}}</div>
       </div>
-      <div nz-row>
-        <div nz-col nzSpan="4" class="row-item backColor">工厂外观照片</div>
-        <div nz-col nzSpan="20" class="row-item thumbnail-container" *ngIf="facadePic.length!=0||facadeVideo.length!=0">
+      <div nz-row class="row1">
+        <div nz-col nzSpan="4" class="automatic backColor">工厂外观照片</div>
+        <div nz-col nzSpan="20" class="thumbnail-container" *ngIf="facadePic.length!=0||facadeVideo.length!=0">
           <img class="thumbnail" alt="" imgGallery [src]="imgOrigin+item" alt="" imgGallery
             *ngFor="let item of facadePic" />
           <div class="video-container" *ngFor="let video of facadeVideo" (click)="showVideo(video)">
@@ -155,12 +155,14 @@
         <div nz-col nzSpan="5" class="row-item backColor">外协工厂处理的工艺或材料</div>
         <div nz-col nzSpan="5" class="row-item backColor">产品照片</div>
       </div>
-      <div nz-row *ngFor="let item of productList;let i=index">
-        <div nz-col nzSpan="4" class="row-item">{{item.name?item.name:'暂无'}}</div>
-        <div nz-col nzSpan="5" class="row-item">{{item.material?item.material:'暂无'}}</div>
-        <div nz-col nzSpan="5" class="row-item">{{item.craft?item.craft:'暂无'}}</div>
-        <div nz-col nzSpan="5" class="row-item">{{item.third_mc?item.third_mc:'暂无'}}</div>
-        <div nz-col nzSpan="5" class="row-item thumbnail-container">
+      <div nz-row *ngFor="let item of productList;let i=index" class="row1">
+        <!-- ------ -->
+        <!-- <div id="productCon"> -->
+        <div nz-col nzSpan="4" class="automatic">{{item.name?item.name:'暂无'}}</div>
+        <div nz-col nzSpan="5" class="automatic">{{item.material?item.material:'暂无'}}</div>
+        <div nz-col nzSpan="5" class="automatic">{{item.craft?item.craft:'暂无'}}</div>
+        <div nz-col nzSpan="5" class="automatic">{{item.third_mc?item.third_mc:'暂无'}}</div>
+        <div nz-col nzSpan="5" class="thumbnail-container">
           <div *ngIf="(item.hash_arr&&item.hash_arr.length!=0)||productVideo.length!=0">
             <img class="thumbnail" alt="" imgGallery *ngFor="let img of item.hash_arr"
               [src]="imgOrigin+img.replace('storage/', '')" />
@@ -175,6 +177,10 @@
             暂无
           </div>
         </div>
+
+        <!-- </div> -->
+        <!-- ----- -->
+
       </div>
       <div nz-col nzSpan="24" *ngIf="productList.length==0" class="noHave row-item produ">暂无产品数据</div>
     </div>

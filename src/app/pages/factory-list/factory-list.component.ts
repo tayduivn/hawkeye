@@ -88,10 +88,8 @@ export class FactoryListComponent implements OnInit {
     // 点击查询
     getSearch() {
         // 查询的时候先把page置为一
-        // this.searchQuery.page = 1;
         this.queryInfo.page = 1;
         // 处理时间
-        // console.log(this.date);
         this.onDateChange(this.date);
         let flag = false;
         // 判断是否有查询条件 没有的话弹出

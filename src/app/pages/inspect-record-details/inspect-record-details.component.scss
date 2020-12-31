@@ -36,9 +36,9 @@
     display: inline-block;
     width: 40px;
     height: 40px;
-    margin-left: 10px;
+    margin-left: 6px;
     padding: 0;
-    margin-bottom: 34px;
+    margin-bottom: unset !important;
 }
 
 .thumbnail-container {
@@ -102,12 +102,11 @@
     transform: translate(-50%, -50%);
 }
 .mask {
-    bottom: 0;
-    left: 0;
-    overflow: hidden;
     position: fixed;
-    right: 0;
+    left: 0;
     top: 0;
+    width: 100%;
+    height: 100%;
     background: rgba(0, 0, 0, 0.1);
 }
 .closeVideo {
@@ -132,4 +131,17 @@
 }
 .produ {
     border-left: 1px solid #ccc;
+}
+.product-container {
+    height: 100%;
+}
+.row1 {
+    display: flex;
+    border-bottom: 1px solid #ccc;
+}
+.automatic {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-right: 1px solid #ccc;
 }
