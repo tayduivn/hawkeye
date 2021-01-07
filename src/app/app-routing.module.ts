@@ -35,7 +35,6 @@ const routes: Routes = [
         redirectTo: '/welcome',
         pathMatch: 'full',
     },
-  { path: 'factory-inspect', loadChildren: './pages/factory-inspect/factory-inspect.module#FactoryInspectPageModule' },
 ];
 
 @NgModule({

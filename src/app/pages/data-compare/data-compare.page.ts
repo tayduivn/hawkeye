@@ -294,7 +294,7 @@ export class DataComparePage implements OnInit {
     }
 
     funnelSelected(e: any) {
-        this.getListParams.is_passed = e.value;
+        this.getListParams.is_passed = e;
         this.getList({ is_passed: this.getListParams.is_passed });
     }
 

@@ -263,11 +263,11 @@ export class InspectionService {
     /**
      * 撤销验货
      */
-    revokeInspect(params: { apply_id: number; sku: string }) {
+    revokeInspect(params: { apply_id: number, sku: string }){
         return this.baseData.get({
             url: '/inspection/reset_apply_inspection_sku',
-            params,
-        });
+            params
+        })
     }
 }
 

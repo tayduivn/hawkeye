@@ -2,6 +2,6 @@
 
 <nz-dropdown-menu #menu="nzDropdownMenu">
     <ul nz-menu nzSelectable>
-        <li nz-menu-item *ngFor="let item of _list" (click)="onSelected.emit(item)" >{{ item.key }}</li>
+        <li nz-menu-item *ngFor="let item of _list" (click)="onSelected.emit(item.key)" >{{ item.value }}</li>
     </ul>
 </nz-dropdown-menu>

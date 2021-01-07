@@ -2,9 +2,9 @@
     <ion-toolbar class="pos-r">
         <div class="animate">
             <div class="con">
-                <div class="ice1 ice"></div>
+                <!-- <div class="ice1 ice"></div>
                 <div class="ice2 ice"></div>
-                <div class="ice3 ice"></div>
+                <div class="ice3 ice"></div> -->
                 <ion-buttons slot="start">
                     <ion-menu-button></ion-menu-button>
                 </ion-buttons>
@@ -12,6 +12,12 @@
                 <ion-title class="title-box">
                     <div class="mr-40 color">
                         <ion-icon name="color-palette"></ion-icon>
+                    </div>
+                    <div class="notifiy ml-40" (click)="showNotify()" >
+                        <div>
+                            <ion-icon name="notifications-outline"></ion-icon>
+                            <div class="num" *ngIf="notify.unread$ | async" >{{notify.unread$ | async}}</div>
+                        </div>
                     </div>
                     <div class="date-time">
                         <span>现在是：</span>

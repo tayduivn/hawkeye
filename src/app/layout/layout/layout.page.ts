@@ -1,8 +1,19 @@
+import { NotifyService } from './../../templates/service/notify.service';
+import { GlobalModalService } from '../../component/global-modal/global-modal.service';
+import { NotifyComponent } from './../../templates/notify/notify.component';
 import { WebsocketService } from './../../services/websocket.service';
 import { GlobalRedoService } from './../../services/global-redo.service';
 import { themes, Theme, ThemeService } from './../theme.service';
 import { BaseDataService } from 'src/app/services/base-data.service';
-import { Component, OnInit, ViewChild, TemplateRef } from '@angular/core';
+import {
+    Component,
+    OnInit,
+    ViewChild,
+    TemplateRef,
+    ViewChildren,
+    ComponentFactoryResolver,
+    ViewContainerRef,
+} from '@angular/core';
 import { Router, ActivationEnd } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 import { filter } from 'rxjs/operators';
@@ -152,7 +163,6 @@ export class LayoutPage implements OnInit {
             sonIndex: 3,
             parent: 'dashboard/stay-arraying-list',
         },
-
         {
             path: 'dashboard/permission',
             title: '权限列表',
@@ -220,7 +230,8 @@ export class LayoutPage implements OnInit {
         private themeService: ThemeService,
         private globalRedo: GlobalRedoService,
         private notificationService: NzNotificationService,
-        private websocket: WebsocketService,
+        private globalModal: GlobalModalService,
+        public notify: NotifyService,
     ) {
         // 监听路由事件
         // 只订阅 ActivationEnd 事件
@@ -250,6 +261,10 @@ export class LayoutPage implements OnInit {
             // 首次进入没找到 tab, 从menu中获取
             if (!exist) this.actionTab(this.menusMap[uid]);
         });
+
+        notify.unread$.subscribe(res => {
+            console.log(res);
+        });
     }
 
     ngOnInit() {
@@ -257,6 +272,10 @@ export class LayoutPage implements OnInit {
         this.themeService.theme.subscribe(res => {
             this.theme = res;
         });
+    }
+    showNotify() {
+        //返回组件工厂构造的组件实例
+        this.globalModal.create$.next(NotifyComponent);
     }
 
     // 初始化uid菜单映射

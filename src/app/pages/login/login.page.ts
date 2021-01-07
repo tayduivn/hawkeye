@@ -1,3 +1,6 @@
+import { environment } from './../../../environments/environment';
+import { NotifyService } from './../../templates/service/notify.service';
+import { WebsocketService } from './../../services/websocket.service';
 import { BaseDataService } from '../../services/base-data.service';
 import { Component, OnInit, ElementRef, AfterViewInit, Renderer } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
@@ -107,13 +110,13 @@ export class LoginPage implements OnInit, AfterViewInit {
     }
 
     constructor(
-        private http: HttpClient,
         public baseData: BaseDataService,
         public Router: Router,
         private fb: FormBuilder,
         private el: ElementRef,
         public effectCtrl: PageEffectService,
         private menuPermission: MenuPermissionService,
+        private socket: WebsocketService,
     ) {}
 
     ngOnInit() {
@@ -170,6 +173,8 @@ export class LoginPage implements OnInit, AfterViewInit {
                     this.baseData.is_Inspector = base.is_Inspector;
                     this.Router.navigate(['/home']);
                     this.baseData.setMenuChange(true);
+                    this.socket.sendMessage({ api_token: this.baseData.userInfo.api_token });
+                     console.log('发送了');
                 }
             });
         });

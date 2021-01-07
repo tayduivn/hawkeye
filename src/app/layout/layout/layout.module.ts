@@ -176,8 +176,6 @@ const routes: Routes = [
                 canActivate: [],
                 data: { uid: 2018, useCache: true, sonIndex: 3 },
             },
-            // ...................
-
             {
                 path: 'permission',
                 component: PermissionComponent,

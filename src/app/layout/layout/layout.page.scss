@@ -36,25 +36,25 @@ ion-toolbar {
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: red !important;
-    --background: url('../../../assets/img/sd.png') 100%;
+    // background-color: red !important;
+    // --background: url('../../../assets/img/sd.png') 100%;
 }
-.animate {
-    width: 100%;
-    height: 56px;
-    background: url('../../../assets/img/snow-bg.png') repeat-y center;
-    -webkit-animation: auto 20s linear infinite;
-}
+// .animate {
+//     width: 100%;
+//     height: 56px;
+//     background: url('../../../assets/img/snow-bg.png') repeat-y center;
+//     -webkit-animation: auto 20s linear infinite;
+// }
 
-@-webkit-keyframes auto {
-    0% {
-        background-position: center 0, 0 0;
-    }
+// @-webkit-keyframes auto {
+//     0% {
+//         background-position: center 0, 0 0;
+//     }
 
-    100% {
-        background-position: center 885px, 0 0;
-    }
-}
+//     100% {
+//         background-position: center 885px, 0 0;
+//     }
+// }
 .date-time,
 .mr-40 {
     span {
@@ -64,51 +64,77 @@ ion-toolbar {
 
 // -------------------------
 
-@-webkit-keyframes play {
-    0% {
-        -webkit-transform: translate(0, -315px);
+// @-webkit-keyframes play {
+//     0% {
+//         -webkit-transform: translate(0, -315px);
+//     }
+//     100% {
+//         -webkit-transform: translate(0, 0);
+//     }
+// }
+
+// .animate .ice {
+//     -webkit-animation: play 2s;
+// }
+// .animate .con {
+//     width: 100%;
+//     height: 56px;
+//     background-repeat: no-repeat;
+//     background-position: 0 204px;
+//     position: relative;
+// }
+
+// .animate .con .ice1 {
+//     width: 87px;
+//     height: 55px;
+//     background: url('../../../assets/img/ice.png');
+//     position: absolute;
+//     bottom: 0;
+//     left: 480px;
+//     -webkit-animation-duration: 1s;
+// }
+// .animate .con .ice2 {
+//     width: 87px;
+//     height: 55px;
+//     background: url('../../../assets/img/ice.png');
+//     position: absolute;
+//     bottom: 0;
+//     left: 280px;
+//     -webkit-animation-duration: 1.5s;
+// }
+
+// .animate .con .ice3 {
+//     width: 87px;
+//     height: 55px;
+//     background: url('../../../assets/img/ice.png');
+//     position: absolute;
+//     bottom: 0;
+//     left: 400px;
+//     -webkit-animation-duration: 2;
+// }
+
+.notifiy {
+    margin-top: -2px;
+    ion-icon {
+        font-size: 22px;
+        cursor: pointer;
+
     }
-    100% {
-        -webkit-transform: translate(0, 0);
+    > div {
+        position: initial;
+        .num {
+            z-index: 222;
+            position: absolute;
+            font-size: 12px;
+            line-height: 15px;
+            text-align: center;
+            top: -10px;
+            border-radius: 100%;
+            color: #fff;
+            width: 15px;
+            height: 15px;
+            right: 13px;
+            background: #ff4d4f;
+        }
     }
-}
-
-.animate .ice {
-    -webkit-animation: play 2s;
-}
-.animate .con {
-    width: 100%;
-    height: 56px;
-    background-repeat: no-repeat;
-    background-position: 0 204px;
-    position: relative;
-}
-
-.animate .con .ice1 {
-    width: 87px;
-    height: 55px;
-    background: url('../../../assets/img/ice.png');
-    position: absolute;
-    bottom: 0;
-    left: 480px;
-    -webkit-animation-duration: 1s;
-}
-.animate .con .ice2 {
-    width: 87px;
-    height: 55px;
-    background: url('../../../assets/img/ice.png');
-    position: absolute;
-    bottom: 0;
-    left: 280px;
-    -webkit-animation-duration: 1.5s;
-}
-
-.animate .con .ice3 {
-    width: 87px;
-    height: 55px;
-    background: url('../../../assets/img/ice.png');
-    position: absolute;
-    bottom: 0;
-    left: 400px;
-    -webkit-animation-duration: 2;
 }
