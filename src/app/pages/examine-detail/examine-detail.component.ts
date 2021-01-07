@@ -1,3 +1,4 @@
+import { WebsocketService } from './../../services/websocket.service';
 import { environment } from './../../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
@@ -26,7 +27,7 @@ export interface InspectAppInfo {
     recommend_status: number;
     review_summary_desc: Array<ExamineDesc>;
     sku: string;
-    status: number;
+    status: number | any;
     active?: boolean;
     data?: Array<Advise>;
     pic: string[];
@@ -46,13 +47,14 @@ export interface ExamineDesc {
     styleUrls: ['./examine-detail.component.scss'],
 })
 export class ExamineDetailComponent implements OnInit {
+    @ViewChild('player', { static: false }) player: ElementRef;
+    @ViewChild('content', { static: false }) content: ElementRef;
+    @ViewChild('reply', { static: false }) reply: ReplyComponent;
+    
     public model = {
         editorData: '<p>Hello, world!哈哈</p>',
     };
-    @ViewChild('player', { static: false }) player: ElementRef;
     env: any = environment;
-    @ViewChild('content', { static: false }) content: ElementRef;
-    @ViewChild('reply', { static: false }) reply: ReplyComponent;
     advises: Advise[] = [];
     apply_inspection_no: any;
     inputValue: string = '';
@@ -80,6 +82,7 @@ export class ExamineDetailComponent implements OnInit {
         private http: HttpClient,
         private msg: NzMessageService,
         public commitCtrl: CommitService,
+        private socket: WebsocketService,
     ) {}
     html = ``;
 
@@ -100,6 +103,7 @@ export class ExamineDetailComponent implements OnInit {
                     this.advises = res.data;
                     this.appInfos = res.info;
                     this.isReviewer = res.is_reviewer;
+                    this.reviewStatus = res.review_status;
                     this.appInfos.forEach((item, i) => {
                         if (typeof item.review_summary_desc == 'string') {
                             item.review_summary_desc = [{ text: item.review_summary_desc, color: 'rgb(0, 0, 0)' }];
@@ -203,10 +207,12 @@ export class ExamineDetailComponent implements OnInit {
             })
             .subscribe(res => {
                 this.msg[res.status ? 'success' : 'error'](res.message);
-                if(id === 0) this.getData();
+                if (id === 0) this.getData();
                 this.commitCtrl.id = res.data.id;
                 res.status && this.commitCtrl.currentKey$.next(res.data.id);
                 //TODO 正确的应该是这里通知子组件去push到节点
+
+                this;
             });
     }
 
@@ -219,7 +225,8 @@ export class ExamineDetailComponent implements OnInit {
                 sku: p.sku,
             })
             .subscribe(res => {
-                this.msg.success(res.message);
+                this.msg[res.status?"success":"error"](res.message);
+                this.socket.sendMessage({ api_token: this.baseData.userInfo.api_token });
             });
     }
 
@@ -432,7 +439,6 @@ export class ExamineDetailComponent implements OnInit {
     }
 
     setCommitCtrlSkuAndApply(e: boolean, p: any) {
-        
         this.commitCtrl.applyInspectNo = this.apply_inspection_no;
         this.commitCtrl.Sku = p.sku;
         this.commitCtrl.contract = p.contract_no;

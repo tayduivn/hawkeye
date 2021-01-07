@@ -61,7 +61,7 @@
                     <label *ngIf="isReviewer">请选择审核状态:</label>
                     <nz-select
                         *ngIf="isReviewer"
-                        [(ngModel)]="item.status"
+                        [(ngModel)]="item.status.status"
                         nzSize="middle"
                         class="mb-5 w150"
                         nzAllowClear
@@ -74,9 +74,10 @@
                             *ngFor="let item of reviewStatus"
                         ></nz-option>
                     </nz-select>
+                  
                     <br />
-                    <!-- <label>建议审核状态:</label> -->
-                    <!-- <span *ngIf="isReviewer">{{ reviewStatus[item.recommend_status].value }}</span> -->
+                    <!-- <label>:</label> -->
+                    <span>{{ item.status?item.status.status_other_info:"" }}</span>
                     <nz-select
                         [(ngModel)]="item.recommend_status"
                         *ngIf="!isReviewer"

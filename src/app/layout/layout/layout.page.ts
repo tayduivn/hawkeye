@@ -1,8 +1,19 @@
+import { NotifyService } from './../../templates/service/notify.service';
+import { GlobalModalService } from '../../component/global-modal/global-modal.service';
+import { NotifyComponent } from './../../templates/notify/notify.component';
 import { WebsocketService } from './../../services/websocket.service';
 import { GlobalRedoService } from './../../services/global-redo.service';
 import { themes, Theme, ThemeService } from './../theme.service';
 import { BaseDataService } from 'src/app/services/base-data.service';
-import { Component, OnInit, ViewChild, TemplateRef } from '@angular/core';
+import {
+    Component,
+    OnInit,
+    ViewChild,
+    TemplateRef,
+    ViewChildren,
+    ComponentFactoryResolver,
+    ViewContainerRef,
+} from '@angular/core';
 import { Router, ActivationEnd } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 import { filter } from 'rxjs/operators';
@@ -22,9 +33,9 @@ export class LayoutPage implements OnInit {
     theme: Theme;
     examine: any = {
         msg: '',
-        url: ''
+        url: '',
     };
-    date: Observable<Date> = new Observable((observer) => {
+    date: Observable<Date> = new Observable(observer => {
         setInterval(() => {
             const date = new Date();
             observer.next(date);
@@ -194,6 +205,14 @@ export class LayoutPage implements OnInit {
             sonIndex: 1,
             parent: 'dashboard/permission',
         },
+
+        {
+            path: 'dashboard/factory-inspect',
+            title: '工厂列表',
+            uid: 2025,
+            sonIndex: 0,
+            parent: 'dashboard/factory-inspect',
+        },
     ];
     // uid映射
     // 用于快速查找, 而不用每次都去 forEach(menus)
@@ -211,11 +230,12 @@ export class LayoutPage implements OnInit {
         private themeService: ThemeService,
         private globalRedo: GlobalRedoService,
         private notificationService: NzNotificationService,
-        private websocket: WebsocketService
+        private globalModal: GlobalModalService,
+        public notify: NotifyService,
     ) {
         // 监听路由事件
         // 只订阅 ActivationEnd 事件
-        this.router.events.pipe(filter((e) => e instanceof ActivationEnd)).subscribe((e: ActivationEnd) => {
+        this.router.events.pipe(filter(e => e instanceof ActivationEnd)).subscribe((e: ActivationEnd) => {
             const snapshot = e.snapshot;
             const isSkip = !(
                 snapshot['_routerState'].url &&
@@ -242,19 +262,26 @@ export class LayoutPage implements OnInit {
             if (!exist) this.actionTab(this.menusMap[uid]);
         });
 
+        notify.unread$.subscribe(res => {
+            console.log(res);
+        });
     }
 
     ngOnInit() {
         this.initMenusMap(this.menus);
-        this.themeService.theme.subscribe((res) => {
+        this.themeService.theme.subscribe(res => {
             this.theme = res;
         });
+    }
+    showNotify() {
+        //返回组件工厂构造的组件实例
+        this.globalModal.create$.next(NotifyComponent);
     }
 
     // 初始化uid菜单映射
     initMenusMap(ms: Array<any>) {
         if (Array.isArray(ms))
-            eachA(ms, (m) => {
+            eachA(ms, m => {
                 this.menusMap[m.uid] = m;
                 // 递归子孙菜单
                 this.initMenusMap(m.child);

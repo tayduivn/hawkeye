@@ -1,0 +1,24 @@
+<ng-template #tplTitle>
+    <span >消息通知</span>
+</ng-template>
+<ng-template #tplContent>
+        <ul *ngIf="(notify.list$ | async) && (notify.list$ | async).length; else notMsg">
+            <li *ngFor="let item of notify.list$ | async">
+                <span>{{ item.content }}</span>
+                <button
+                    nz-button
+                    nzSize="small"
+                    nzType="link"
+                    (click)="globalModal.dismiss()" 
+                    [routerLink]="['/dashboard/data-compare-examine', item.apply_inspection_no]"
+                >
+                    去详情
+                </button>
+            </li>
+        </ul>
+</ng-template>
+<ng-template #tplFooter let-ref="modalRef">
+    <button nz-button nzType="primary" nzSize="small" (click)="ref.destory()">确定</button>
+</ng-template>
+
+<ng-template #notMsg>暂无消息</ng-template>

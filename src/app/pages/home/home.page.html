@@ -1,18 +1,25 @@
 <ion-header>
-    <ion-toolbar color="light">
-        <ion-buttons slot="start">
-            <ion-menu-button></ion-menu-button>
-        </ion-buttons>
-        <img src="../../assets/img/slogan.png" id="slogan" />
-        <ion-title>
-            <div class="title">
-                <div class="text-r">
-                    <span class="text-r mr-40">欢迎您：{{baseData.userInfo.name}}</span>
-                    <span>现在是：</span>
-                    <span>{{date | async | date:'yyyy年MM月dd日'}}</span>
-                </div>
+    <ion-toolbar>
+        <div class="animate">
+            <div class="con">
+                <!-- <div class="ice1 ice"></div>
+                <div class="ice2 ice"></div>
+                <div class="ice3 ice"></div> -->
+                <ion-buttons slot="start">
+                    <ion-menu-button></ion-menu-button>
+                </ion-buttons>
+                <img src="../../assets/img/slogan.png" id="slogan" />
+                <ion-title>
+                    <div class="title">
+                        <div class="text-r">
+                            <span class="text-r mr-40">欢迎您：{{baseData.userInfo.name}}</span>
+                            <span>现在是：</span>
+                            <span>{{date | async | date:'yyyy年MM月dd日'}}</span>
+                        </div>
+                    </div>
+                </ion-title>
             </div>
-        </ion-title>
+        </div>
     </ion-toolbar>
 </ion-header>
 
@@ -27,3 +34,4 @@
         <ion-card-content> </ion-card-content>
     </ion-card>
 </ion-content>
+

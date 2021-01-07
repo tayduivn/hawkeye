@@ -1,3 +1,5 @@
+import { NotifyComponent } from './templates/notify/notify.component';
+import { GlobalModalComponent } from './component/global-modal/global-modal.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SkuDescPopupComponent } from './component/sku-desc-popup/sku-desc-popup.component';
 import { ConfirmedPopupBoxComponent } from './component/confirmed-popupbox/confirmed-popupbox.component';
@@ -36,6 +38,8 @@ registerLocaleData(zh);
         SkuDescPopupComponent,
         InspectSettingBoxComponent,
         EditTaskComponent,
+        GlobalModalComponent,
+        NotifyComponent
     ],
     entryComponents: [
         CustomPopupComponent,
@@ -45,6 +49,8 @@ registerLocaleData(zh);
         confirmedInspectComponent,
         InspectSettingBoxComponent,
         EditTaskComponent,
+        GlobalModalComponent,
+        NotifyComponent
     ],
     imports: [
         NgZorroAntdModule,

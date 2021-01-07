@@ -59,7 +59,7 @@
                             <td class="w200" *ngIf="userLimit.has('sku-chinese',243)">SKU中文名</td>
                             <td class="w90" *ngIf="userLimit.has('inspection-status',243)">
                                 验货状态
-                                <app-funnel [list]="funnels" (onSelected)="funnelSelected($event)"></app-funnel>
+                                <app-funnel [list]="reviewStatus" (onSelected)="funnelSelected($event)"></app-funnel>
                             </td>
                             <td class="w100" *ngIf="userLimit.has('inspector',243)">验货人</td>
                             <td class="w120" *ngIf="userLimit.has('inspection-time',243)">

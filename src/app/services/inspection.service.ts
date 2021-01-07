@@ -9,7 +9,7 @@ import { project } from './task.service';
 })
 export class InspectionService {
     constructor(public baseData: BaseDataService) {}
-
+    // Observable  返回的值是被观察的对象  才能用subscribe去订阅  返回值的类型不固定  所以需要用any 冒号后面是传递过来的参数需要实现怎样的接口  这是对类型进行的限制
     submitData(uploadData: uploadData): Observable<any> {
         //sku  提交
         return this.baseData.post({

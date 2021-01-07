@@ -44,6 +44,7 @@ export class ExamineService {
         data: Advise[];
         info: InspectAppInfo[];
         is_reviewer: boolean;
+        review_status: Array<{key: number;value:string}>
     }> {
         return this.baseData
             .get({

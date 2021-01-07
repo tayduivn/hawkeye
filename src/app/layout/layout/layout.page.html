@@ -1,21 +1,34 @@
-<ion-header>
-    <ion-toolbar [color]="'light'" class="pos-r">
-        <ion-buttons slot="start">
-            <ion-menu-button></ion-menu-button>
-        </ion-buttons>
-        <img src="../../assets/img/slogan.png" id="slogan" />
-        <ion-title class="title-box">
-            <div class="mr-40 color">
-                <ion-icon name="color-palette"></ion-icon>
+<ion-header class="ionHeader">
+    <ion-toolbar class="pos-r">
+        <div class="animate">
+            <div class="con">
+                <!-- <div class="ice1 ice"></div>
+                <div class="ice2 ice"></div>
+                <div class="ice3 ice"></div> -->
+                <ion-buttons slot="start">
+                    <ion-menu-button></ion-menu-button>
+                </ion-buttons>
+                <img src="../../assets/img/slogan.png" id="slogan" />
+                <ion-title class="title-box">
+                    <div class="mr-40 color">
+                        <ion-icon name="color-palette"></ion-icon>
+                    </div>
+                    <div class="notifiy ml-40" (click)="showNotify()" >
+                        <div>
+                            <ion-icon name="notifications-outline"></ion-icon>
+                            <div class="num" *ngIf="notify.unread$ | async" >{{notify.unread$ | async}}</div>
+                        </div>
+                    </div>
+                    <div class="date-time">
+                        <span>现在是：</span>
+                        <span>{{ date | async | date: "yyyy年MM月dd日" }}</span>
+                    </div>
+                    <div class="title mr-40">
+                        <span class="text-r">欢迎您：{{ baseData.userInfo.name }}</span>
+                    </div>
+                </ion-title>
             </div>
-            <div>
-                <span>现在是：</span>
-                <span>{{ date | async | date: "yyyy年MM月dd日" }}</span>
-            </div>
-            <div class="title mr-40">
-                <span class="text-r">欢迎您：{{ baseData.userInfo.name }}</span>
-            </div>
-        </ion-title>
+        </div>
     </ion-toolbar>
 </ion-header>
 <nz-tabset [nzType]="'card'" [(nzSelectedIndex)]="selectedIndex" style="height: 43px; background: #fff;">

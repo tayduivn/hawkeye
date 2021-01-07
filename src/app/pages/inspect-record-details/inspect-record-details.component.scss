@@ -1,0 +1,135 @@
+.factoryBaseInformation,
+.factoryGeneralSituation,
+.productInformation,
+.collaborativeProduct,
+.specimenInformation,
+.factoryAssess {
+    span {
+        font-size: 14px;
+        font-weight: bold;
+    }
+    margin-bottom: 60px;
+}
+
+.row-item {
+    border-right: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    text-align: center;
+    height: 50px;
+    line-height: 50px;
+}
+.row-container1 {
+    width: 70%;
+    margin-top: 20px;
+    border-top: 1px solid #ccc;
+    border-left: 1px solid #ccc;
+}
+.backColor {
+    background-color: #ededed;
+}
+.zwf {
+    height: 200px;
+}
+
+// 缩略图的样式
+.thumbnail {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    margin-left: 10px;
+    padding: 0;
+    margin-bottom: 34px;
+}
+
+.thumbnail-container {
+    padding: 5px 0;
+    display: flex;
+    justify-content: flex-start;
+}
+.noShowImg {
+    display: flex;
+    justify-content: center;
+}
+.noContainer {
+    display: unset;
+}
+.video-container {
+    position: relative;
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    margin-left: 10px;
+    padding: 0;
+    background-color: #333;
+    border-radius: 3px;
+    cursor: pointer;
+}
+.playVideo {
+    position: absolute;
+    width: 80%;
+    height: 80%;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    background-color: #333;
+    border: 3px solid #ccc;
+}
+.trigle {
+    left: 60%;
+    top: 50%;
+    position: absolute;
+    transform: translate(-50%, -50%);
+    width: 0;
+    height: 0;
+    border-top: 10px solid transparent;
+    border-left: 15px solid #ccc;
+    border-bottom: 10px solid transparent;
+}
+.videoContainer {
+    width: 500px;
+    height: 300px;
+}
+.videosp {
+    width: 100%;
+    height: 100%;
+    object-fit: fill;
+}
+.videoContainer {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+.mask {
+    bottom: 0;
+    left: 0;
+    overflow: hidden;
+    position: fixed;
+    right: 0;
+    top: 0;
+    background: rgba(0, 0, 0, 0.1);
+}
+.closeVideo {
+    position: absolute;
+    left: 50%;
+    top: 260px;
+    transform: translateX(-50%);
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: rgb(160, 159, 159);
+    text-align: center;
+    line-height: 30px;
+    font-size: 20px;
+    color: #fff;
+    z-index: 100;
+    cursor: pointer;
+}
+.noHave {
+    width: 100%;
+    text-align: center;
+}
+.produ {
+    border-left: 1px solid #ccc;
+}

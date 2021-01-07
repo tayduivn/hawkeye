@@ -45,7 +45,9 @@ import { CreateUserPage } from 'src/app/pages/create-user/create-user.page';
 import { CreateDepartmentPage } from 'src/app/pages/create-department/create-department.page';
 import { ModifyPwdPage } from 'src/app/pages/modify-pwd/modify-pwd.page';
 import { UserGroupComponent } from 'src/app/pages/user-group/user-group.component';
- const routes: Routes = [
+import { FactoryListComponent } from 'src/app/pages/factory-list/factory-list.component';
+import { InspectRecordDetailsComponent } from 'src/app/pages/inspect-record-details/inspect-record-details.component';
+const routes: Routes = [
     {
         path: 'dashboard',
         component: LayoutPage,
@@ -210,6 +212,18 @@ import { UserGroupComponent } from 'src/app/pages/user-group/user-group.componen
                 canActivate: [],
                 data: { uid: 2024, useCache: true, sonIndex: 1 },
             },
+            {
+                path: 'factory-inspect',
+                component: FactoryListComponent,
+                canActivate: [],
+                data: { uid: 2025, useCache: true, sonIndex: 0 },
+            },
+            {
+                path: 'inspect-record-details',
+                component: InspectRecordDetailsComponent,
+                canActivate: [],
+                data: { uid: 2026, useCache: true },
+            },
         ],
     },
 ];
@@ -229,7 +243,7 @@ import { UserGroupComponent } from 'src/app/pages/user-group/user-group.componen
         FlexLayoutModule,
         RouterModule.forChild(routes),
         ColorPickerModule,
-     ],
+    ],
     declarations: [
         LayoutPage,
         OrderTrackPage,
@@ -264,6 +278,8 @@ import { UserGroupComponent } from 'src/app/pages/user-group/user-group.componen
         CreateDepartmentPage,
         ModifyPwdPage,
         UserGroupComponent,
+        FactoryListComponent,
+        InspectRecordDetailsComponent,
     ],
 })
 export class LayoutPageModule {}

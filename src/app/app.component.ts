@@ -1,3 +1,4 @@
+import { Notify, NotifyPayload, NotifyService } from './templates/service/notify.service';
 import { UserLimitService } from './services/user-limit.service';
 import { PageEffectService } from './services/page-effect.service';
 import { BaseDataService } from './services/base-data.service';
@@ -12,12 +13,15 @@ import { menuItem } from './share/menu.json';
 import { ThemeService, Theme } from './layout/theme.service';
 import { MenuPermissionService } from './services/menu-permission.service';
 import { timer } from 'rxjs';
+import { WebsocketService } from './services/websocket.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
     selector: 'app-root',
     templateUrl: 'app.component.html',
 })
 export class AppComponent {
+    private wsOrigin: string = environment.wsOrigin;
     theme: Theme;
     elem: ElementRef;
     public appPages: menuItem[] = this.baseData.appPages;
@@ -50,6 +54,8 @@ export class AppComponent {
         public effectCtrl: PageEffectService,
         private themeService: ThemeService,
         public menuPermission: MenuPermissionService,
+        private socket: WebsocketService,
+        private notify: NotifyService,
     ) {
         this.initializeApp();
     }
@@ -97,6 +103,20 @@ export class AppComponent {
 
         this.themeService.theme.subscribe(res => {
             this.theme = res;
+        });
+        this.socket.create(this.wsOrigin)
+        .subscribe((res: Event | String) => {
+            if ((res as Event).type === 'open') {
+                this.socket.sendMessage({ api_token: this.baseData.userInfo.api_token });
+                return
+            }
+            if(!JSON.parse(res as string).status) return;
+            const {
+                data: { show_num, data },
+            } = JSON.parse(res as string);
+
+            this.notify.list$.next(data);
+            this.notify.unread$.next(show_num);
         });
     }
 
@@ -166,10 +186,9 @@ export class AppComponent {
                             sessionStorage.removeItem('USERINFO');
                             sessionStorage.removeItem('PERMISSION');
                             that.Router.navigate(['/login']);
-                            timer(500)
-                                .subscribe(() => {
-                                    location.reload();
-                                })
+                            timer(500).subscribe(() => {
+                                location.reload();
+                            });
                         },
                     },
                     {

@@ -177,6 +177,25 @@ const appPages: Array<menuItem> = [
             },
         ],
     },
+    // -----------------------
+    {
+        title: '工厂考察',
+        url: '/factory-inspect',
+        type: 'link',
+        icon: 'search',
+        limit: 'container-arrangement', //TODO 放排柜
+        active: false,
+        children: [
+            {
+                title: '工厂列表',
+                url: '/factory-inspect',
+                limit: 'container-arrangement',
+                type: 'link',
+                icon: 'list',
+                sonIndex: 0,
+            },
+        ],
+    },
     {
         title: '用户管理',
         url: '/develope-list',
