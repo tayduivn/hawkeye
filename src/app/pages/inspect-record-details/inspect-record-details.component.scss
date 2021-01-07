@@ -45,6 +45,8 @@
     padding: 5px 0;
     display: flex;
     justify-content: flex-start;
+    border-right: 1px solid #ccc;
+    flex-wrap: wrap;
 }
 .noShowImg {
     display: flex;
@@ -144,4 +146,17 @@
     justify-content: center;
     align-items: center;
     border-right: 1px solid #ccc;
+}
+.specei_pic {
+    display: flex;
+    height: 100%;
+    align-items: center;
+    flex-wrap: wrap;
+}
+.specei_pic .video-container {
+    margin-bottom: 3px;
+}
+// .specei_pic
+.specei_pic .video-container {
+    margin-top: 3px;
 }

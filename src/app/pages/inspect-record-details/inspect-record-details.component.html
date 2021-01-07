@@ -48,12 +48,14 @@
         <div nz-col nzSpan="4" class="row-item backColor">工厂地址({{i+1}})</div>
         <div nz-col nzSpan="20" class="row-item">{{item.address?item.address:'暂无'}}</div>
       </div>
-      <div nz-row>
-        <div nz-col nzSpan="4" class="row-item backColor">营业执照照片</div>
-        <div nz-col nzSpan="20" class="row-item thumbnail-container" *ngIf="businessPic.length!=0">
-          <img class="thumbnail" [src]="imgOrigin+item" alt="" imgGallery *ngFor="let item of businessPic" />
+      <div nz-row class="row1">
+        <div nz-col nzSpan="4" class="automatic backColor">营业执照照片</div>
+        <div nz-col nzSpan="20" class="thumbnail-container" *ngIf="businessPic.length!=0" imgGallery>
+          <img class="thumbnail" [src]="imgOrigin+item" alt="" *ngFor="let item of businessPic" />
+          <!-- <img class="thumbnail" [src]="imgOrigin+item" alt="" imgGallery
+            *ngFor="let item of [1,2,3,4,5,6,7,8,9,10,11,12,12,12,12,12,123,21,21,21,21,21,211,21,21,21,21,21,21,21,212,121,21]" /> -->
         </div>
-        <div nz-col nzSpan="20" class="row-item thumbnail-container noContainer" *ngIf="businessPic.length==0">
+        <div nz-col nzSpan="20" class="automatic thumbnail-container noContainer" *ngIf="businessPic.length==0">
           暂无
         </div>
       </div>
@@ -109,9 +111,11 @@
       </div>
       <div nz-row class="row1">
         <div nz-col nzSpan="4" class="automatic backColor">工厂外观照片</div>
-        <div nz-col nzSpan="20" class="thumbnail-container" *ngIf="facadePic.length!=0||facadeVideo.length!=0">
-          <img class="thumbnail" alt="" imgGallery [src]="imgOrigin+item" alt="" imgGallery
-            *ngFor="let item of facadePic" />
+        <div nz-col nzSpan="20" class="thumbnail-container" *ngIf="facadePic.length!=0||facadeVideo.length!=0"
+          imgGallery>
+          <img class="thumbnail" alt="" [src]="imgOrigin+item" alt="" *ngFor="let item of facadePic" />
+          <!-- <img class="thumbnail" [src]="imgOrigin+item" alt="" imgGallery
+            *ngFor="let item of [1,2,3,4,5,6,7,8,9,10,11,12,12,12,12,12,123,21,21,21,21,21,211,21,21,21,21,21,21,21,212,121,21]" /> -->
           <div class="video-container" *ngFor="let video of facadeVideo" (click)="showVideo(video)">
             <div class="playVideo">
               <!-- 三角形 播放按钮 -->
@@ -124,11 +128,12 @@
           暂无
         </div>
       </div>
-      <div nz-row>
-        <div nz-col nzSpan="4" class="row-item backColor">生产车间照片(设备,生产线等)</div>
-        <div nz-col nzSpan="20" class="row-item thumbnail-container" *ngIf="plantPic.length!=0||plantVideo.length!=0">
-          <img class="thumbnail" alt="" imgGallery [src]="imgOrigin+item" alt="" imgGallery
-            *ngFor="let item of plantPic" />
+      <div nz-row class="row1">
+        <div nz-col nzSpan="4" class="automatic backColor">生产车间照片(设备,生产线等)</div>
+        <div nz-col nzSpan="20" class="thumbnail-container" *ngIf="plantPic.length!=0||plantVideo.length!=0" imgGallery>
+          <img class="thumbnail" alt="" [src]="imgOrigin+item" alt="" *ngFor="let item of plantPic" />
+          <!-- <img class="thumbnail" [src]="imgOrigin+item" alt="" imgGallery
+            *ngFor="let item of [1,2,3,4,5,6,7,8,9,10,11,12,12,12,12,12,123,21,21,21,21,21,211,21,21,21,21,21,21,21,212,121,21]" /> -->
           <div class="video-container" *ngFor="let video of plantVideo" (click)="showVideo(video)">
             <div class="playVideo">
               <!-- 三角形 播放按钮 -->
@@ -163,9 +168,11 @@
         <div nz-col nzSpan="5" class="automatic">{{item.craft?item.craft:'暂无'}}</div>
         <div nz-col nzSpan="5" class="automatic">{{item.third_mc?item.third_mc:'暂无'}}</div>
         <div nz-col nzSpan="5" class="thumbnail-container">
-          <div *ngIf="(item.hash_arr&&item.hash_arr.length!=0)||productVideo.length!=0">
-            <img class="thumbnail" alt="" imgGallery *ngFor="let img of item.hash_arr"
+          <div *ngIf="(item.hash_arr&&item.hash_arr.length!=0)||productVideo.length!=0" imgGallery>
+            <img class="thumbnail" alt="" *ngFor="let img of item.hash_arr"
               [src]="imgOrigin+img.replace('storage/', '')" />
+            <!-- <img class="thumbnail" [src]="imgOrigin+item" alt="" imgGallery
+              *ngFor="let item of [1,2,3,4,5,6,7,8,9,10,11,12,12,12,12,12,123,21,21,21,21,21,211,21,21,21,21,21,21,21,212,121,21]" /> -->
             <div class="video-container" *ngFor="let video of productVideo" (click)="showVideo(video)">
               <div class="playVideo">
                 <!-- 三角形 播放按钮 -->
@@ -223,11 +230,14 @@
         <div nz-col nzSpan="5" class="row-item">
           {{sampleProductList.payment?sampleProductList.payment:'无'}}</div>
       </div>
-      <div nz-row>
-        <div nz-col nzSpan="4" class="row-item backColor">样品间环境照片</div>
-        <div nz-col nzSpan="20" class="row-item thumbnail-container">
-          <div *ngIf="specimenPic.length!=0||roomVideo.length!=0">
-            <img class="thumbnail" [src]="imgOrigin+item" alt="" imgGallery *ngFor="let item of specimenPic" />
+      <div nz-row class="row1">
+        <div nz-col nzSpan="4" class="automatic backColor">样品间环境照片</div>
+        <div nz-col nzSpan="20" class="thumbnail-container">
+          <div *ngIf="specimenPic.length!=0||roomVideo.length!=0" class="specei_pic" imgGallery>
+            <img class="thumbnail" [src]="imgOrigin+item" alt="" *ngFor="let item of specimenPic" />
+            <!-- <img class="thumbnail" [src]="imgOrigin+item" alt="" imgGallery
+              *ngFor="let item of [1,2,3,4,5,6,7,8,9,10,11,12,12,12,12,12,123,21,21,21,21,21,211,21,21,21,21,21,21,21,212,121,21]" /> -->
+
             <div class="video-container" *ngFor="let video of roomVideo" (click)="showVideo(video)">
               <div class="playVideo">
                 <!-- 三角形 播放按钮 -->
