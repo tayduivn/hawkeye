@@ -3,7 +3,7 @@
         添加权限
     </button>
 
-    <nz-table #basicTable [nzData]="permission" nzTableLayout="fixed" [nzShowPagination]="false">
+    <nz-table #basicTable [nzData]="permission" nzTableLayout="fixed" [nzShowPagination]="false" [nzPageSize]="15">
         <thead>
             <tr>
                 <th>权限名称</th>
@@ -17,36 +17,21 @@
             <ng-container *ngFor="let data of basicTable.data">
                 <ng-container *ngFor="let item of mapOfExpandedData[data.key]">
                     <tr *ngIf="(item.parent && item.parent.expand) || !item.parent">
-                        <td
-                            [nzIndentSize]="item.level! * 20"
-                            [nzShowExpand]="!!item.children"
+                        <td [nzIndentSize]="item.level! * 20" [nzShowExpand]="!!item.children"
                             [(nzExpand)]="item.expand"
-                            (nzExpandChange)="collapse(mapOfExpandedData[data.key], item, $event)"
-                        >
+                            (nzExpandChange)="collapse(mapOfExpandedData[data.key], item, $event)">
                             {{ item.title }}
                         </td>
                         <td>{{ item.name }}</td>
                         <td>{{ item.key }}</td>
                         <td>{{ permissionTypeMap[item.type] }}</td>
                         <td>
-                            <button
-                                nz-button
-                                nzSize="small"
-                                class="mr-5"
-                                nzType="primary"
-                                (click)="editPermission(item)"
-                            >
+                            <button nz-button nzSize="small" class="mr-5" nzType="primary"
+                                (click)="editPermission(item)">
                                 编辑
                             </button>
-                            <button
-                                nz-popconfirm
-                                nzPopconfirmTitle="确定要删除吗?"
-                                nzPopconfirmPlacement="bottom"
-                                (nzOnConfirm)="delPermission(item)"
-                                nz-button
-                                nzSize="small"
-                                nzType="danger"
-                            >
+                            <button nz-popconfirm nzPopconfirmTitle="确定要删除吗?" nzPopconfirmPlacement="bottom"
+                                (nzOnConfirm)="delPermission(item)" nz-button nzSize="small" nzType="danger">
                                 删除
                             </button>
                         </td>
@@ -57,19 +42,13 @@
     </nz-table>
 </div>
 
-<nz-modal
-    [(nzVisible)]="editIsVisible"
-    [nzTitle]="$any(currentPermission).key ? '编辑权限' : '添加权限'"
-    nzOkText="确定"
-    nzCancelText="取消"
-    (nzOnOk)="treeHandleOk()"
-    (nzOnCancel)="editIsVisible = !editIsVisible"
->
+<nz-modal [(nzVisible)]="editIsVisible" [nzTitle]="$any(currentPermission).key ? '编辑权限' : '添加权限'" nzOkText="确定"
+    nzCancelText="取消" (nzOnOk)="treeHandleOk()" (nzOnCancel)="editIsVisible = !editIsVisible">
     <div>
         <nz-form-item>
             <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired nzFor="email">权限类型</nz-form-label>
             <nz-form-control [nzSm]="12" [nzXs]="24">
-                <nz-select [(ngModel)]="currentPermission.type" class="w100"   style="width: 250px">
+                <nz-select [(ngModel)]="currentPermission.type" class="w100" style="width: 250px">
                     <nz-option nzValue="" nzLabel="请选择权限类型"></nz-option>
                     <nz-option nzValue="menu" nzLabel="菜单"></nz-option>
                     <nz-option nzValue="btn" nzLabel="按钮"></nz-option>
@@ -82,15 +61,9 @@
         <nz-form-item>
             <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired nzFor="email">父级权限</nz-form-label>
             <nz-form-control [nzSm]="12" [nzXs]="24">
-                <nz-tree-select
-                    style="width: 250px"
-                    [nzNodes]="permission"
-                    nzShowSearch
-                    [(ngModel)]="currentPermission.parent_id"
-                    nzPlaceHolder="请选择父级权限"
-                    [(ngModel)]="value"
-                    (ngModelChange)="onChange($event)"
-                >
+                <nz-tree-select style="width: 250px" [nzNodes]="permission" nzShowSearch
+                    [(ngModel)]="currentPermission.parent_id" nzPlaceHolder="请选择父级权限" [(ngModel)]="value"
+                    (ngModelChange)="onChange($event)">
                 </nz-tree-select>
             </nz-form-control>
         </nz-form-item>
@@ -98,14 +71,16 @@
         <nz-form-item>
             <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired nzFor="email">权限名称（英文）</nz-form-label>
             <nz-form-control [nzSm]="12" [nzXs]="24">
-                <input style="width: 250px" class="w100" nz-input placeholder="请填写权限显示的名称" [(ngModel)]="currentPermission.name" />
+                <input style="width: 250px" class="w100" nz-input placeholder="请填写权限显示的名称"
+                    [(ngModel)]="currentPermission.name" />
             </nz-form-control>
         </nz-form-item>
 
         <nz-form-item>
             <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired nzFor="email">权限名称（中文）</nz-form-label>
             <nz-form-control [nzSm]="12" [nzXs]="24">
-                <input style="width: 250px" nz-input placeholder="请填写权限显示的名称" [(ngModel)]="$any(currentPermission).title" />
+                <input style="width: 250px" nz-input placeholder="请填写权限显示的名称"
+                    [(ngModel)]="$any(currentPermission).title" />
             </nz-form-control>
         </nz-form-item>
     </div>

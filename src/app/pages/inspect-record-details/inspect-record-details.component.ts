@@ -51,6 +51,9 @@ export class InspectRecordDetailsComponent implements OnInit {
         private elementRef: ElementRef,
     ) {}
     ngOnInit() {
+        this.isVideoShow = false;
+        this.videoUrl = '';
+
         this.activatedRoute.queryParams
             .pipe(
                 map(res => res.id),
@@ -60,6 +63,17 @@ export class InspectRecordDetailsComponent implements OnInit {
                 const { data } = res;
                 this.data = data;
                 console.log(data);
+
+                if (data.sample.img_arr && data.sample.img_arr.length != 0) {
+                    data.sample.img_arr.forEach(item => {
+                        this.specimenPic = [];
+                        this.specimenPic.push(item.replace('storage/', ''));
+                    });
+                }
+
+                data.sample ? (this.sampleProductList = data.sample) : (this.sampleProductList = {});
+                console.log(this.sampleProductList);
+                console.log(this.sampleProductList);
 
                 this.data.third_party = data.third_party - 0;
                 this.isHave_sample = data.sample.have_sample - 0;
@@ -146,26 +160,6 @@ export class InspectRecordDetailsComponent implements OnInit {
                     this.roomVideo = [];
                 }
             });
-
-        // 获取样品的信息
-
-        this.activatedRoute.queryParams
-            .pipe(
-                map(res => res.id),
-                switchMap(factory_id => this.inspecting.getSampleInfo({ factory_id })),
-            )
-            .subscribe(res => {
-                const { data } = res;
-                if (data.sample.img_arr && data.sample.img_arr.length != 0) {
-                    data.sample.img_arr.forEach(item => {
-                        this.specimenPic = [];
-                        this.specimenPic.push(item.replace('storage/', ''));
-                    });
-                    data.sample ? (this.sampleProductList = data.sample) : (this.sampleProductList = {});
-                    console.log(this.sampleProductList);
-                }
-            });
-
         // 获取评估信息   getAssessInfo
 
         this.activatedRoute.queryParams
@@ -175,12 +169,21 @@ export class InspectRecordDetailsComponent implements OnInit {
             )
             .subscribe(res => {
                 const { data } = res;
+                console.log(data);
+                // console.log();
+
                 data ? (this.factoryAssess = data) : (this.factoryAssess = {});
             });
     }
     showVideo(link) {
         this.isVideoShow = true;
         this.videoUrl = environment.usFileUrl + link;
+    }
+    back() {
+        console.log('返回了');
+
+        this.isVideoShow = false;
+        this.videoUrl = '';
     }
     closeVideo() {
         console.log(1);

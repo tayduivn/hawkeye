@@ -141,7 +141,14 @@ export class FactoryListComponent implements OnInit {
         this.getList(this.queryInfo);
         console.log(this.queryInfo);
     }
-
+    // 预览报告
+    goToPreviewReport(factory_id: any) {
+        window.open(environment.apiUrl + `/factory/factory_inspect_preview?factory_id=${factory_id}&type=preview`);
+    }
+    // 下载报告
+    goToDownLoadReport(factory_id: any) {
+        window.open(environment.apiUrl + `/factory/factory_inspect_preview?factory_id=${factory_id}&type=down_pdf`);
+    }
     goToDetails(id: any) {
         console.log(id);
         const queryParams = { id };

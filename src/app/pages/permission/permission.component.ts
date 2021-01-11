@@ -33,7 +33,7 @@ export class PermissionComponent implements OnInit {
     editIsVisible: boolean = false;
     value?: string;
     currentPermission: Permission = { key: null, name: '', type: null };
-    permissionTypeMap: any = PermissionType
+    permissionTypeMap: any = PermissionType;
     constructor(
         private permissionCtrl: PermissionService,
         public baseData: BaseDataService,
@@ -57,10 +57,12 @@ export class PermissionComponent implements OnInit {
     getPermissionList() {
         this.permissionCtrl.getAllPermission().subscribe(res => {
             res.data.forEach(item => {
-                (item as any).expand = true
+                (item as any).expand = true;
                 this.mapOfExpandedData[(item as any).key] = this.convertTreeToList(item as any);
             });
             this.permission = res.data;
+            console.log(this.permission);
+            console.log(this.mapOfExpandedData);
         });
     }
 
@@ -74,11 +76,10 @@ export class PermissionComponent implements OnInit {
     }
 
     delPermission(p: Permission) {
-        this.permissionCtrl.removePermission(p.key)
-            .subscribe(res => {
-                this.msg[res.status?'success':'error'](res.message);
-                if(res.status) this.getPermissionList();
-            })
+        this.permissionCtrl.removePermission(p.key).subscribe(res => {
+            this.msg[res.status ? 'success' : 'error'](res.message);
+            if (res.status) this.getPermissionList();
+        });
     }
 
     treeHandleOk() {
@@ -89,7 +90,7 @@ export class PermissionComponent implements OnInit {
         ).subscribe(res => {
             console.log(res);
             this.msg[res.status ? 'success' : 'error'](res.message);
-            if(res.status){
+            if (res.status) {
                 this.getPermissionList();
                 this.editIsVisible = !this.editIsVisible;
             }
@@ -101,7 +102,6 @@ export class PermissionComponent implements OnInit {
     }
 
     mapOfExpandedData: { [key: string]: TreeNodeInterface[] } = {};
- 
 
     collapse(array: TreeNodeInterface[], data: TreeNodeInterface, $event: boolean): void {
         if (!$event) {
