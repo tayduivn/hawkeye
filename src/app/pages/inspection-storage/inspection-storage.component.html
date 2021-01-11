@@ -1,0 +1,87 @@
+<div class="tab-view-page over-h">
+  <!-- 上方的搜索区域 -->
+  <div class="panel-top">
+    <div nz-row [nzGutter]="16">
+      <div nz-col nzSpan="4" class="inspect-person">
+        <span>批次号: </span>
+        <nz-input-group [nzSuffix]="inputClearTpl">
+          <input type="text" nz-input placeholder="请输入批次号" />
+        </nz-input-group>
+        <ng-template #inputClearTpl><i nz-icon class="ant-input-clear-icon" nzTheme="fill" nzType="close-circle"></i>
+        </ng-template>
+      </div>
+
+      <div nz-col nzSpan="6" class="inspect-target">
+        <span>工厂名: </span>
+        <nz-input-group [nzSuffix]="inputClearTpl">
+          <input type="text" nz-input placeholder="请输入工厂名" />
+        </nz-input-group>
+        <ng-template #inputClearTpl><i nz-icon class="ant-input-clear-icon" nzTheme="fill" nzType="close-circle"></i>
+        </ng-template>
+      </div>
+
+      <div nz-col nzSpan="7" class="inspect-date">
+        <span>预计装柜日期: </span>
+        <nz-range-picker></nz-range-picker>
+      </div>
+      <!-- 操作 -->
+      <div nz-col nzSpan="4" class="btns">
+        <button nz-button nzSize="small" nzType="primary" class="mr-10" (click)="getSearch()">
+          查询
+        </button>
+        <button nz-button nzSize="small" nzType="primary" class="mr-10" (click)="reset()">
+          重置
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 下面的表格区域 -->
+  <div class="table-container">
+    <nz-table #colSpanTable [nzData]="listOfData" nzBordered>
+      <thead>
+        <tr>
+          <th>批次号</th>
+          <th>合同号</th>
+          <th>SKU</th>
+          <th>工厂名称</th>
+          <th>装柜箱数</th>
+          <th>跟单人</th>
+          <th>采购人</th>
+          <th>提单号</th>
+          <th>预计装柜日期</th>
+          <th>备注</th>
+          <th>操作</th>
+
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let data of colSpanTable.data; index as i">
+          <td>JZ-200028</td>
+          <ng-container>
+            <ng-container>
+              <td>YG-201911251056</td>
+              <td>{{ data.tel }}</td>
+              <td>{{ data.phone }}</td>
+              <td>{{ data.address }}</td>
+            </ng-container>
+            <ng-container>
+              <td>{{ data.age }}</td>
+              <td>{{ data.phone }}</td>
+              <td>{{ data.address }}</td>
+            </ng-container>
+            <ng-container>
+              <td colspan="5">{{ data.age }}</td>
+            </ng-container>
+            <ng-container>
+              <td>{{ data.age }}</td>
+              <td>{{ data.tel }}</td>
+              <td>{{ data.phone }}</td>
+              <td>{{ data.address }}</td>
+            </ng-container>
+          </ng-container>
+        </tr>
+      </tbody>
+    </nz-table>
+  </div>
+</div>

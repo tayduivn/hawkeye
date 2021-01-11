@@ -198,6 +198,39 @@ const appPages: Array<menuItem> = [
             },
         ],
     },
+    // {
+    //     title: '监装',
+    //     url: '/inspection-storage',
+    //     type: 'link',
+    //     icon: 'search',
+    //     limit: 'container-arrangement', //监装的权限
+    //     children: [
+    //         {
+    //             title: '任务分配',
+    //             url: '/inspection-storage',
+    //             limit: 'container-arrangement', //监装的权限
+    //             type: 'link',
+    //             icon: 'list',
+    //             sonIndex: 0,
+    //         },
+    //         {
+    //             title: '已分配列表',
+    //             url: '/prepared-list',
+    //             limit: 'container-arrangement', //监装的权限
+    //             type: 'link',
+    //             icon: 'list',
+    //             sonIndex: 1,
+    //         },
+    //         {
+    //             title: '已监装列表',
+    //             url: '/inspection-storage-list',
+    //             limit: 'container-arrangement', //监装的权限
+    //             type: 'link',
+    //             icon: 'list',
+    //             sonIndex: 2,
+    //         },
+    //     ],
+    // },
     {
         title: '用户管理',
         url: '/develope-list',

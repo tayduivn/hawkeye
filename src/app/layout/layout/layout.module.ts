@@ -47,6 +47,9 @@ import { ModifyPwdPage } from 'src/app/pages/modify-pwd/modify-pwd.page';
 import { UserGroupComponent } from 'src/app/pages/user-group/user-group.component';
 import { FactoryListComponent } from 'src/app/pages/factory-list/factory-list.component';
 import { InspectRecordDetailsComponent } from 'src/app/pages/inspect-record-details/inspect-record-details.component';
+import { InspectionStorageComponent } from 'src/app/pages/inspection-storage/inspection-storage.component';
+import { PreparedListComponent } from 'src/app/pages/prepared-list/prepared-list.component';
+import { InspectionStorageListComponent } from 'src/app/pages/inspection-storage-list/inspection-storage-list.component';
 const routes: Routes = [
     {
         path: 'dashboard',
@@ -224,6 +227,24 @@ const routes: Routes = [
                 canActivate: [],
                 data: { uid: 2026, useCache: true },
             },
+            {
+                path: 'inspection-storage',
+                component: InspectionStorageComponent,
+                canActivate: [],
+                data: { uid: 2027, useCache: true, sonIndex: 0 },
+            },
+            {
+                path: 'prepared-list',
+                component: PreparedListComponent,
+                canActivate: [],
+                data: { uid: 2028, useCache: true, sonIndex: 1 },
+            },
+            {
+                path: 'inspection-storage-list',
+                component: InspectionStorageListComponent,
+                canActivate: [],
+                data: { uid: 2029, useCache: true, sonIndex: 2 },
+            },
         ],
     },
 ];
@@ -280,6 +301,9 @@ const routes: Routes = [
         UserGroupComponent,
         FactoryListComponent,
         InspectRecordDetailsComponent,
+        InspectionStorageComponent,
+        PreparedListComponent,
+        InspectionStorageListComponent,
     ],
 })
 export class LayoutPageModule {}

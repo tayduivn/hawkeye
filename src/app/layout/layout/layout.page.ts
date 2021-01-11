@@ -213,6 +213,27 @@ export class LayoutPage implements OnInit {
             sonIndex: 0,
             parent: 'dashboard/factory-inspect',
         },
+        {
+            path: 'dashboard/inspection-storage',
+            title: '任务分配',
+            uid: 2027,
+            sonIndex: 0,
+            parent: 'dashboard/inspection-storage',
+        },
+        {
+            path: 'dashboard/prepared-list',
+            title: '已分配列表',
+            uid: 2028,
+            sonIndex: 1,
+            parent: 'dashboard/prepared-list',
+        },
+        {
+            path: 'dashboard/inspection-storage-list',
+            title: '已监装列表',
+            uid: 2029,
+            sonIndex: 2,
+            parent: 'dashboard/inspection-storage-list',
+        },
     ];
     // uid映射
     // 用于快速查找, 而不用每次都去 forEach(menus)
