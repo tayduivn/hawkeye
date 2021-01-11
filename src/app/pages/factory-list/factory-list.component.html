@@ -65,9 +65,9 @@
                 <div>
                   <a (click)="goToDetails(data.id)">查看详情</a>
                   <nz-divider nzType="vertical"></nz-divider>
-                  <a>预览报告</a>
+                  <a (click)="goToPreviewReport(data.id)">预览报告</a>
                   <nz-divider nzType="vertical"></nz-divider>
-                  <a>下载报告</a>
+                  <a (click)="goToDownLoadReport(data.id)">下载报告</a>
                   <nz-divider nzType="vertical"></nz-divider>
                   <a (click)="goToDownLoadimage(data.factory_inspect_no)">下载图片</a>
                   <nz-divider nzType="vertical"></nz-divider>

@@ -183,13 +183,15 @@ const appPages: Array<menuItem> = [
         url: '/factory-inspect',
         type: 'link',
         icon: 'search',
-        limit: 'container-arrangement', //TODO 放排柜
+        // limit: 'container-arrangement', //TODO 放排柜
+        limit: 'inspect-factory',
         active: false,
         children: [
             {
                 title: '工厂列表',
                 url: '/factory-inspect',
-                limit: 'container-arrangement',
+                // limit: 'container-arrangement',
+                limit: 'inspect-factory',
                 type: 'link',
                 icon: 'list',
                 sonIndex: 0,

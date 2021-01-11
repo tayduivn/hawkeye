@@ -41,10 +41,10 @@
                                 "input": "src/theme/variables.scss"
                             },
                             {
-                                "input":"./node_modules/ng-zorro-antd/ng-zorro-antd.min.css"
+                                "input": "./node_modules/_ng-zorro-antd@8.3.0@ng-zorro-antd/ng-zorro-antd.min.css"
                             },
                             {
-                                "input": "./node_modules/bootstrap/dist/css/bootstrap.min.css"
+                                "input": "./node_modules/_bootstrap@3.4.1@bootstrap/dist/css/bootstrap.min.css"
                             },
                             {
                                 "input": "./node_modules/viewerjs/dist/viewer.css"
@@ -58,7 +58,7 @@
                                 "input": "node_modules/clipboard/dist/clipboard.js"
                             },
                             {
-                                "input":"node_modules/wangeditor/dist/wangEditor.js"
+                                "input": "node_modules/wangeditor/dist/wangEditor.js"
                             }
                         ],
                         "es5BrowserSupport": true
@@ -146,8 +146,13 @@
                 "lint": {
                     "builder": "@angular-devkit/build-angular:tslint",
                     "options": {
-                        "tsConfig": ["src/tsconfig.app.json", "src/tsconfig.spec.json"],
-                        "exclude": ["**/node_modules/**"]
+                        "tsConfig": [
+                            "src/tsconfig.app.json",
+                            "src/tsconfig.spec.json"
+                        ],
+                        "exclude": [
+                            "**/node_modules/**"
+                        ]
                     }
                 },
                 "ionic-cordova-build": {
@@ -196,7 +201,9 @@
                     "builder": "@angular-devkit/build-angular:tslint",
                     "options": {
                         "tsConfig": "e2e/tsconfig.e2e.json",
-                        "exclude": ["**/node_modules/**"]
+                        "exclude": [
+                            "**/node_modules/**"
+                        ]
                     }
                 }
             }
