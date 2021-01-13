@@ -70,18 +70,21 @@ export class InspectRecordDetailsComponent implements OnInit {
             .subscribe(res => {
                 const { data } = res;
                 this.data = data;
-                console.log(this.data.create_time);
+                console.log(this.data);
+
+                // console.log(this.data.create_time);
                 this.data.create_time = this.handleTime(this.data.create_time);
-                if (data.sample.img_arr && data.sample.img_arr.length != 0) {
-                    data.sample.img_arr.forEach(item => {
+                if (data.rework_sample_pic && data.rework_sample_pic.length != 0) {
+                    data.rework_sample_pic.forEach(item => {
                         this.specimenPic = [];
                         this.specimenPic.push(item.replace('storage/', ''));
                     });
                 }
+                // console.log(this.specimenPic);
 
                 data.sample ? (this.sampleProductList = data.sample) : (this.sampleProductList = {});
-                console.log(this.sampleProductList);
-                console.log(this.sampleProductList);
+                // console.log(this.sampleProductList);
+                // console.log(this.sampleProductList);
 
                 this.data.third_party = data.third_party - 0;
                 this.isHave_sample = data.sample.have_sample - 0;
