@@ -75,10 +75,13 @@ export class InspectRecordDetailsComponent implements OnInit {
                 // console.log(this.data.create_time);
                 this.data.create_time = this.handleTime(this.data.create_time);
                 if (data.rework_sample_pic && data.rework_sample_pic.length != 0) {
+                    this.specimenPic = [];
                     data.rework_sample_pic.forEach(item => {
-                        this.specimenPic = [];
+                        // this.specimenPic = [];
                         this.specimenPic.push(item.replace('storage/', ''));
                     });
+                } else {
+                    this.specimenPic = [];
                 }
                 // console.log(this.specimenPic);
 
