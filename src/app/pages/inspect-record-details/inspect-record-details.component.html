@@ -200,9 +200,9 @@
         <div nz-col nzSpan="4" class="row-item backColor">产品名称</div>
         <div nz-col nzSpan="20" class="row-item backColor">合作注意点</div>
       </div>
-      <div nz-row *ngFor="let item of collaborativeProductList">
-        <div nz-col nzSpan="4" class="row-item">{{item.name}}</div>
-        <div nz-col nzSpan="20" class="row-item">{{item.lime_light}}</div>
+      <div nz-row *ngFor="let item of collaborativeProductList" class="row1">
+        <div nz-col nzSpan="4" class="automatic">{{item.name}}</div>
+        <div nz-col nzSpan="20" class="item-collabor">{{item.lime_light}}</div>
       </div>
       <div nz-col nzSpan="24" *ngIf="collaborativeProductList.length==0" class="noHave row-item produ">暂无拟合作产品数据</div>
     </div>
@@ -255,19 +255,20 @@
   <div class="factoryAssess">
     <span>工厂评估</span>
     <div class="row-container1">
-      <div nz-row>
-        <div nz-col nzSpan="4" class="row-item backColor">工作合作意愿</div>
-        <div nz-col nzSpan="20" class="row-item">{{factoryAssess.cooperative_will?factoryAssess.cooperative_will:'暂无'}}
+      <div nz-row class="row1">
+        <div nz-col nzSpan="4" class="automatic backColor">工作合作意愿</div>
+        <div nz-col nzSpan="20" class="item-collabor">
+          {{factoryAssess.cooperative_will?factoryAssess.cooperative_will:'暂无'}}
         </div>
       </div>
-      <div nz-row>
-        <div nz-col nzSpan="4" class="row-item backColor">合作前景判断</div>
-        <div nz-col nzSpan="20" class="row-item">{{factoryAssess.prospect_judge?factoryAssess.prospect_judge:'暂无'}}
+      <div nz-row class="row1">
+        <div nz-col nzSpan="4" class="automatic backColor">合作前景判断</div>
+        <div nz-col nzSpan="20" class="item-collabor">{{factoryAssess.prospect_judge?factoryAssess.prospect_judge:'暂无'}}
         </div>
       </div>
-      <div nz-row>
-        <div nz-col nzSpan="4" class="row-item backColor">建议补充</div>
-        <div nz-col nzSpan="20" class="row-item">{{factoryAssess.replenish?factoryAssess.replenish:'暂无'}}</div>
+      <div nz-row class="row1">
+        <div nz-col nzSpan="4" class="automatic backColor">建议补充</div>
+        <div nz-col nzSpan="20" class="item-collabor">{{factoryAssess.replenish?factoryAssess.replenish:'暂无'}}</div>
       </div>
     </div>
   </div>

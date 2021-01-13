@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { GlobalRedoService } from 'src/app/services/global-redo.service';
 import { FactoryListQueryInfo, InspectingService } from 'src/app/services/inspecting.service';
 import { PageEffectService } from 'src/app/services/page-effect.service';
 import { environment } from '../../../environments/environment';
@@ -9,7 +10,20 @@ import { environment } from '../../../environments/environment';
     styleUrls: ['./factory-list.component.scss'],
 })
 export class FactoryListComponent implements OnInit {
-    constructor(private inspecting: InspectingService, private es: PageEffectService, private router: Router) {}
+    constructor(
+        private inspecting: InspectingService,
+        private es: PageEffectService,
+        private router: Router,
+        private globalRedo: GlobalRedoService,
+    ) {
+        this.globalRedo.refresh.subscribe(res => {
+            // res && console.log(location.href.indexOf(res.path));
+            if (!res) return;
+            if (res.uid == 2025) {
+                this.ngOnInit();
+            }
+        });
+    }
     ngOnInit() {
         this.getList(this.queryInfo);
     }

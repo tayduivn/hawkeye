@@ -22,7 +22,7 @@ import { CompareTextPipe } from '../pipe/compare-text.pipe';
 import { PermissionTreeComponent } from './permission-tree/permission-tree.component';
 import { SkuInfoComponent } from './sku-info/sku-info.component';
 import { EditorComponent } from './editor/editor.component';
- 
+
 @NgModule({
     declarations: [
         ProgressComponent,
@@ -41,16 +41,9 @@ import { EditorComponent } from './editor/editor.component';
         PermissionTreeComponent,
         SkuInfoComponent,
         CommitReplyComponent,
-        EditorComponent
+        EditorComponent,
     ],
-    imports: [
-        CommonModule,
-        DirectiveModule,
-        IonicModule,
-        FormsModule,
-        NgZorroAntdModule,
-        FileUploadModule,
-     ],
+    imports: [CommonModule, DirectiveModule, IonicModule, FormsModule, NgZorroAntdModule, FileUploadModule],
     exports: [
         ProgressComponent,
         SortComponent,
@@ -68,7 +61,7 @@ import { EditorComponent } from './editor/editor.component';
         PermissionTreeComponent,
         SkuInfoComponent,
         CommitReplyComponent,
-        EditorComponent
+        EditorComponent,
     ],
     providers: [NzTreeService],
 })

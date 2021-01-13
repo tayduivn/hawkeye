@@ -39,7 +39,7 @@ registerLocaleData(zh);
         InspectSettingBoxComponent,
         EditTaskComponent,
         GlobalModalComponent,
-        NotifyComponent
+        NotifyComponent,
     ],
     entryComponents: [
         CustomPopupComponent,
@@ -50,7 +50,7 @@ registerLocaleData(zh);
         InspectSettingBoxComponent,
         EditTaskComponent,
         GlobalModalComponent,
-        NotifyComponent
+        NotifyComponent,
     ],
     imports: [
         NgZorroAntdModule,

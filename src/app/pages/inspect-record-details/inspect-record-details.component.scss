@@ -24,6 +24,10 @@
     border-top: 1px solid #ccc;
     border-left: 1px solid #ccc;
 }
+.item-collabor {
+    padding: 10px 0;
+    border-right: 1px solid #ccc;
+}
 .backColor {
     background-color: #ededed;
 }
@@ -146,6 +150,7 @@
     justify-content: center;
     align-items: center;
     border-right: 1px solid #ccc;
+    // border-bottom: 1px solid #ccc;
 }
 .specei_pic {
     display: flex;

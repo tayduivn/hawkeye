@@ -148,7 +148,7 @@ export class DistribInspecPage implements OnInit {
         this.tableThreeColSpan = 1;
         table.forEach(td => {
             this.userLimit.has(td.permission, 35) && (this.tableWidth += td.width);
-            !this.userLimit.has(td.permission,35) && console.log(td)
+            !this.userLimit.has(td.permission, 35) && console.log(td);
             if (
                 td.name === '最早可验货时间' ||
                 td.name === '工厂名称' ||
@@ -165,7 +165,6 @@ export class DistribInspecPage implements OnInit {
                 }
             }
         });
-
     }
 
     ionViewWillEnter() {}

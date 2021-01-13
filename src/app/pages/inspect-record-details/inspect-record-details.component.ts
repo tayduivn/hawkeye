@@ -50,6 +50,14 @@ export class InspectRecordDetailsComponent implements OnInit {
         private es: PageEffectService,
         private elementRef: ElementRef,
     ) {}
+    handleTime(time: string): string {
+        const date = new Date(time);
+        console.log(date);
+        const y = date.getFullYear();
+        const m = date.getMonth() + 1;
+        const d = date.getDate();
+        return `${y}-${m}-${d}`;
+    }
     ngOnInit() {
         this.isVideoShow = false;
         this.videoUrl = '';
@@ -62,8 +70,8 @@ export class InspectRecordDetailsComponent implements OnInit {
             .subscribe(res => {
                 const { data } = res;
                 this.data = data;
-                console.log(data);
-
+                console.log(this.data.create_time);
+                this.data.create_time = this.handleTime(this.data.create_time);
                 if (data.sample.img_arr && data.sample.img_arr.length != 0) {
                     data.sample.img_arr.forEach(item => {
                         this.specimenPic = [];
