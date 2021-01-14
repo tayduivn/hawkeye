@@ -4,17 +4,20 @@ import { GlobalRedoService } from 'src/app/services/global-redo.service';
 import { FactoryListQueryInfo, InspectingService } from 'src/app/services/inspecting.service';
 import { PageEffectService } from 'src/app/services/page-effect.service';
 import { environment } from '../../../environments/environment';
+import { FlashService } from '../inspect-record-details/flash.service';
 @Component({
     selector: 'app-factory-list',
     templateUrl: './factory-list.component.html',
     styleUrls: ['./factory-list.component.scss'],
 })
 export class FactoryListComponent implements OnInit {
+    obs$: any;
     constructor(
         private inspecting: InspectingService,
         private es: PageEffectService,
         private router: Router,
         private globalRedo: GlobalRedoService,
+        private flash: FlashService,
     ) {
         this.globalRedo.refresh.subscribe(res => {
             // res && console.log(location.href.indexOf(res.path));
@@ -25,6 +28,14 @@ export class FactoryListComponent implements OnInit {
         });
     }
     ngOnInit() {
+        this.flash.flash$.subscribe(res => {
+            if (res == 'flash') {
+                // this.queryInfo.page = 1;
+                // debugger;
+                this.getList(this.queryInfo);
+            }
+        });
+        this.queryInfo.page = 1;
         this.getList(this.queryInfo);
     }
     // 获取列表的函数
@@ -77,6 +88,14 @@ export class FactoryListComponent implements OnInit {
         end_time: null, //结束时间
         user_id: null, //用户编号()
     };
+    handleTime(time: string): string {
+        const date = new Date(time);
+        console.log(date);
+        const y = date.getFullYear();
+        const m = date.getMonth() + 1;
+        const d = date.getDate();
+        return `${y}-${m}-${d}`;
+    }
     // 列表总数
     total: number;
     onClickOkCallback() {}
@@ -84,8 +103,8 @@ export class FactoryListComponent implements OnInit {
     onDateChange(e: any) {
         console.log(e);
         if (e.length) {
-            const start_time = this.formatDate(e[0]);
-            const end_time = this.formatDate(e[1]);
+            const start_time = this.handleTime(this.formatDate(e[0]));
+            const end_time = this.handleTime(this.formatDate(e[1]));
             this.searchQuery.start_time = start_time;
             this.searchQuery.end_time = end_time;
         } else {
@@ -175,5 +194,10 @@ export class FactoryListComponent implements OnInit {
 
     goToDownLoadimage(id: string) {
         window.open(environment.apiUrl + '/factory/down_factory_inspect_image?apply_inspection_no=' + id);
+    }
+    ngOnDestroy(): void {
+        //Called once, before the instance is destroyed.
+        //Add 'implements OnDestroy' to the class.
+        // this.obs$.unsubscribe();
     }
 }

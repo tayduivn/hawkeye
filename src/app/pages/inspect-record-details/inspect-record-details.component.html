@@ -1,10 +1,13 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="secondary">
-      <ion-button (click)="baseData.utilFn.goBack()">
-        <i class="iconfont iconfanhui"></i>
-        <ion-label class="global-back-text" (click)="back()">返回</ion-label>
-      </ion-button>
+      <div (click)="back()">
+        <ion-button (click)="baseData.utilFn.goBack()">
+          <i class="iconfont iconfanhui"></i>
+          <ion-label class="global-back-text">返回</ion-label>
+        </ion-button>
+      </div>
+
     </ion-buttons>
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
