@@ -10,21 +10,21 @@ export const environment = {
     // origin: 'http://192.168.3.8',
     // wsOrigin: 'ws://192.168.3.8:2000'
 
-    apiUrl: 'http://121.196.179.68:8081/api/v1',
-    fileUrlPath: 'http://keyi.xdrlgroup.com',
-    usFileUrl: 'http://121.196.179.68:8081/',
-    origin: 'http://121.196.179.68:8081',
-    wsOrigin: 'ws://121.196.179.68:8083',
-
-    // apiUrl: 'http://192.168.3.18/api/v1',
+    // apiUrl: 'http://121.196.179.68:8081/api/v1',
     // fileUrlPath: 'http://keyi.xdrlgroup.com',
-    // usFileUrl: 'http://192.168.3.18/storage/',
-    // origin: 'http://192.168.3.18',
-    // wsOrigin: 'ws://192.168.3.18:2000',
+    // usFileUrl: 'http://121.196.179.68:8081/storage/',
+    // origin: 'http://121.196.179.68:8081',
+    // wsOrigin: 'ws://121.196.179.68:8083',
+
+    apiUrl: 'http://192.168.3.18/api/v1',
+    fileUrlPath: 'http://keyi.xdrlgroup.com',
+    usFileUrl: 'http://192.168.3.18/storage/',
+    origin: 'http://192.168.3.18',
+    wsOrigin: 'ws://192.168.3.18:2000',
 
     // apiUrl: 'http://121.196.179.68' + '/api/v1',
     // fileUrlPath: 'http://keyi.xdrlgroup.com',
-    // usFileUrl: 'http://121.196.179.68' + '/storage/',
+    // usFileUrl: 'http://121.196.179.68/storage/ ',
     // origin: 'http://121.196.179.68',
     // wsOrigin: 'ws://121.196.179.68:2000',
 };
