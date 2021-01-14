@@ -32,28 +32,26 @@
         <div nz-col nzSpan="2" class="row-item backColor">职位</div>
         <div nz-col nzSpan="2" class="row-item backColor">联系方式</div>
       </div>
-      <div nz-row>
-        <div nz-col nzSpan="4" class="row-item">{{data.name?data.name:'暂无'}}</div>
-        <div nz-col nzSpan="2" class="row-item">{{data.legaler?data.legaler:'暂无'}}</div>
-        <div nz-col nzSpan="4" class="row-item">{{data.create_time?data.create_time:'暂无'}}</div>
-        <div nz-col nzSpan="2" class="row-item">{{data.registered_capital?data.registered_capital:'暂无'}}</div>
-        <div nz-col nzSpan="2" class="row-item">{{data.annual_sales?data.annual_sales:'暂无'}}</div>
-        <div nz-col nzSpan="2" class="row-item">{{data.company_nature?data.company_nature:'暂无'}}</div>
-        <div nz-col nzSpan="2" class="row-item">{{data.product_type?data.product_type:'暂无'}}</div>
-        <div nz-col nzSpan="2" class="row-item">{{data.contacts?data.contacts:'暂无'}}</div>
-        <div nz-col nzSpan="2" class="row-item">{{data.position?data.position:'暂无'}}</div>
-        <div nz-col nzSpan="2" class="row-item">{{data.phone?data.phone:'暂无'}}</div>
+      <div nz-row class="row1">
+        <div nz-col nzSpan="4" class="row1-item">{{data.name?data.name:'暂无'}}</div>
+        <div nz-col nzSpan="2" class="row1-item">{{data.legaler?data.legaler:'暂无'}}</div>
+        <div nz-col nzSpan="4" class="row1-item">{{data.create_time?data.create_time:'暂无'}}</div>
+        <div nz-col nzSpan="2" class="row1-item">{{data.registered_capital?data.registered_capital:'暂无'}}</div>
+        <div nz-col nzSpan="2" class="row1-item">{{data.annual_sales?data.annual_sales:'暂无'}}</div>
+        <div nz-col nzSpan="2" class="row1-item">{{data.company_nature?data.company_nature:'暂无'}}</div>
+        <div nz-col nzSpan="2" class="row1-item">{{data.product_type?data.product_type:'暂无'}}</div>
+        <div nz-col nzSpan="2" class="row1-item">{{data.contacts?data.contacts:'暂无'}}</div>
+        <div nz-col nzSpan="2" class="row1-item">{{data.position?data.position:'暂无'}}</div>
+        <div nz-col nzSpan="2" class="row1-item">{{data.phone?data.phone:'暂无'}}</div>
       </div>
-      <div nz-row *ngFor="let item of data.address_list;let i=index">
-        <div nz-col nzSpan="4" class="row-item backColor">工厂地址({{i+1}})</div>
-        <div nz-col nzSpan="20" class="row-item">{{item.address?item.address:'暂无'}}</div>
+      <div nz-row *ngFor="let item of data.address_list;let i=index" class="row1">
+        <div nz-col nzSpan="4" class="automatic backColor">工厂地址({{i+1}})</div>
+        <div nz-col nzSpan="20" class="row1-item">{{item.address?item.address:'暂无'}}</div>
       </div>
       <div nz-row class="row1">
         <div nz-col nzSpan="4" class="automatic backColor">营业执照照片</div>
         <div nz-col nzSpan="20" class="thumbnail-container" *ngIf="businessPic.length!=0" imgGallery>
           <img class="thumbnail" [src]="imgOrigin+item" alt="" *ngFor="let item of businessPic" />
-          <!-- <img class="thumbnail" [src]="imgOrigin+item" alt="" imgGallery
-            *ngFor="let item of [1,2,3,4,5,6,7,8,9,10,11,12,12,12,12,12,123,21,21,21,21,21,211,21,21,21,21,21,21,21,212,121,21]" /> -->
         </div>
         <div nz-col nzSpan="20" class="automatic thumbnail-container noContainer" *ngIf="businessPic.length==0">
           暂无
@@ -78,23 +76,23 @@
         <div nz-col nzSpan="2" class="row-item backColor">产品相关认证</div>
         <div nz-col nzSpan="3" class="row-item backColor">工厂付款方式</div>
       </div>
-      <div nz-row>
-        <div nz-col nzSpan="4" class="row-item">{{data.acreage?data.acreage:'暂无'}}</div>
-        <div nz-col nzSpan="2" class="row-item">{{data.people_num?data.people_num:'暂无'}}</div>
-        <div nz-col nzSpan="2" class="row-item">{{data.production_equipment?data.production_equipment:'暂无'}}</div>
-        <div nz-col nzSpan="2" class="row-item" *ngIf="data.production_capacity==1">好</div>
-        <div nz-col nzSpan="2" class="row-item" *ngIf="data.production_capacity==2">一般</div>
-        <div nz-col nzSpan="2" class="row-item" *ngIf="data.production_capacity==3">差</div>
-        <div nz-col nzSpan="2" class="row-item" *ngIf="!data.production_capacity">暂无</div>
-        <div nz-col nzSpan="3" class="row-item" *ngIf="data.quality==1">好</div>
-        <div nz-col nzSpan="3" class="row-item" *ngIf="data.quality==2">一般</div>
-        <div nz-col nzSpan="3" class="row-item" *ngIf="data.quality==3">差</div>
-        <div nz-col nzSpan="3" class="row-item" *ngIf="!data.quality">暂无</div>
-        <div nz-col nzSpan="2" class="row-item">{{data.production_cycle?data.production_cycle:'暂无'}}</div>
-        <div nz-col nzSpan="2" class="row-item">{{data.sales_market?data.sales_market:'暂无'}}</div>
-        <div nz-col nzSpan="2" class="row-item">{{data.customer?data.customer:'暂无'}}</div>
-        <div nz-col nzSpan="2" class="row-item">{{data.authentication?data.authentication:'暂无'}}</div>
-        <div nz-col nzSpan="3" class="row-item">{{data.pay_type?data.pay_type:'暂无'}}</div>
+      <div nz-row class="row1">
+        <div nz-col nzSpan="4" class="row1-item">{{data.acreage?data.acreage:'暂无'}}</div>
+        <div nz-col nzSpan="2" class="row1-item">{{data.people_num?data.people_num:'暂无'}}</div>
+        <div nz-col nzSpan="2" class="row1-item">{{data.production_equipment?data.production_equipment:'暂无'}}</div>
+        <div nz-col nzSpan="2" class="row1-item" *ngIf="data.production_capacity==1">好</div>
+        <div nz-col nzSpan="2" class="row1-item" *ngIf="data.production_capacity==2">一般</div>
+        <div nz-col nzSpan="2" class="row1-item" *ngIf="data.production_capacity==3">差</div>
+        <div nz-col nzSpan="2" class="row1-item" *ngIf="!data.production_capacity">暂无</div>
+        <div nz-col nzSpan="3" class="row1-item" *ngIf="data.quality==1">好</div>
+        <div nz-col nzSpan="3" class="row1-item" *ngIf="data.quality==2">一般</div>
+        <div nz-col nzSpan="3" class="row1-item" *ngIf="data.quality==3">差</div>
+        <div nz-col nzSpan="3" class="row1-item" *ngIf="!data.quality">暂无</div>
+        <div nz-col nzSpan="2" class="row1-item">{{data.production_cycle?data.production_cycle:'暂无'}}</div>
+        <div nz-col nzSpan="2" class="row1-item">{{data.sales_market?data.sales_market:'暂无'}}</div>
+        <div nz-col nzSpan="2" class="row1-item">{{data.customer?data.customer:'暂无'}}</div>
+        <div nz-col nzSpan="2" class="row1-item">{{data.authentication?data.authentication:'暂无'}}</div>
+        <div nz-col nzSpan="3" class="row1-item">{{data.pay_type?data.pay_type:'暂无'}}</div>
       </div>
       <div nz-row>
         <div nz-col nzSpan="8" class="row-item backColor">工厂人员组成</div>
@@ -102,12 +100,12 @@
         <div nz-col nzSpan="4" class="row-item backColor">工厂是否接受过第三方验厂?</div>
         <div nz-col nzSpan="3" class="row-item backColor">第三方名称</div>
       </div>
-      <div nz-row>
-        <div nz-col nzSpan="8" class="row-item">{{data.manning?data.manning:'暂无'}}</div>
-        <div nz-col nzSpan="9" class="row-item">{{data.department?data.department:'暂无'}}</div>
-        <div nz-col nzSpan="4" class="row-item" *ngIf="data.third_party==0">没有</div>
-        <div nz-col nzSpan="4" class="row-item" *ngIf="data.third_party==1">有</div>
-        <div nz-col nzSpan="3" class="row-item">{{data.third_name?data.third_name:'暂无'}}</div>
+      <div nz-row class="row1">
+        <div nz-col nzSpan="8" class="row1-item">{{data.manning?data.manning:'暂无'}}</div>
+        <div nz-col nzSpan="9" class="row1-item">{{data.department?data.department:'暂无'}}</div>
+        <div nz-col nzSpan="4" class="row1-item" *ngIf="data.third_party==0">没有</div>
+        <div nz-col nzSpan="4" class="row1-item" *ngIf="data.third_party==1">有</div>
+        <div nz-col nzSpan="3" class="row1-item">{{data.third_name?data.third_name:'暂无'}}</div>
       </div>
       <div nz-row class="row1">
         <div nz-col nzSpan="4" class="automatic backColor">工厂外观照片</div>
@@ -161,18 +159,15 @@
         <div nz-col nzSpan="5" class="row-item backColor">产品照片</div>
       </div>
       <div nz-row *ngFor="let item of productList;let i=index" class="row1">
-        <!-- ------ -->
-        <!-- <div id="productCon"> -->
-        <div nz-col nzSpan="4" class="automatic">{{item.name?item.name:'暂无'}}</div>
-        <div nz-col nzSpan="5" class="automatic">{{item.material?item.material:'暂无'}}</div>
-        <div nz-col nzSpan="5" class="automatic">{{item.craft?item.craft:'暂无'}}</div>
-        <div nz-col nzSpan="5" class="automatic">{{item.third_mc?item.third_mc:'暂无'}}</div>
-        <div nz-col nzSpan="5" class="thumbnail-container">
+
+        <div nz-col nzSpan="4" class="row1-item">{{item.name?item.name:'暂无'}}</div>
+        <div nz-col nzSpan="5" class="row1-item">{{item.material?item.material:'暂无'}}</div>
+        <div nz-col nzSpan="5" class="row1-item">{{item.craft?item.craft:'暂无'}}</div>
+        <div nz-col nzSpan="5" class="row1-item">{{item.third_mc?item.third_mc:'暂无'}}</div>
+        <div nz-col nzSpan="5" class="thumbnail-container row1-item">
           <div *ngIf="(item.hash_arr&&item.hash_arr.length!=0)||productVideo.length!=0" imgGallery>
             <img class="thumbnail" alt="" *ngFor="let img of item.hash_arr"
               [src]="imgOrigin+img.replace('storage/', '')" />
-            <!-- <img class="thumbnail" [src]="imgOrigin+item" alt="" imgGallery
-              *ngFor="let item of [1,2,3,4,5,6,7,8,9,10,11,12,12,12,12,12,123,21,21,21,21,21,211,21,21,21,21,21,21,21,212,121,21]" /> -->
             <div class="video-container" *ngFor="let video of productVideo" (click)="showVideo(video)">
               <div class="playVideo">
                 <!-- 三角形 播放按钮 -->
@@ -218,16 +213,16 @@
         <div nz-col nzSpan="5" class="row-item backColor">样品准备时间</div>
         <div nz-col nzSpan="5" class="row-item backColor">付款情况</div>
       </div>
-      <div nz-row>
-        <div nz-col nzSpan="4" class="row-item">{{isHave_sample===1?"是":"否"}}</div>
-        <div nz-col nzSpan="5" class="row-item">{{isProvideSample===1?"是":"否"}}</div>
-        <div nz-col nzSpan="5" class="row-item">
+      <div nz-row class="row1">
+        <div nz-col nzSpan="4" class="row1-item">{{isHave_sample===1?"是":"否"}}</div>
+        <div nz-col nzSpan="5" class="row1-item">{{isProvideSample===1?"是":"否"}}</div>
+        <div nz-col nzSpan="5" class="row1-item">
           {{sampleProductList.amount?sampleProductList.amount:'无'}}
         </div>
-        <div nz-col nzSpan="5" class="row-item">
+        <div nz-col nzSpan="5" class="row1-item">
           {{sampleProductList.readiness_time?sampleProductList.readiness_time:'无'}}
         </div>
-        <div nz-col nzSpan="5" class="row-item">
+        <div nz-col nzSpan="5" class="row1-item">
           {{sampleProductList.payment?sampleProductList.payment:'无'}}</div>
       </div>
       <div nz-row class="row1">
