@@ -200,7 +200,7 @@
       </div>
       <div nz-row *ngFor="let item of collaborativeProductList" class="row1">
         <div nz-col nzSpan="4" class="automatic">{{item.name}}</div>
-        <div nz-col nzSpan="20" class="item-collabor">{{item.lime_light}}</div>
+        <div nz-col nzSpan="20" class="item-collabor">{{item.lime_light?item.lime_light:'暂无'}}</div>
       </div>
       <div nz-col nzSpan="24" *ngIf="collaborativeProductList.length==0" class="noHave row-item produ">暂无拟合作产品数据</div>
     </div>
@@ -274,7 +274,7 @@
     <div class="closeVideo" (click)="closeVideo()">X</div>
     <div class="videoContainer">
       <!-- 视频标签 -->
-      <video [src]="videoUrl" autoplay class="videosp"></video>
+      <video [src]="videoUrl" autoplay class="videosp" controls></video>
     </div>
   </div>
 
