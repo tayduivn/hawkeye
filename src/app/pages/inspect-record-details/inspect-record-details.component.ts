@@ -125,11 +125,11 @@ export class InspectRecordDetailsComponent implements OnInit {
                     this.facadePic = [];
                 }
 
-                if (data.rework_plant && data.rework_facade_pic.length != 0) {
-                    const str = JSON.stringify(data.rework_facade_pic);
+                if (data.rework_plant_pic && data.rework_plant_pic.length != 0) {
+                    const str = JSON.stringify(data.rework_plant_pic);
                     this.plantPic = JSON.parse(str);
                     this.plantPic = [];
-                    data.rework_plant.forEach(item => {
+                    data.rework_plant_pic.forEach(item => {
                         this.plantPic.push(item.replace('storage/', ''));
                     });
                 } else {
