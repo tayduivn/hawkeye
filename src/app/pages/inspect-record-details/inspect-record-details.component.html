@@ -167,11 +167,12 @@
         <div nz-col nzSpan="5" class="row1-item">{{item.material?item.material:'暂无'}}</div>
         <div nz-col nzSpan="5" class="row1-item">{{item.craft?item.craft:'暂无'}}</div>
         <div nz-col nzSpan="5" class="row1-item">{{item.third_mc?item.third_mc:'暂无'}}</div>
-        <div nz-col nzSpan="5" class="thumbnail-container row1-item">
-          <div *ngIf="(item.hash_arr&&item.hash_arr.length!=0)||productVideo.length!=0" imgGallery>
+        <div nz-col nzSpan="5" class="thumbnail-container  row1-item">
+          <div *ngIf="(item.hash_arr&&item.hash_arr.length!=0)||productVideo.length!=0" imgGallery
+            class="video-img-container">
             <img class="thumbnail" alt="" *ngFor="let img of item.hash_arr"
               [src]="imgOrigin+img.replace('storage/', '')" />
-            <div class="video-container" *ngFor="let video of productVideo" (click)="showVideo(video)">
+            <div class="video-container" *ngFor="let video of item.inspect_product_video" (click)="showVideo(video)">
               <div class="playVideo">
                 <!-- 三角形 播放按钮 -->
                 <div class="trigle"></div>
