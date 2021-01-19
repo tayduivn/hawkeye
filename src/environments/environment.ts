@@ -23,9 +23,9 @@ export const environment = {
     // origin: 'http://192.168.3.18',
     // wsOrigin: 'ws://192.168.3.18:2000',
 
-    apiUrl: 'http://121.196.179.68' + '/api/v1',
+    apiUrl: 'http://121.196.179.68/api/v1',
     fileUrlPath: 'http://keyi.xdrlgroup.com',
-    usFileUrl: 'http://121.196.179.68/storage/ ',
+    usFileUrl: 'http://121.196.179.68/storage/',
     origin: 'http://121.196.179.68',
     wsOrigin: 'ws://121.196.179.68:8083',
 };
