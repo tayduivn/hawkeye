@@ -54,7 +54,6 @@ export class FactoryListComponent implements OnInit {
             this.listOfData = data.factory;
             console.log(this.listOfData);
             console.log(data);
-
             // // 考察人员的id数组  id数组和人员数组一一对应
             this.userInfo = data.user;
             // 数据的总数

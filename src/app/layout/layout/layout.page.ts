@@ -234,6 +234,13 @@ export class LayoutPage implements OnInit {
             sonIndex: 2,
             parent: 'dashboard/inspection-storage-list',
         },
+        {
+            path: 'dashboard/reimbursement-management',
+            title: '报销管理',
+            uid: 2030,
+            sonIndex: 0,
+            parent: 'dashboard/reimbursement-management',
+        },
     ];
     // uid映射
     // 用于快速查找, 而不用每次都去 forEach(menus)

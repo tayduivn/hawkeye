@@ -1,0 +1,106 @@
+<div class="tab-view-page over-h">
+  <div class="panel-top">
+    <div nz-row [nzGutter]="16">
+      <div nz-col nzSpan="7" class="inspect-date">
+        <span>审批日期: </span>
+        <nz-range-picker [(ngModel)]="date"></nz-range-picker>
+      </div>
+      <div nz-col nzSpan="4" class="inspect-person">
+        <span>报销人: </span>
+        <nz-input-group [nzSuffix]="inputClearTpl">
+          <input type="text" nz-input placeholder="请输入报销人" [(ngModel)]="searchQuery.reimbursement_name" />
+        </nz-input-group>
+        <ng-template #inputClearTpl><i nz-icon class="ant-input-clear-icon" nzTheme="fill" nzType="close-circle"
+            *ngIf="searchQuery.reimbursement_name" (click)="searchQuery.reimbursement_name=''"></i>
+        </ng-template>
+      </div>
+
+      <!-- 操作 -->
+      <div nz-col nzSpan="4" class="btns">
+        <button nz-button nzSize="small" nzType="primary" class="mr-10" (click)="getSearch()">
+          查询
+        </button>
+        <button nz-button nzSize="small" nzType="primary" class="mr-10" (click)="reset()">
+          重置
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="table-container">
+    <!-- [nzData]="dataSet" -->
+    <nz-table nzBordered [nzData]="dataSet" [nzShowPagination]="false">
+      <thead>
+        <tr>
+          <th>报销人</th>
+          <th>部门</th>
+          <th>出差事由</th>
+          <th nzWidth="400px">流水号及工厂名</th>
+          <th>差旅费类型</th>
+          <th>报销总额(元)</th>
+          <th>出差日期</th>
+          <th>申请日期</th>
+          <th>审批状态</th>
+          <th>操作</th>
+        </tr>
+      </thead>
+      <ng-template #titleTemplate let-data>
+        <p *ngFor="let item of data;let i=index"> {{data}}</p>
+      </ng-template>
+
+      <tbody>
+        <tr *ngFor="let data of dataSet;let i=index">
+          <td>{{data.reimbursement_name}}</td>
+          <td>{{data.department}}</td>
+          <td>{{data.travel_reason}}</td>
+          <td class="nowrapContainer">
+            <span [title]="toolTip1[i]" *ngIf="data.factory_name_and_serial.length!=0">
+              {{data.factory_name_and_serial.length>1?data.factory_name_and_serial[0]+'......':data.factory_name_and_serial[0]}}
+            </span>
+            <span *ngIf="data.factory_name_and_serial.length==0">暂无</span>
+          </td>
+          <td>{{data.travel_type}}</td>
+          <td>{{data.travel_sum_cost?data.travel_sum_cost:'暂无'}}</td>
+          <td>{{data.travel_date?data.travel_date:'暂无'}}</td>
+          <td>{{data.add_time?data.add_time:'暂无'}}</td>
+          <td *ngIf="data.approval_status=='审批中'" [class]="data.approval_status=='审批中'?'yellow':''">
+            {{data.approval_status?data.approval_status:'暂无'}}</td>
+          <td *ngIf="data.approval_status=='通过'" [class]="data.approval_status=='通过'?'green':''">
+            {{data.approval_status?data.approval_status:'暂无'}}</td>
+          <td *ngIf="data.approval_status=='未通过'" [class]="data.approval_status=='未通过'?'red':''">
+            {{data.approval_status?data.approval_status:'暂无'}}</td>
+          <td class="operating">
+            <div>
+              <a (click)="goToDetails(data.id)">查看详情</a>
+              <nz-divider nzType="vertical"></nz-divider>
+              <a (click)="examine(data.id,data.travel_reimbursement_no)">报销审批</a>
+              <nz-divider nzType="vertical"></nz-divider>
+              <a (click)="goToDownLoadReport()">单据下载</a>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </nz-table>
+
+    <nz-modal [(nzVisible)]="isVisible" nzTitle="报销审批" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()"
+      [nzOkLoading]="isOkLoading" (nzAfterClose)="afterClose()">
+      <div class="pop_container">
+        <p>审批:</p>
+        <nz-select style="width: 120px;" [(ngModel)]="params.approval_status" nzAllowClear nzPlaceHolder="请选择审批状态">
+          <nz-option nzValue="" nzLabel=""></nz-option>
+          <nz-option [nzValue]="approval_status_paramsIndex[i]" [nzLabel]="item"
+            *ngFor="let item of approval_status_paramsArray;let i=index"></nz-option>
+        </nz-select>
+      </div>
+      <div class="pop_container">
+        <p>备注:</p>
+        <textarea rows="5" class="textarea" [(ngModel)]="params.approval_remarks"></textarea>
+      </div>
+    </nz-modal>
+    <nz-pagination [(nzPageIndex)]="queryInfo.page" [(nzPageSize)]="queryInfo.paginate" [nzTotal]="total"
+      [nzSize]="'small'" nzShowSizeChanger nzShowQuickJumper [nzPageSizeOptions]="[10,15,20,25]"
+      (nzPageIndexChange)="pageChanged()" (nzPageSizeChange)="pageSizeChanged()">
+    </nz-pagination>
+  </div>
+
+</div>

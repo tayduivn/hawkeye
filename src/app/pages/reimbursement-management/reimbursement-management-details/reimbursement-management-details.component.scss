@@ -1,0 +1,75 @@
+.zwf {
+    height: 200px;
+}
+.backColor {
+    background-color: #ededed;
+    padding: 10px 0;
+    text-align: center;
+    border-right: 1px solid #ccc;
+}
+.row1-item {
+    padding: 5px 0;
+    text-align: center;
+    line-height: 50px;
+    border-right: 1px solid #ccc;
+}
+.row1-item-pic {
+    padding: 5px 0;
+    // text-align: center;
+    border-right: 1px solid #ccc;
+}
+.thumbnail-container {
+    display: flex;
+    flex-wrap: wrap;
+}
+.thumbnail-container img {
+    margin-left: 5px;
+    margin-top: 5px;
+}
+.row1 {
+    display: flex;
+    border-bottom: 1px solid #ccc;
+}
+
+.carFare_container,
+.quarterage_container,
+.city_money_container,
+.subsidy_container {
+    width: 70%;
+    border-left: 1px solid #ccc;
+    border-top: 1px solid #ccc;
+    margin-bottom: 20px;
+}
+.carFare,
+.quarterage,
+.city_money,
+.subsidy {
+    span {
+        font-size: 14px;
+        font-weight: bold;
+        margin-bottom: 20px;
+    }
+}
+
+.bttom {
+    border-bottom: none !important;
+}
+.row-header {
+    border-bottom: 1px solid #ccc;
+}
+// 缩略图的样式
+.thumbnail {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    margin-left: 6px;
+    padding: 0;
+    margin-bottom: unset !important;
+}
+.noData {
+    border-bottom: 1px solid #ccc;
+    border-right: 1px solid #ccc;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+}

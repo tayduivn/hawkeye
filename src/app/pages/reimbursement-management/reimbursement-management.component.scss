@@ -1,0 +1,73 @@
+.panel-top {
+    padding: 20px 0;
+    border-bottom: 1px solid #ededed;
+}
+.inspect-person,
+.inspect-date {
+    display: flex;
+    align-items: center;
+    span {
+        white-space: nowrap;
+        margin-right: 10px;
+    }
+}
+.btns {
+    height: 32px;
+    display: flex;
+    align-items: center;
+    button {
+        // height: 20px;
+        line-height: 15px;
+        font-size: 10px;
+        padding: 0 15px;
+    }
+}
+nz-table {
+    width: 100%;
+    th,
+    td {
+        text-align: center;
+        font-size: 12px;
+    }
+    td {
+        height: 35px !important;
+        line-height: 35px !important;
+    }
+}
+.operating div {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 25px;
+}
+.pop_container {
+    display: flex;
+
+    p {
+        margin-top: 5px;
+        margin-right: 10px;
+    }
+}
+.textarea {
+    width: 300px;
+    border: 1px solid #e0e0e0;
+    margin-top: 10px;
+}
+.nowrap {
+    display: inline-block;
+    width: 400px !important;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.yellow {
+    color: gold;
+}
+.green {
+    color: green;
+}
+.red {
+    color: red;
+}

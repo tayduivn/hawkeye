@@ -198,6 +198,24 @@ const appPages: Array<menuItem> = [
             },
         ],
     },
+    {
+        title: '报销管理',
+        url: '/reimbursement-management',
+        type: 'link',
+        icon: 'logo-yen',
+        limit: 'container-arrangement', //权限
+        active: false,
+        children: [
+            {
+                title: '报销管理',
+                url: '/reimbursement-management',
+                limit: 'container-arrangement', //权限
+                type: 'link',
+                icon: 'logo-yen',
+                sonIndex: 0,
+            },
+        ],
+    },
     // {
     //     title: '监装',
     //     url: '/inspection-storage',

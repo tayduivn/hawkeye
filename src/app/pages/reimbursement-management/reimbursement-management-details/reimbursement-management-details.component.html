@@ -1,0 +1,245 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="secondary">
+      <div (click)="back()">
+        <ion-button (click)="baseData.utilFn.goBack()">
+          <i class="iconfont iconfanhui"></i>
+          <ion-label class="global-back-text">返回</ion-label>
+        </ion-button>
+      </div>
+
+    </ion-buttons>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>
+      考察记录详情
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding class="padding">
+  <div class="normal" *ngIf="details.travel_type=='1'">
+    <div class="carFare">
+      <span>交通费</span>
+      <div class="carFare_container">
+        <div nz-row class="row-header">
+          <div nz-col nzSpan="3" class="row-item backColor">出发时间</div>
+          <div nz-col nzSpan="3" class="row-item backColor">出发地点</div>
+          <div nz-col nzSpan="3" class="row-item backColor">到达时间</div>
+          <div nz-col nzSpan="3" class="row-item backColor">到达地点</div>
+          <div nz-col nzSpan="3" class="row-item backColor">交通工具</div>
+          <div nz-col nzSpan="3" class="row-item backColor">单据张数</div>
+          <div nz-col nzSpan="3" class="row-item backColor">金额</div>
+          <div nz-col nzSpan="3" class="row-item backColor">单据照片</div>
+        </div>
+        <div nz-row class="row1" *ngFor="let item of details.traffic_expense_list">
+          <div nz-col nzSpan="3" class="row1-item">{{item.departure_time?item.departure_time:'暂无'}}</div>
+          <div nz-col nzSpan="3" class="row1-item">{{item.departure_place?item.departure_place:'暂无'}}</div>
+          <div nz-col nzSpan="3" class="row1-item">{{item.arrival_time?item.arrival_time:'暂无'}}</div>
+          <div nz-col nzSpan="3" class="row1-item">{{item.arrival_place?item.arrival_place:'暂无'}}</div>
+          <div nz-col nzSpan="3" class="row1-item" *ngIf="item.vehicle=='1'">飞机</div>
+          <div nz-col nzSpan="3" class="row1-item" *ngIf="item.vehicle=='2'">高铁</div>
+          <div nz-col nzSpan="3" class="row1-item" *ngIf="item.vehicle=='3'">动车</div>
+          <div nz-col nzSpan="3" class="row1-item" *ngIf="item.vehicle=='4'">大巴</div>
+          <div nz-col nzSpan="3" class="row1-item" *ngIf="!item.vehicle">暂无</div>
+          <div nz-col nzSpan="3" class="row1-item">{{item.bill_num?item.bill_num:'暂无'}}</div>
+          <div nz-col nzSpan="3" class="row1-item">{{item.cost?item.cost:'暂无'}}</div>
+          <div nz-col nzSpan="3" class="row1-item-pic">
+            <div nz-col nzSpan="24" imgGallery class="thumbnail-container">
+              <img class="thumbnail" [src]="imgOrigin+img" alt="" *ngFor="let img of item.hash_arr" />
+              <div *ngIf="item.hash_arr.length==0">暂无图片</div>
+            </div>
+          </div>
+        </div>
+        <div nz-row class="noData" *ngIf="details.traffic_expense_list.length==0">
+          暂无交通费信息
+        </div>
+      </div>
+    </div>
+
+    <div class="quarterage">
+      <span>住宿费</span>
+      <div class="quarterage_container">
+        <div nz-row class="row-header">
+          <div nz-col nzSpan="8" class="row-item backColor">发票抬头</div>
+          <div nz-col nzSpan="4" class="row-item backColor">单据张数</div>
+          <div nz-col nzSpan="4" class="row-item backColor">金额(元)</div>
+          <div nz-col nzSpan="8" class="row-item backColor">单据照片</div>
+        </div>
+        <div nz-row class="row1">
+          <div nz-col nzSpan="8" class="row1-item">{{details.stay_invoice_title?details.stay_invoice_title:'暂无'}}</div>
+          <div nz-col nzSpan="4" class="row1-item">{{details.stay_bill_num?details.stay_bill_num:'暂无'}}</div>
+          <div nz-col nzSpan="4" class="row1-item">{{details.stay_cost?details.stay_cost:'暂无'}}</div>
+          <div nz-col nzSpan="8" class="row1-item-pic">
+            <div nz-col nzSpan="24" imgGallery class="thumbnail-container">
+              <img class="thumbnail" [src]="imgOrigin+img" alt="" *ngFor="let img of details.stay_bill_pic" />
+              <div *ngIf="details.stay_bill_pic.length==0">暂无图片</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="city_money">
+      <span>市内车费</span>
+      <div class="city_money_container">
+        <div nz-row class="row-header">
+          <div nz-col nzSpan="8" class="row-item backColor">类型</div>
+          <div nz-col nzSpan="4" class="row-item backColor">单据张数</div>
+          <div nz-col nzSpan="4" class="row-item backColor">金额(元)</div>
+          <div nz-col nzSpan="8" class="row-item backColor">单据照片</div>
+        </div>
+        <div nz-row class="row1">
+          <div nz-col nzSpan="8" class="row1-item" *ngIf="details.city_cost_type=='1'">公交费</div>
+          <div nz-col nzSpan="8" class="row1-item" *ngIf="details.city_cost_type=='2'">打车费</div>
+          <div nz-col nzSpan="8" class="row1-item" *ngIf="details.city_cost_type=='3'">其他</div>
+          <div nz-col nzSpan="8" class="row1-item" *ngIf="!details.city_cost_type">暂无</div>
+          <div nz-col nzSpan="4" class="row1-item">{{details.city_bill_num?details.city_bill_num:'暂无'}}</div>
+          <div nz-col nzSpan="4" class="row1-item">{{details.city_cost?details.city_cost:'暂无'}}</div>
+          <div nz-col nzSpan="8" class="row1-item-pic">
+            <div nz-col nzSpan="24" imgGallery class="thumbnail-container">
+              <img class="thumbnail" [src]="imgOrigin+item" alt="" *ngFor="let item of details.city_bill_pic" />
+              <div *ngIf="details.city_bill_pic.length==0">暂无图片</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="subsidy">
+      <span>出差补贴</span>
+      <div class="subsidy_container">
+        <div nz-row class="row1">
+          <div nz-col nzSpan="8" class="row1-item backColor row-header bttom">出差天数</div>
+          <div nz-col nzSpan="4" class="row1-item ">{{details.travel_day_num?details.travel_day_num:'暂无'}}</div>
+          <div nz-col nzSpan="8" class="row1-item backColor row-header bttom">金额(元)</div>
+          <div nz-col nzSpan="4" class="row1-item ">{{details.travel_subsidy_cost?details.travel_subsidy_cost:'暂无'}}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="self_drive" *ngIf="details.travel_type=='2'">
+    <div class="carFare">
+      <span>油费</span>
+      <div class="carFare_container">
+        <div nz-row class="row-header">
+          <div nz-col nzSpan="3" class="row-item backColor">出发时间</div>
+          <div nz-col nzSpan="3" class="row-item backColor">出发地点</div>
+          <div nz-col nzSpan="3" class="row-item backColor">到达时间</div>
+          <div nz-col nzSpan="3" class="row-item backColor">到达地点</div>
+          <div nz-col nzSpan="3" class="row-item backColor">公里数(理论)</div>
+          <div nz-col nzSpan="3" class="row-item backColor">公里数(实际)</div>
+          <div nz-col nzSpan="3" class="row-item backColor">金额</div>
+          <div nz-col nzSpan="3" class="row-item backColor">导航截图</div>
+        </div>
+        <div nz-row class="row1" *ngFor="let item of details.fuel_charge_list">
+          <div nz-col nzSpan="3" class="row1-item">{{item.departure_time?item.departure_time:'暂无'}}</div>
+          <div nz-col nzSpan="3" class="row1-item">{{item.departure_place?item.departure_place:'暂无'}}</div>
+          <div nz-col nzSpan="3" class="row1-item">{{item.arrival_time?item.arrival_time:'暂无'}}</div>
+          <div nz-col nzSpan="3" class="row1-item">{{item.arrival_place?item.arrival_place:'暂无'}}</div>
+          <div nz-col nzSpan="3" class="row1-item">{{item.theory_miles?item.theory_miles:'暂无'}}</div>
+          <div nz-col nzSpan="3" class="row1-item">{{item.actual_miles?item.actual_miles:'暂无'}}</div>
+          <div nz-col nzSpan="3" class="row1-item">{{item.cost?item.cost:'暂无'}}</div>
+          <div nz-col nzSpan="3" class="row1-item-pic">
+            <div nz-col nzSpan="24" imgGallery class="thumbnail-container">
+              <img class="thumbnail" [src]="imgOrigin+img" alt="" *ngFor="let img of item.hash_arr" />
+              <div *ngIf="item.hash_arr.length==0">暂无</div>
+            </div>
+          </div>
+        </div>
+        <div nz-row class="noData" *ngIf="details.fuel_charge_list.length==0">
+          暂无油费信息
+        </div>
+      </div>
+    </div>
+
+    <div class="quarterage">
+      <span>过路费</span>
+      <div class="quarterage_container">
+        <div nz-row class="row-header">
+          <div nz-col nzSpan="8" class="row-item backColor">单据张数</div>
+          <div nz-col nzSpan="8" class="row-item backColor">金额(元)</div>
+          <div nz-col nzSpan="8" class="row-item backColor">单据照片</div>
+        </div>
+        <div nz-row class="row1">
+          <div nz-col nzSpan="8" class="row1-item">{{details.road_toll_bill_num?details.road_toll_bill_num:'暂无'}}</div>
+          <div nz-col nzSpan="8" class="row1-item">{{details.road_toll_cost?details.road_toll_cost:'暂无'}}</div>
+          <div nz-col nzSpan="8" class="row1-item-pic">
+            <div nz-col nzSpan="24" imgGallery class="thumbnail-container">
+              <img class="thumbnail" [src]="imgOrigin+item" alt="" *ngFor="let item of details.road_toll_bill_pic" />
+              <div *ngIf="details.road_toll_bill_pic.length==0">暂无图片</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="city_money">
+      <span>停车费</span>
+      <div class="city_money_container">
+        <div nz-row class="row-header">
+          <div nz-col nzSpan="8" class="row-item backColor">单据张数</div>
+          <div nz-col nzSpan="8" class="row-item backColor">金额(元)</div>
+          <div nz-col nzSpan="8" class="row-item backColor">单据照片</div>
+        </div>
+        <div nz-row class="row1">
+          <div nz-col nzSpan="8" class="row1-item">{{details.parking_bill_num?details.parking_bill_num:'暂无'}}</div>
+          <div nz-col nzSpan="8" class="row1-item">{{details.parking_cost?details.parking_cost:'暂无'}}</div>
+          <div nz-col nzSpan="8" class="row1-item-pic">
+            <div nz-col nzSpan="24" imgGallery class="thumbnail-container">
+              <img class="thumbnail" [src]="imgOrigin+item" alt="" *ngFor="let item of details.packing_bill_pic" />
+              <div *ngIf="details.packing_bill_pic.length==0">暂无图片</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="quarterage">
+      <span>住宿费</span>
+      <div class="quarterage_container">
+        <div nz-row class="row-header">
+          <div nz-col nzSpan="8" class="row-item backColor">发票抬头</div>
+          <div nz-col nzSpan="4" class="row-item backColor">单据张数</div>
+          <div nz-col nzSpan="4" class="row-item backColor">金额(元)</div>
+          <div nz-col nzSpan="8" class="row-item backColor">单据照片</div>
+        </div>
+        <div nz-row class="row1">
+          <div nz-col nzSpan="8" class="row1-item">{{details.stay_invoice_title?details.stay_invoice_title:'暂无'}}</div>
+          <div nz-col nzSpan="4" class="row1-item">{{details.stay_bill_num?details.stay_bill_num:'暂无'}}</div>
+          <div nz-col nzSpan="4" class="row1-item">{{details.stay_cost?details.stay_cost:'暂无'}}</div>
+          <div nz-col nzSpan="8" class="row1-item-pic">
+            <div nz-col nzSpan="24" imgGallery class="thumbnail-container">
+              <img class="thumbnail" [src]="imgOrigin+item" alt="" *ngFor="let item of details.stay_bill_pic" />
+              <div *ngIf="details.stay_bill_pic.length==0">暂无图片</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="subsidy">
+      <span>出差补贴</span>
+      <div class="subsidy_container">
+        <div nz-row class="row1">
+          <div nz-col nzSpan="8" class="row1-item backColor row-header bttom">出差天数</div>
+          <div nz-col nzSpan="4" class="row1-item ">{{details.travel_day_num?details.travel_day_num:'暂无'}}</div>
+          <div nz-col nzSpan="8" class="row1-item backColor row-header bttom">金额(元)</div>
+          <div nz-col nzSpan="4" class="row1-item ">{{details.travel_subsidy_cost?details.travel_subsidy_cost:'暂无'}}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- 占位符  把底部撑开  目的是将整个页面完全显示出来 不要占位符的话页面不能完全显示 -->
+
+
+  <div class="zwf"></div>
+</ion-content>
