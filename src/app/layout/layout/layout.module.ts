@@ -50,6 +50,8 @@ import { InspectRecordDetailsComponent } from 'src/app/pages/inspect-record-deta
 import { InspectionStorageComponent } from 'src/app/pages/inspection-storage/inspection-storage.component';
 import { PreparedListComponent } from 'src/app/pages/prepared-list/prepared-list.component';
 import { InspectionStorageListComponent } from 'src/app/pages/inspection-storage-list/inspection-storage-list.component';
+import { ReimbursementManagementComponent } from 'src/app/pages/reimbursement-management/reimbursement-management.component';
+import { ReimbursementManagementDetailsComponent } from 'src/app/pages/reimbursement-management/reimbursement-management-details/reimbursement-management-details.component';
 const routes: Routes = [
     {
         path: 'dashboard',
@@ -245,6 +247,18 @@ const routes: Routes = [
                 canActivate: [],
                 data: { uid: 2029, useCache: true, sonIndex: 2 },
             },
+            {
+                path: 'reimbursement-management',
+                component: ReimbursementManagementComponent,
+                canActivate: [],
+                data: { uid: 2030, useCache: true, sonIndex: 0 },
+            },
+            {
+                path: 'reimbursement-management-details',
+                component: ReimbursementManagementDetailsComponent,
+                canActivate: [],
+                data: { uid: 2031, useCache: true },
+            },
         ],
     },
 ];
@@ -304,6 +318,8 @@ const routes: Routes = [
         InspectionStorageComponent,
         PreparedListComponent,
         InspectionStorageListComponent,
+        ReimbursementManagementComponent,
+        ReimbursementManagementDetailsComponent,
     ],
 })
 export class LayoutPageModule {}
